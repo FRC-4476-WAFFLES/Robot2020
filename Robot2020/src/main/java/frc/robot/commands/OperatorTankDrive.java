@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class OperatorTankDrive extends CommandBase {
-  DriveSubsystem driveSubsystem; 
-  Joystick leftJoystick, rightJoystick; 
-  XboxController operate;
+  private final DriveSubsystem driveSubsystem; 
+  private final Joystick leftJoystick, rightJoystick; 
+  private final XboxController operate;
   /**
    * Creates a new OperatorTankDrive.
    */
