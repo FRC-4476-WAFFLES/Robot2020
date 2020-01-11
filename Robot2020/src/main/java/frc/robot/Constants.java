@@ -21,6 +21,7 @@ public final class Constants {
     public static int DRIVE_LEFT_2 = 1;//SPX
     public static int DRIVE_LEFT_3 = 2;//SPX
     // public static int INTAKE_MOTOR = 3;
+    public static int PROTOTYPE_SHOOTER = 4;
     public static int DRIVE_RIGHT_1 = 7;//SRX
     public static int DRIVE_RIGHT_2 = 8;//SPX
     public static int DRIVE_RIGHT_3 = 9;//SPX
