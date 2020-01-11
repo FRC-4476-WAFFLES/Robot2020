@@ -1,7 +1,9 @@
 Climber
     2 winch motors + 2 encoders.
         - Can adjust balance by shifting weight.
+        tallon srx
     2 hook deploy + 2 encoders.
+        - tallon srx
     Some sort of locking mechanism.
 
     Starts un-deployed.
@@ -11,19 +13,30 @@ Climber
 
 Shooter
     Angling device (2 positions)
+        - probably pneumatic
     Turret? (unlikely)
     One wheel shooter with PID (775s + encoders)
+        - 2 775s srx+spx
     Feeder roller to advance balls.
+        - spx
     Beam brake to tell if we have balls
+        - (ir/ultrasonic) min 1 
 
 Intake
     Standard-ish intake
     Roller + Extends
+        - spx + srx
+        - encoder
     Max capacity sensor
+        - (ir/ultrasonic) 1 
 
 Color wheel thingy
     Motor + color sensor
+        - spx/srx?
 
 Drive
     Tank Drive
+        - 6 probably minicim
+        - 2 srx, 4 spx
+        - 2 encoders
 

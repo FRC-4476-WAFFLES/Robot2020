@@ -10,9 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ColourWheelThingySubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.OperatorTankDrive;
+import frc.robot.commands.Drive.OperatorTankDrive;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,13 +26,20 @@ import frc.robot.commands.OperatorTankDrive;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  //subsystems
+  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  private final ColourWheelThingySubsystem colourWheelSubsystem = new ColourWheelThingySubsystem();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  
+  //input devices
   public final Joystick leftJoystick = new Joystick(0);
   public final Joystick rightJoystick = new Joystick(1);
   public final XboxController operate = new XboxController(2);
 
 
-
+  //commands
   private final OperatorTankDrive driveCommand = new OperatorTankDrive(driveSubsystem, leftJoystick, rightJoystick, operate);
 
 
