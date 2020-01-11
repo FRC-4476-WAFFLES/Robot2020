@@ -32,7 +32,7 @@ Intake
 
 Color wheel thingy
     Motor + color sensor
-        - spx/srx?
+        - srx?
 
 Drive
     Tank Drive

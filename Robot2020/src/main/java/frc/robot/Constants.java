@@ -17,11 +17,24 @@ package frc.robot;
  */
 public final class Constants {
     //pwm
-    public static int DRIVE_LEFT_1 = 0;
-    public static int DRIVE_LEFT_2 = 1;
-    public static int DRIVE_LEFT_3 = 2;
-    public static int INTAKE_MOTOR = 3;
-    public static int DRIVE_RIGHT_1 = 7;
-    public static int DRIVE_RIGHT_2 = 8;
-    public static int DRIVE_RIGHT_3 = 9;
+    public static int DRIVE_LEFT_1 = 0;//SRX
+    public static int DRIVE_LEFT_2 = 1;//SPX
+    public static int DRIVE_LEFT_3 = 2;//SPX
+    // public static int INTAKE_MOTOR = 3;
+    public static int DRIVE_RIGHT_1 = 7;//SRX
+    public static int DRIVE_RIGHT_2 = 8;//SPX
+    public static int DRIVE_RIGHT_3 = 9;//SPX
+
+    //canbus
+    public static int CLIMBER_LEFT_DEPLOY = 0;//SRX
+    public static int CLIMBER_RIGHT_DEPLOY = 0;//SRX
+    public static int CLIMBER_LEFT_WINCH = 0;//SRX
+    public static int CLIMBER_RIGHT_WINCH = 0;//SRX
+    public static int SHOOTER_MASTER = 0;//SRX
+    public static int SHOOTER_FOLLOWER = 0;//SPX
+    public static int SHOOTER_FEEDER_1 = 0;//SPX
+    public static int SHOOTER_FEEDER_N = 0;//SPX
+    public static int INTAKE_ROLLER = 0;//SPX
+    public static int INTAKE_EXTEND = 0;//SRX
+    public static int COLOUR_WHEEL_MANIPULATOR = 0;//SRX
 }
