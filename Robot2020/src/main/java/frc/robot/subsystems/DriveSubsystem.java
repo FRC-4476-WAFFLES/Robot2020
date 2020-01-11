@@ -24,7 +24,6 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new DriveSubsystem.
    */
   public DriveSubsystem() {
-
   }
 
   @Override
@@ -32,7 +31,12 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void drive() {
-
+  public void drive(double left, double right) {
+    driveLeft1.set(-left);
+    driveLeft2.set(-left);
+    driveLeft3.set(-left);
+    driveRight1.set(right);
+    driveRight2.set(right);
+    driveRight3.set(right);
   }
 }

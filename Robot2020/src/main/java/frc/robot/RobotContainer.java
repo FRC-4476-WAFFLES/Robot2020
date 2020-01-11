@@ -13,6 +13,8 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.OperatorTankDrive;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -24,8 +26,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final Joystick leftJoystick = new Joystick(0);
+  public final Joystick rightJoystick = new Joystick(1);
+  public final XboxController operate = new XboxController(2);
+
+
+
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final OperatorTankDrive driveCommand = new OperatorTankDrive(driveSubsystem, leftJoystick, rightJoystick, operate);
 
 
 
@@ -35,6 +44,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    driveSubsystem.setDefaultCommand(driveCommand);
   }
 
   /**
@@ -44,6 +54,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
   }
 
 
