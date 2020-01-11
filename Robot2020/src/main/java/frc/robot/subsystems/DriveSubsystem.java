@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Victor;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
   Victor driveLeft1 = new Victor(Constants.DRIVE_LEFT_1);
@@ -18,6 +20,7 @@ public class DriveSubsystem extends SubsystemBase {
   Victor driveRight1 = new Victor(Constants.DRIVE_RIGHT_1);
   Victor driveRight2 = new Victor(Constants.DRIVE_RIGHT_2);
   Victor driveRight3 = new Victor(Constants.DRIVE_RIGHT_3);
+  AnalogInput frontUltrasonic = new AnalogInput(Constants.FRONT_ULTRASONIC);
 
 
   /**
@@ -28,6 +31,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    double length = frontUltrasonic.getValue()*Constants.ulrasonicValueToInches;
+    SmartDashboard.putNumber("Drive/length ultras", length);
     // This method will be called once per scheduler run
   }
 

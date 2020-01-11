@@ -37,4 +37,10 @@ public final class Constants {
     public static int INTAKE_ROLLER = 0;//SPX
     public static int INTAKE_EXTEND = 0;//SRX
     public static int COLOUR_WHEEL_MANIPULATOR = 0;//SRX
+
+    //otherContsants
+    public static final double ulrasonicValueToInches = 0.125;
+
+    //analog input
+    public static int FRONT_ULTRASONIC = 0;//MB1013
 }
