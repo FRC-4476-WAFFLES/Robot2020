@@ -8,8 +8,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class ShooterSubsystem extends SubsystemBase {
+  TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
+  VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
   /**
    * Creates a new ShooterSubsystem.
    */

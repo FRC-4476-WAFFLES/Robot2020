@@ -9,10 +9,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.Constants;
 
 
 public class ClimberSubsystem extends SubsystemBase {
-  TalonSRX climberDeployLeft;
+  TalonSRX climberDeployLeft = new TalonSRX(Constants.CLIMBER_LEFT_DEPLOY);
+  TalonSRX climberDeployRight = new TalonSRX(Constants.CLIMBER_RIGHT_DEPLOY);
+  TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
+  TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
 
   /**
    * Creates a new ClimberSubsystem.
