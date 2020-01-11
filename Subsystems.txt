@@ -1,0 +1,29 @@
+Climber
+    2 winch motors + 2 encoders.
+        - Can adjust balance by shifting weight.
+    2 hook deploy + 2 encoders.
+    Some sort of locking mechanism.
+
+    Starts un-deployed.
+    Then deploys, and winches extend.
+        - Optionally un-deploy again.
+    Grab bar, and reteact winches.
+
+Shooter
+    Angling device (2 positions)
+    Turret? (unlikely)
+    One wheel shooter with PID (775s + encoders)
+    Feeder roller to advance balls.
+    Beam brake to tell if we have balls
+
+Intake
+    Standard-ish intake
+    Roller + Extends
+    Max capacity sensor
+
+Color wheel thingy
+    Motor + color sensor
+
+Drive
+    Tank Drive
+
