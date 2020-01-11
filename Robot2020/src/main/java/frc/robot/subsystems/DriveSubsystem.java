@@ -32,6 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double length = frontUltrasonic.getValue()*Constants.ulrasonicValueToInches;
+    SmartDashboard.putNumber("Drive/ultarsonic value", frontUltrasonic.getValue());
     SmartDashboard.putNumber("Drive/length ultras", length);
     // This method will be called once per scheduler run
   }
