@@ -13,6 +13,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShooterIdle extends CommandBase {
   ShooterSubsystem shooter;
 
+
   /**
    * Creates a new ShooterIdle.
    */

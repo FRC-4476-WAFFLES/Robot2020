@@ -14,12 +14,15 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends SubsystemBase {
   TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
   VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
-  VictorSP shooterPrototype = new VictorSP(Constants.PROTOTYPE_SHOOTER);
-
+  TalonSRX shooterPrototype = new TalonSRX(Constants.PROTOTYPE_SHOOTER);
+  PowerDistributionPanel pdp = new PowerDistributionPanel(0);
+  boolean init = true;
   /**
    * Creates a new ShooterSubsystem.
    */
@@ -30,10 +33,19 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("PDP/Temp", pdp.getTemperature());
+    SmartDashboard.putNumber("PDP/Tot Current", pdp.getTotalCurrent());
+    SmartDashboard.putNumber("PDP/shooter Current", pdp.getCurrent(12));
+    if(init){
+      shooterPrototype.configContinuousCurrentLimit(23, 10);
+      shooterPrototype.configPeakCurrentLimit(30, 10);
+      shooterPrototype.enableCurrentLimit(true);
+      init = false;
+    }
   }
 
   public void setSpeed(double speed) {
     shooterMaster.set(ControlMode.PercentOutput, speed);
-    shooterPrototype.setSpeed(speed);
+    shooterPrototype.set(ControlMode.PercentOutput, speed);
   }
 }
