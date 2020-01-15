@@ -27,12 +27,11 @@ public final class Constants {
     public static int DRIVE_RIGHT_3 = 9;//SPX
 
     //canbus
-    public static int PROTOTYPE_SHOOTER = 1;
     public static int CLIMBER_LEFT_DEPLOY = 0;//SRX
     public static int CLIMBER_RIGHT_DEPLOY = 0;//SRX
     public static int CLIMBER_LEFT_WINCH = 0;//SRX
     public static int CLIMBER_RIGHT_WINCH = 0;//SRX
-    public static int SHOOTER_MASTER = 0;//SRX
+    public static int SHOOTER_MASTER = 1;//SRX
     public static int SHOOTER_FOLLOWER = 0;//SPX
     public static int SHOOTER_FEEDER_1 = 0;//SPX
     public static int SHOOTER_FEEDER_N = 0;//SPX
@@ -45,4 +44,7 @@ public final class Constants {
 
     //analog input
     public static int FRONT_ULTRASONIC = 0;//MB1013
+
+    public static int kTimeoutMs = 10;
+    public static double kShooterUnitsPer100MsToRPM = (60.0 * 10.0) / (256.0 * 4.0);
 }
