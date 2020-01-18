@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
+import frc.robot.commands.Climber.ClimberRetract;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -40,11 +42,12 @@ public class RobotContainer {
   public final Joystick leftJoystick = new Joystick(0);
   public final Joystick rightJoystick = new Joystick(1);
   public final XboxController operate = new XboxController(2);
+  public final static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
   //commands
   private final OperatorTankDrive driveCommand = new OperatorTankDrive(driveSubsystem, leftJoystick, rightJoystick, operate);
   private final ShooterIdle shooterIdle = new ShooterIdle(shooterSubsystem);
-
+  private final ClimberRetract climberRetract = new ClimberRetract(climberSubsystem);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -53,6 +56,7 @@ public class RobotContainer {
     configureButtonBindings();
     driveSubsystem.setDefaultCommand(driveCommand);
     shooterSubsystem.setDefaultCommand(shooterIdle);
+    climberSubsystem.setDefaultCommand(climberRetract);
   }
 
   /**

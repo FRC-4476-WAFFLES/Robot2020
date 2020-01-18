@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utils.Preference;
 
 import java.util.Map;
@@ -25,7 +26,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 public class ShooterSubsystem extends SubsystemBase {
   TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
   VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
-  PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
   // A mapping of speeds (in RPM) to output percentages.
   final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 1.0));
@@ -58,9 +58,9 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("PDP/Temp", pdp.getTemperature());
-    SmartDashboard.putNumber("PDP/Tot Current", pdp.getTotalCurrent());
-    SmartDashboard.putNumber("PDP/shooter Current", pdp.getCurrent(12));
+    SmartDashboard.putNumber("PDP/Temp", RobotContainer.pdp.getTemperature());
+    SmartDashboard.putNumber("PDP/Tot Current", RobotContainer.pdp.getTotalCurrent());
+    SmartDashboard.putNumber("PDP/shooter Current", RobotContainer.pdp.getCurrent(12));
 
     // Config the Velocity closed loop gains in slot0
     shooterMaster.config_kP(0, Preference.getDouble("Shooter/kP", 0.001), Constants.kTimeoutMs);

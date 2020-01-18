@@ -16,6 +16,7 @@ public class ClimberSubsystem extends SubsystemBase {
   TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
   TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
   TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
+  public static final float DEFAULT_DEPLOY_POSTION = 0;
 
   /**
    * Creates a new ClimberSubsystem.
@@ -29,13 +30,13 @@ public class ClimberSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setDeploySetpoint(double point){
+  public void setDeploySetpoint(float point){
 
   }
-  public void setDeploySetpoint(double point, boolean winchFolowDeploy){
+  public void setDeployWinchSetpoint(float point){
 
   }
-  public void setClimberSetpoint(double point){
+  public void setWinchSetpoint(float point){
 
   }
   public double getDeployError(){
