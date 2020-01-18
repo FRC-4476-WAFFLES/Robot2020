@@ -28,4 +28,17 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public void setDeploySetpoint(double point){
+
+  }
+  public void setDeploySetpoint(double point, boolean winchFolowDeploy){
+
+  }
+  public void setClimberSetpoint(double point){
+
+  }
+  public double getDeployError(){
+    return 0;
+  }
 }
