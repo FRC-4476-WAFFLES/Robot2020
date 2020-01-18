@@ -1,0 +1,13 @@
+3 motors:
+    - all have encoders (talon srx)
+    - all are 775 pro (needs current limiting)
+    - 1 deploy, 2 winch
+
+There will be a button that deploys to the middle height.
+There will be a button that retracts back into the robot.
+
+Winch unspools proportional to the deployment encoder.
+Want PID, but when we get pushed too far, we can retract after.
+Once retracted, start winching.
+Winching is on a button, but a joystick can unwinch to balance.
+Probably need a locking mechanism (hopefully automatic when disabled).
