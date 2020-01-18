@@ -40,6 +40,7 @@ public final class Constants {
 
     //otherContsants
     public static final double ulrasonicValueToInches = 0.125*2.4;
+    public static final double climberRel = 1;
 
     //analog input
     public static int FRONT_ULTRASONIC = 0;//MB1013
