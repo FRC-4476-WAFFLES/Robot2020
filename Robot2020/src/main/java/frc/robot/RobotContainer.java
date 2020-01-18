@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ColourWheelThingySubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -34,6 +35,7 @@ import frc.robot.commands.Intake.IntakeDefault;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //subsystems
+  private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   private final ColourWheelThingySubsystem colourWheelThingySubsystem = new ColourWheelThingySubsystem();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
