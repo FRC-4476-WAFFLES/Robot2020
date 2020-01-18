@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
-  Victor driveLeft1 = new Victor(Constants.DRIVE_LEFT_1);
-  Victor driveLeft2 = new Victor(Constants.DRIVE_LEFT_2);
-  Victor driveLeft3 = new Victor(Constants.DRIVE_LEFT_3);
-  Victor driveRight1 = new Victor(Constants.DRIVE_RIGHT_1);
-  Victor driveRight2 = new Victor(Constants.DRIVE_RIGHT_2);
-  Victor driveRight3 = new Victor(Constants.DRIVE_RIGHT_3);
-  AnalogInput frontUltrasonic = new AnalogInput(Constants.FRONT_ULTRASONIC);
+  private Victor driveLeft1 = new Victor(Constants.DRIVE_LEFT_1);
+  private Victor driveLeft2 = new Victor(Constants.DRIVE_LEFT_2);
+  private Victor driveLeft3 = new Victor(Constants.DRIVE_LEFT_3);
+  private Victor driveRight1 = new Victor(Constants.DRIVE_RIGHT_1);
+  private Victor driveRight2 = new Victor(Constants.DRIVE_RIGHT_2);
+  private Victor driveRight3 = new Victor(Constants.DRIVE_RIGHT_3);
+  private AnalogInput frontUltrasonic = new AnalogInput(Constants.FRONT_ULTRASONIC);
 
 
   /**

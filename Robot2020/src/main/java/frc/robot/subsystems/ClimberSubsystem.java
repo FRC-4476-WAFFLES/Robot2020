@@ -13,9 +13,9 @@ import frc.robot.Constants;
 
 
 public class ClimberSubsystem extends SubsystemBase {
-  TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
-  TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
-  TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
+  private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
+  private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
+  private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
   public static final float DEFAULT_DEPLOY_POSTION = 0;
 
   /**

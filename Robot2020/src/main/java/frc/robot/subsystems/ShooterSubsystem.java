@@ -24,8 +24,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class ShooterSubsystem extends SubsystemBase {
-  TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
-  VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
+  private TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
+  private VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
 
   // A mapping of speeds (in RPM) to output percentages.
   final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 1.0));
