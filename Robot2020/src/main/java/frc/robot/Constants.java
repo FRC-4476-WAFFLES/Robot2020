@@ -27,8 +27,7 @@ public final class Constants {
     public static int DRIVE_RIGHT_3 = 9;//SPX
 
     //canbus
-    public static int CLIMBER_LEFT_DEPLOY = 0;//SRX
-    public static int CLIMBER_RIGHT_DEPLOY = 0;//SRX
+    public static int CLIMBER_DEPLOY = 0;//SRX
     public static int CLIMBER_LEFT_WINCH = 0;//SRX
     public static int CLIMBER_RIGHT_WINCH = 0;//SRX
     public static int SHOOTER_MASTER = 1;//SRX
