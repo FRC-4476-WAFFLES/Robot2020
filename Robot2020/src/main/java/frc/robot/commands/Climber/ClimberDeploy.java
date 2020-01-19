@@ -47,6 +47,7 @@ public class ClimberDeploy extends CommandBase {
       heldTime.stop();
       heldTime.reset();
     }
+    
     if(fudgeButton == 0) {
       curentPos = curentPos +1;
     }else if(fudgeButton == 180 && heldTime.get() == 0) {

@@ -40,6 +40,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
   }
   public double getDeployError(){
-    return 0;
+    return climberDeploy.getClosedLoopError();
   }
 }
