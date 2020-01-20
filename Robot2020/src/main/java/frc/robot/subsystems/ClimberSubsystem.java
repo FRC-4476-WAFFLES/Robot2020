@@ -17,7 +17,10 @@ public class ClimberSubsystem extends SubsystemBase {
   private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
   private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
   public static final float DEFAULT_DEPLOY_POSTION = 0;
-
+  public static final float DEPLOY_CENTER_LOW = 0;
+  public static final float DEPLOY_CENTER = 0;
+  public static final float DEPLOY_CENTER_HIGH = 0;
+  public boolean isGoingToSetPoint = true;
   /**
    * Creates a new ClimberSubsystem.
    */
@@ -39,7 +42,20 @@ public class ClimberSubsystem extends SubsystemBase {
   public void setWinchSetpoint(float point){
 
   }
-  public double getDeployError(){
+  public float getDeployError(){
     return climberDeploy.getClosedLoopError();
+  }
+  public int getDeployPosition(){
+    return climberDeploy.getSelectedSensorPosition();
+  }
+  public int getLeftWinchPosition(){
+    return climberWinchLeft.getSelectedSensorPosition();
+  }
+  public int getRigthWinchPosition(){
+    return climberWinchRight.getSelectedSensorPosition();
+  }
+  public int getAvgWinchPositions(){
+    float avg = (getLeftWinchPosition() + getRigthWinchPosition())/2;
+    return (int)avg;
   }
 }

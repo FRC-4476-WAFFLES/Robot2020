@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
-import frc.robot.commands.Climber.ClimberRetract;
+import frc.robot.commands.Climber.ClimberDefault;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 /**
@@ -47,7 +47,7 @@ public class RobotContainer {
   //commands
   private final OperatorTankDrive driveCommand = new OperatorTankDrive(driveSubsystem, leftJoystick, rightJoystick, operate);
   private final ShooterIdle shooterIdle = new ShooterIdle(shooterSubsystem);
-  private final ClimberRetract climberRetract = new ClimberRetract(climberSubsystem);
+  private final ClimberDefault climberDefault = new ClimberDefault(climberSubsystem, operate);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -56,7 +56,7 @@ public class RobotContainer {
     configureButtonBindings();
     driveSubsystem.setDefaultCommand(driveCommand);
     shooterSubsystem.setDefaultCommand(shooterIdle);
-    climberSubsystem.setDefaultCommand(climberRetract);
+    climberSubsystem.setDefaultCommand(climberDefault);
   }
 
   /**

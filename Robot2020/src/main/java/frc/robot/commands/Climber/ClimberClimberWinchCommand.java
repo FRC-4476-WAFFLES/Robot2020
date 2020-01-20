@@ -9,16 +9,18 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 
-public class ClimberRetract extends CommandBase {
-  /**
-   * Creates a new ClimberRetract.
-   */
+public class ClimberClimberWinchCommand extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
-  public ClimberRetract(ClimberSubsystem climberSubsystem) {
+  private final XboxController operate; 
+  /**
+   * Creates a new ClimberClimberWinchCommand.
+   */
+  public ClimberClimberWinchCommand(ClimberSubsystem climberSubsystem, XboxController operate) {
     this.climberSubsystem = climberSubsystem;
+    this.operate = operate;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climberSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +31,6 @@ public class ClimberRetract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climberSubsystem.setDeployWinchSetpoint(0);
   }
 
   // Called once the command ends or is interrupted.
