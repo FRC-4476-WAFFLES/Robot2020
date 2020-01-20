@@ -14,6 +14,7 @@ public class ClimberGoToSetpoint extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
   private final int povAngle; 
   /**
+   * Creates a new ClimberGoToSetpoint.
    */
   public ClimberGoToSetpoint(ClimberSubsystem climberSubsystem, int angle) {
     this.climberSubsystem = climberSubsystem; 
