@@ -57,4 +57,6 @@ public final class Constants {
     //PCM
     public static final int CLIMBER_LOCK = 0;
     public static final int CLIMBER_UNLOCK = 0;
+    public static final int COLOUR_WHEEL_DEPLOY = 0;
+    public static final int COLOUR_WHEEL_RECALL = 0;
 }

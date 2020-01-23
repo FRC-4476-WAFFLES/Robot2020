@@ -34,7 +34,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //subsystems
   private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-  private final ColourWheelThingySubsystem colourWheelSubsystem = new ColourWheelThingySubsystem();
+  private final ColourWheelThingySubsystem colourWheelThingySubsystem = new ColourWheelThingySubsystem();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -45,7 +45,7 @@ public class RobotContainer {
   public final XboxController operate = new XboxController(2);
   public final static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
-  //commands
+  //Default commands
   private final OperatorTankDrive driveCommand = new OperatorTankDrive(driveSubsystem, leftJoystick, rightJoystick, operate);
   private final ShooterIdle shooterIdle = new ShooterIdle(shooterSubsystem);
   private final ClimberDefault climberDefault = new ClimberDefault(climberSubsystem, operate);
@@ -71,6 +71,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(operate, XboxController.Button.kA.value)
       .whileHeld(new ShooterRun(shooterSubsystem, operate));
+
   }
 
 
