@@ -22,6 +22,7 @@ import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Climber.ClimberDefault;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import frc.robot.commands.Intake.IntakeDefault;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -48,6 +49,7 @@ public class RobotContainer {
   private final OperatorTankDrive driveCommand = new OperatorTankDrive(driveSubsystem, leftJoystick, rightJoystick, operate);
   private final ShooterIdle shooterIdle = new ShooterIdle(shooterSubsystem);
   private final ClimberDefault climberDefault = new ClimberDefault(climberSubsystem, operate);
+  private final IntakeDefault intakeDefault = new IntakeDefault(intakeSubsystem, operate);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -57,6 +59,7 @@ public class RobotContainer {
     driveSubsystem.setDefaultCommand(driveCommand);
     shooterSubsystem.setDefaultCommand(shooterIdle);
     climberSubsystem.setDefaultCommand(climberDefault);
+    intakeSubsystem.setDefaultCommand(intakeDefault);
   }
 
   /**
