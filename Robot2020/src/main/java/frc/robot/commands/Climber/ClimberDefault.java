@@ -17,6 +17,7 @@ public class ClimberDefault extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
   private final XboxController operate;
   private int currentPos;
+  //TODO: make this threshold a real number
   private final float compressionThreshold = 0;
   /**
    * Creates a new ClimberDefault.

@@ -15,6 +15,9 @@ import frc.robot.commands.Climber.ClimberClimberWinchCommand;
 public class ClimberUndeploy extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
   private final XboxController operate;
+  private boolean canClimb = false;
+  //TODO: make sure the deploy is stowed before climbing
+  private final int deployStowedThreshold = 0;
   /**
    * Creates a new ClimberUndeploy.
    */
@@ -32,6 +35,9 @@ public class ClimberUndeploy extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(climberSubsystem.getDeployError()>deployStowedThreshold){
+      canClimb = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -42,7 +48,7 @@ public class ClimberUndeploy extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(operate.getRawButton(1)){
+    if(operate.getRawButton(1) && canClimb){
       new ClimberClimberWinchCommand(climberSubsystem, operate).schedule(false);
       return true;
     }else{
