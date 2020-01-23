@@ -19,37 +19,42 @@ package frc.robot;
  */
 public final class Constants {
     // pwm
-    public static int DRIVE_LEFT_1 = 0; // SRX
-    public static int DRIVE_LEFT_2 = 1; // SPX
-    public static int DRIVE_LEFT_3 = 2; // SPX
+    public static final int DRIVE_LEFT_1 = 0; // SRX
+    public static final int DRIVE_LEFT_2 = 1; // SPX
+    public static final int DRIVE_LEFT_3 = 2; // SPX
     // public static int INTAKE_MOTOR = 3;
 
-    public static int DRIVE_RIGHT_1 = 7; // SRX
-    public static int DRIVE_RIGHT_2 = 8; // SPX
-    public static int DRIVE_RIGHT_3 = 9; // SPX
+    public static final int DRIVE_RIGHT_1 = 7; // SRX
+    public static final int DRIVE_RIGHT_2 = 8; // SPX
+    public static final int DRIVE_RIGHT_3 = 9; // SPX
 
     // solenoids
-    public static int INTAKE_EXTEND = 0;
-    public static int INTAKE_RETRACT = 1;
+    public static final int INTAKE_EXTEND = 0;
+    public static final int INTAKE_RETRACT = 1;
 
     // canbus
-    public static int CLIMBER_DEPLOY = 0; // SRX
-    public static int CLIMBER_LEFT_WINCH = 0; // SRX
-    public static int CLIMBER_RIGHT_WINCH = 0; // SRX
-    public static int SHOOTER_MASTER = 1; // SRX
-    public static int SHOOTER_FOLLOWER = 0; // SPX
-    public static int SHOOTER_FEEDER_1 = 0; // SPX
-    public static int SHOOTER_FEEDER_N = 0; // SPX
-    public static int INTAKE_ROLLER = 0; // SPX
-    public static int COLOUR_WHEEL_MANIPULATOR = 0; // SRX
+    public static final int CLIMBER_DEPLOY = 0; // SRX
+    public static final int CLIMBER_LEFT_WINCH = 0; // SRX
+    public static final int CLIMBER_RIGHT_WINCH = 0; // SRX
+    public static final int SHOOTER_MASTER = 1; // SRX
+    public static final int SHOOTER_FOLLOWER = 0; // SPX
+    public static final int SHOOTER_FEEDER_1 = 0; // SPX
+    public static final int SHOOTER_FEEDER_N = 0; // SPX
+    public static final int INTAKE_ROLLER = 0; // SPX
+    public static final int COLOUR_WHEEL_MANIPULATOR = 0; // SRX
+    public static final int PCM = 0;//PCM
 
     // otherContsants
     public static final double ulrasonicValueToInches = 0.125 * 2.4;
     public static final double climberRel = 1;
 
     // analog input
-    public static int FRONT_ULTRASONIC = 0; // MB1013
+    public static final int FRONT_ULTRASONIC = 0; // MB1013
 
-    public static int kTimeoutMs = 10;
+    public static final int kTimeoutMs = 10;
     public static double kShooterUnitsPer100MsToRPM = (60.0 * 10.0) / (256.0 * 4.0);
+
+    //PCM
+    public static final int CLIMBER_LOCK = 0;
+    public static final int CLIMBER_UNLOCK = 0;
 }

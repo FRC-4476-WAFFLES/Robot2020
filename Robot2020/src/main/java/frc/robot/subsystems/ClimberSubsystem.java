@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
@@ -17,6 +19,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
   private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
   private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
+  private DoubleSolenoid climberLock = new DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
   //TODO: make sure the setpoints are correct
   public static final float DEFAULT_DEPLOY_POSTION = 0;
   public static final float DEPLOY_CENTER_LOW = 0;
@@ -54,11 +57,13 @@ public class ClimberSubsystem extends SubsystemBase {
       System.out.println("private - public climblock state mismatched!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
     if(private_isClimbLocked){
+      climberLock.set(DoubleSolenoid.Value.kReverse);
       private_isClimbLocked = false;
-      public_isClimbLocked = private_isClimbLocked;
     }else{
+      climberLock.set(DoubleSolenoid.Value.kForward);
       private_isClimbLocked = true;
     }
+    public_isClimbLocked = private_isClimbLocked;
   }
   public float getDeployError(){
     return climberDeploy.getClosedLoopError();
