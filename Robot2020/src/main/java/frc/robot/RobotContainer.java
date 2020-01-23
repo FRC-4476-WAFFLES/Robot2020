@@ -21,6 +21,7 @@ import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Climber.ClimberDefault;
+import frc.robot.commands.ColourWheel.ColourWheelDefault;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 
@@ -50,6 +51,7 @@ public class RobotContainer {
   private final ShooterIdle shooterIdle = new ShooterIdle(shooterSubsystem);
   private final ClimberDefault climberDefault = new ClimberDefault(climberSubsystem, operate);
   private final IntakeDefault intakeDefault = new IntakeDefault(intakeSubsystem, operate);
+  private final ColourWheelDefault cWheelDefault = new ColourWheelDefault(colourWheelThingySubsystem, operate);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -60,6 +62,7 @@ public class RobotContainer {
     shooterSubsystem.setDefaultCommand(shooterIdle);
     climberSubsystem.setDefaultCommand(climberDefault);
     intakeSubsystem.setDefaultCommand(intakeDefault);
+    colourWheelThingySubsystem.setDefaultCommand(cWheelDefault);
   }
 
   /**
