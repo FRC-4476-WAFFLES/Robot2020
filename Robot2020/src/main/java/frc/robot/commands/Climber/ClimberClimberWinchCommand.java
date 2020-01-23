@@ -14,6 +14,11 @@ import edu.wpi.first.wpilibj.XboxController;
 public class ClimberClimberWinchCommand extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
   private final XboxController operate; 
+  //TODO: get the encoder difference that is on the edge of legal.
+  private static final int maxEncDiff_angle = 0;
+  private int currentLeftPos;
+  private int currentRightPos;
+  private boolean waitingBtnRelease = false;
   /**
    * Creates a new ClimberClimberWinchCommand.
    */
@@ -26,11 +31,36 @@ public class ClimberClimberWinchCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    currentLeftPos = climberSubsystem.getLeftWinchPosition();
+    currentRightPos = climberSubsystem.getRigthWinchPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(!climberSubsystem.public_isClimbLocked){
+      double adjust = (operate.getRawAxis(0) + operate.getRawAxis(4))*10;
+      //TODO: make sure this threshold keeps us legal, instead of preventing us from moving
+      if(adjust >= 0 && currentLeftPos-currentRightPos < maxEncDiff_angle){
+        currentLeftPos = currentLeftPos + (int)adjust;
+      }else if(adjust < 0 && currentRightPos-currentLeftPos < maxEncDiff_angle){
+        currentRightPos = currentRightPos + (int)adjust;
+      }
+
+      climberSubsystem.setLeftWinchSetpoint(currentLeftPos);
+      climberSubsystem.setRightWinchSetpoint(currentRightPos);
+      if(operate.getAButtonPressed()){
+        climberSubsystem.ToggleWinchLock();
+        waitingBtnRelease = true;
+      }else{
+        if(!operate.getAButton()){
+          waitingBtnRelease = false;
+        }
+        if(operate.getAButton() && !waitingBtnRelease){
+          climberSubsystem.ToggleWinchLock();
+        }
+      }
+    }
   }
 
   // Called once the command ends or is interrupted.

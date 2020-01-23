@@ -10,6 +10,7 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.Climber.ClimberClimberWinchCommand;
 
 public class ClimberUndeploy extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
@@ -42,6 +43,7 @@ public class ClimberUndeploy extends CommandBase {
   @Override
   public boolean isFinished() {
     if(operate.getRawButton(1)){
+      new ClimberClimberWinchCommand(climberSubsystem, operate).schedule(false);
       return true;
     }else{
       return false;

@@ -52,7 +52,7 @@ public class ClimberDefault extends CommandBase {
       climberSubsystem.isGoingToSetPoint = false;
       return false;
     }else if(!climberSubsystem.isGoingToSetPoint && Math.abs(climberSubsystem.getDeployError()) >= compressionThreshold){
-      new ClimberUndeploy(climberSubsystem, operate).schedule();
+      new ClimberUndeploy(climberSubsystem, operate).schedule(false);
       return true;
     }else{
       return false;

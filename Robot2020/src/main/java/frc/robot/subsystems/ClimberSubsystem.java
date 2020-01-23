@@ -13,14 +13,18 @@ import frc.robot.Constants;
 
 
 public class ClimberSubsystem extends SubsystemBase {
+  ////////////////////////////////////////encoders need to be more positive as they extend
   private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
   private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
   private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
+  //TODO: make sure the setpoints are correct
   public static final float DEFAULT_DEPLOY_POSTION = 0;
   public static final float DEPLOY_CENTER_LOW = 0;
   public static final float DEPLOY_CENTER = 0;
   public static final float DEPLOY_CENTER_HIGH = 0;
   public boolean isGoingToSetPoint = true;
+  public boolean public_isClimbLocked = false;
+  private boolean private_isClimbLocked = false;
   /**
    * Creates a new ClimberSubsystem.
    */
@@ -32,15 +36,29 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
+  //TODO make all these functions do stuff
   public void setDeploySetpoint(float point){
 
   }
   public void setDeployWinchSetpoint(float point){
 
   }
-  public void setWinchSetpoint(float point){
+  public void setLeftWinchSetpoint(float point){
 
+  }
+  public void setRightWinchSetpoint(float point){
+
+  }
+  public void ToggleWinchLock(){
+    if(private_isClimbLocked != public_isClimbLocked){
+      System.out.println("private - public climblock state mismatched!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
+    if(private_isClimbLocked){
+      private_isClimbLocked = false;
+      public_isClimbLocked = private_isClimbLocked;
+    }else{
+      private_isClimbLocked = true;
+    }
   }
   public float getDeployError(){
     return climberDeploy.getClosedLoopError();
