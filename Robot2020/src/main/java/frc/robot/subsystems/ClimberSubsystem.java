@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -43,6 +42,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    updateClimberPIDs();
 
     // This method will be called once per scheduler run
   }

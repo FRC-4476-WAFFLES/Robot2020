@@ -21,6 +21,7 @@ public class IntakeDefault extends CommandBase {
     this.intakeSubsystem = intakeSubsystem;
     this.operate = operate;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.

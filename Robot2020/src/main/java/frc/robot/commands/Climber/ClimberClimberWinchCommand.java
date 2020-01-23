@@ -26,6 +26,7 @@ public class ClimberClimberWinchCommand extends CommandBase {
     this.climberSubsystem = climberSubsystem;
     this.operate = operate;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climberSubsystem);
   }
 
   // Called when the command is initially scheduled.
