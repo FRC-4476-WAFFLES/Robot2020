@@ -56,7 +56,7 @@ public class ColourWheelThingySubsystem extends SubsystemBase {
     }else if(direction == Direction.Right){
       spd = -1;
     }else{
-      spd = 0
+      spd = 0;
     }
     colourWheelMotor.set(ControlMode.PercentOutput, spd);
   }
