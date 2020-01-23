@@ -1,6 +1,7 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Preferences;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
  * An alternative to the default preferences manager. The main difference is
@@ -16,4 +17,15 @@ public class Preference {
 
         return preferences.getDouble(key, defaultValue);
     }
+    
+  public static void UpdateSRXPIDPreferences(String name, TalonSRX talon, double kP, double kI, double kD){
+    talon.config_kP(0, getDouble(name + " P", kP), 0);
+    talon.config_kI(0, getDouble(name + " I", kI), 0);
+    talon.config_kD(0, getDouble(name + " D", kD), 0);
+    
+  }
+  public static void UpdateSRXPIDPreferences(String name, TalonSRX talon, double kP, double kI, double kD, double kF){
+    UpdateSRXPIDPreferences(name, talon, kP, kI, kD);
+    talon.config_kF(0, getDouble(name + " F", kF), 0);
+  }
 }

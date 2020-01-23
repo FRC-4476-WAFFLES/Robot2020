@@ -10,8 +10,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
+import frc.robot.utils.Preference;
 
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -32,25 +35,34 @@ public class ClimberSubsystem extends SubsystemBase {
    * Creates a new ClimberSubsystem.
    */
   public ClimberSubsystem() {
+    climberDeploy.setSelectedSensorPosition(0);
+    climberWinchLeft.setSelectedSensorPosition(0);
+    climberWinchRight.setSelectedSensorPosition(0);
 
   }
 
   @Override
   public void periodic() {
+
     // This method will be called once per scheduler run
   }
   //TODO make all these functions do stuff
   public void setDeploySetpoint(float point){
-
+    climberDeploy.set(ControlMode.Position, point);
   }
   public void setDeployWinchSetpoint(float point){
-
+    //TODO: make this relationship a real one
+    float deployWinchLinearRelation = point;
+    
+    climberDeploy.set(ControlMode.Position, point);
+    climberWinchLeft.set(ControlMode.Position, deployWinchLinearRelation);
+    climberWinchRight.set(ControlMode.Position, deployWinchLinearRelation);
   }
   public void setLeftWinchSetpoint(float point){
-
+    climberWinchLeft.set(ControlMode.Position, point);
   }
   public void setRightWinchSetpoint(float point){
-
+    climberWinchRight.set(ControlMode.Position, point);
   }
   public void ToggleWinchLock(){
     if(private_isClimbLocked != public_isClimbLocked){
@@ -80,5 +92,11 @@ public class ClimberSubsystem extends SubsystemBase {
   public int getAvgWinchPositions(){
     float avg = (getLeftWinchPosition() + getRigthWinchPosition())/2;
     return (int)avg;
+  }
+  private void updateClimberPIDs(){
+    Preference.UpdateSRXPIDPreferences("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
+    //TODO: make sure these motors dont need spearate PIDs
+    Preference.UpdateSRXPIDPreferences("climberWinch", climberWinchLeft, 0.0, 0.0, 0.0);
+    Preference.UpdateSRXPIDPreferences("climberWinch", climberWinchRight, 0.0, 0.0, 0.0);
   }
 }
