@@ -39,7 +39,7 @@ public final class Constants {
     public static final int SHOOTER_MASTER = 1; // SRX
     public static final int SHOOTER_FOLLOWER = 0; // SPX
     public static final int SHOOTER_FEEDER_1 = 0; // SPX
-    public static final int SHOOTER_FEEDER_N = 0; // SPX
+    // public static final int SHOOTER_FEEDER_N = 0; // SPX
     public static final int INTAKE_ROLLER = 0; // SPX
     public static final int COLOUR_WHEEL_MANIPULATOR = 0; // SRX
     public static final int PCM = 0;//PCM

@@ -11,10 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Preference;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Timer;
 
 public class ShooterRun extends CommandBase {
   ShooterSubsystem shooter;
   XboxController operate;
+  Timer t;
+  
 
   /**
    * Creates a new ShooterRun.
@@ -23,20 +26,28 @@ public class ShooterRun extends CommandBase {
     this.shooter = shooter;
     this.operate = opp;
     addRequirements(shooter);
+    t.reset();
+    t.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     shooter.setSpeed(Preference.getDouble("Shooter/PercentOutput", 0.1));
-    // double in = operate.getRawAxis(3);
-    // double out = operate.getRawAxis(2);
-    // shooter.setSpeed((double) ((in * in - 1 * out * out) * 0.9));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooter.stop();
+    t.stop();
+  }
+  @Override
+  public boolean isFinished(){
+    if(t.get()>1 && operate.getXButton()){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

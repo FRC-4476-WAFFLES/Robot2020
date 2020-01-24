@@ -27,4 +27,8 @@ public class ShooterIdle extends CommandBase {
   public void execute() {
     shooter.stop();
   }
+  @Override
+  public boolean isFinished(){
+    return false;
+  }
 }

@@ -22,7 +22,7 @@ public class ColourWheelThingySubsystem extends SubsystemBase {
   private final DoubleSolenoid deployWheel = new DoubleSolenoid(Constants.COLOUR_WHEEL_DEPLOY, Constants.COLOUR_WHEEL_RECALL);
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-  public static boolean deploymentState = false;
+  public boolean deploymentState = false;
 
   public static enum Direction{
     Left, Right, Stop

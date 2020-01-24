@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ColourWheelThingySubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,6 +20,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
+import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.ColourWheel.ColourWheelDefault;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -35,7 +35,6 @@ import frc.robot.commands.Intake.IntakeDefault;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //subsystems
-  private final CameraSubsystem cameraSubsystem = new CameraSubsystem();
   private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   private final ColourWheelThingySubsystem colourWheelThingySubsystem = new ColourWheelThingySubsystem();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
@@ -74,8 +73,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //TODO: make sure this works as a toggle.
     new JoystickButton(operate, XboxController.Button.kA.value)
-      .whileHeld(new ShooterRun(shooterSubsystem, operate));
+      .whenPressed(new ShooterRun(shooterSubsystem, operate));
+    new JoystickButton(operate, XboxController.Button.kY.value)
+      .whenPressed(new ShooterShoot(shooterSubsystem, operate));
 
   }
 

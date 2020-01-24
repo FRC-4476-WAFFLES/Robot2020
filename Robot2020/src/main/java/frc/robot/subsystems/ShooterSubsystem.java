@@ -23,8 +23,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
-  private VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
+  private final TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
+  private final VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
+  private final VictorSPX shooterFeeder = new VictorSPX(Constants.SHOOTER_FEEDER_1);
+  public static boolean shouldIntake = false;
 
   // A mapping of speeds (in RPM) to output percentages.
   final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 1.0));
@@ -102,5 +104,14 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void stop() {
     shooterMaster.set(ControlMode.Disabled, 0.0);
+  }
+  public void feed(boolean feeding){
+    if(feeding){
+      shooterFeeder.set(ControlMode.PercentOutput, 1);
+      shouldIntake = true;
+    }else{
+      shooterFeeder.set(ControlMode.PercentOutput, 0);
+      shouldIntake = false;
+    }
   }
 }
