@@ -7,10 +7,10 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.Preferences;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
+// import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Camera  {
@@ -26,7 +26,7 @@ public class Camera  {
   enum Pipeline {
     Close, Far, Search
   }
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTable camera = NetworkTableInstance.getDefault().getTable("limelight");
   /**
    * Creates a new CameraSubsystem.
    */
@@ -34,18 +34,73 @@ public class Camera  {
 
   }
 
+  public void setLEDMode(CameraLEDMode mode){
+    camera.getEntry("ledMode").setNumber(mode.ordinal());
+  }
+
+  public void setProcesingMode(ProcessingMode mode){
+    camera.getEntry("camMode").setNumber(mode.ordinal());
+  }
+
+  public void setPipeline(Pipeline line){
+    camera.getEntry("pipeline").setNumber(line.ordinal());
+  }
+  
+  public double getHasTarget(){
+    //tv:	Whether the limelight has any valid targets (0 or 1)
+    return camera.getEntry("tv").getDouble(0);
+  }
+
+  public double getHorizontal(){
+    //tx:	Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+    return camera.getEntry("tx").getDouble(0);
+  }
+  
+  public double getVertical(){
+    //ty:	Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+    return camera.getEntry("ty").getDouble(0);
+  }
+
+  public double getArea(){
+    //ta:	Target Area (0% of image to 100% of image)
+    return camera.getEntry("ta").getDouble(0);
+  }
+
+  public double getSkew(){
+    //ts:	Skew or rotation (-90 degrees to 0 degrees)
+    return camera.getEntry("ts").getDouble(0);
+  }
+
+  public double getLatency(){
+    //tl:	The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+    return camera.getEntry("tl").getDouble(0);
+  }
+
+  public double getShortSide(){
+    //tshort:	Sidelength of shortest side of the fitted bounding box (pixels)
+    return camera.getEntry("tshort").getDouble(0);
+  }
+
+  public double getLongSide(){
+    //tlong:	Sidelength of shortest side of the fitted bounding box (pixels)
+    return camera.getEntry("tlong").getDouble(0);
+  }
+
+  public double getHorizontalSide(){
+    //thor:	Horizontal sidelength of the rough bounding box (0 - 320 pixels)
+    return camera.getEntry("thor").getDouble(0);
+  }
+
+  public double getVerticalSide(){
+    //tvert:	Vertical sidelength of the rough bounding box (0 - 320 pixels)
+    return camera.getEntry("tvert").getDouble(0);
+  }
+
+  public double getActivePipeline(){
+    //getpipe:	True active pipeline index of the camera (0 .. 9)
+    return camera.getEntry("getpipe").getDouble(0);
+  }
 }
 /*
-tv:	Whether the limelight has any valid targets (0 or 1)
-tx:	Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
-ty:	Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
-ta:	Target Area (0% of image to 100% of image)
-ts:	Skew or rotation (-90 degrees to 0 degrees)
-tl:	The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
-tshort:	Sidelength of shortest side of the fitted bounding box (pixels)
-tlong:	Sidelength of longest side of the fitted bounding box (pixels)
-thor:	Horizontal sidelength of the rough bounding box (0 - 320 pixels)
-tvert:	Vertical sidelength of the rough bounding box (0 - 320 pixels)
-getpipe:	True active pipeline index of the camera (0 .. 9)
 camtran:	Results of a 3D position solution, 6 numbers: Translation (x,y,y) Rotation(pitch,yaw,roll)
 */
