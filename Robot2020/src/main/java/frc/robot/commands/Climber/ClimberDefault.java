@@ -16,7 +16,7 @@ import frc.robot.commands.Climber.ClimberUndeploy;
 public class ClimberDefault extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
   private final XboxController operate;
-  private int currentPos;
+  private double currentPos;
   //TODO: make this threshold a real number
   private final float compressionThreshold = 0;
   /**
@@ -31,13 +31,13 @@ public class ClimberDefault extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentPos = (int)climberSubsystem.getDeployPosition();
+    currentPos = (double)climberSubsystem.getDeployPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currentPos = -10*((int)operate.getRawAxis(1)+(int)operate.getRawAxis(5));
+    currentPos = -10.0*(operate.getRawAxis(1)+operate.getRawAxis(5));
     climberSubsystem.setDeployWinchSetpoint(currentPos);
   }
 

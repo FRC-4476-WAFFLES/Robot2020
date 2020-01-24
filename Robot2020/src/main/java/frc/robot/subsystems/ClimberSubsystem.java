@@ -15,14 +15,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import frc.robot.utils.Preference;
 
-
 public class ClimberSubsystem extends SubsystemBase {
-  ////////////////////////////////////////encoders need to be more positive as they extend
+  //////////////////////////////////////// encoders need to be more positive as
+  //////////////////////////////////////// they extend
   private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
   private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
   private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
   private DoubleSolenoid climberLock = new DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
-  //TODO: make sure the setpoints are correct
+  // TODO: make sure the setpoints are correct
   public static final float DEFAULT_DEPLOY_POSTION = 0;
   public static final float DEPLOY_CENTER_LOW = 0;
   public static final float DEPLOY_CENTER = 0;
@@ -30,6 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public boolean isGoingToSetPoint = true;
   public boolean public_isClimbLocked = false;
   private boolean private_isClimbLocked = false;
+
   /**
    * Creates a new ClimberSubsystem.
    */
@@ -46,56 +47,67 @@ public class ClimberSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
   }
-  //TODO make all these functions do stuff
-  public void setDeploySetpoint(float point){
+
+  // TODO make all these functions do stuff
+  public void setDeploySetpoint(float point) {
     climberDeploy.set(ControlMode.Position, point);
   }
-  public void setDeployWinchSetpoint(float point){
-    //TODO: make this relationship a real one
-    float deployWinchLinearRelation = point;
-    
+
+  public void setDeployWinchSetpoint(double point) {
+    // TODO: make this relationship a real one
+    double deployWinchLinearRelation = point;
+
     climberDeploy.set(ControlMode.Position, point);
     climberWinchLeft.set(ControlMode.Position, deployWinchLinearRelation);
     climberWinchRight.set(ControlMode.Position, deployWinchLinearRelation);
   }
-  public void setLeftWinchSetpoint(float point){
+
+  public void setLeftWinchSetpoint(float point) {
     climberWinchLeft.set(ControlMode.Position, point);
   }
-  public void setRightWinchSetpoint(float point){
+
+  public void setRightWinchSetpoint(float point) {
     climberWinchRight.set(ControlMode.Position, point);
   }
-  public void ToggleWinchLock(){
-    if(private_isClimbLocked != public_isClimbLocked){
+
+  public void ToggleWinchLock() {
+    if (private_isClimbLocked != public_isClimbLocked) {
       System.out.println("private - public climblock state mismatched!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
-    if(private_isClimbLocked){
+    if (private_isClimbLocked) {
       climberLock.set(DoubleSolenoid.Value.kReverse);
       private_isClimbLocked = false;
-    }else{
+    } else {
       climberLock.set(DoubleSolenoid.Value.kForward);
       private_isClimbLocked = true;
     }
     public_isClimbLocked = private_isClimbLocked;
   }
-  public float getDeployError(){
+
+  public float getDeployError() {
     return climberDeploy.getClosedLoopError();
   }
-  public int getDeployPosition(){
+
+  public int getDeployPosition() {
     return climberDeploy.getSelectedSensorPosition();
   }
-  public int getLeftWinchPosition(){
+
+  public int getLeftWinchPosition() {
     return climberWinchLeft.getSelectedSensorPosition();
   }
-  public int getRigthWinchPosition(){
+
+  public int getRigthWinchPosition() {
     return climberWinchRight.getSelectedSensorPosition();
   }
-  public int getAvgWinchPositions(){
-    float avg = (getLeftWinchPosition() + getRigthWinchPosition())/2;
-    return (int)avg;
+
+  public int getAvgWinchPositions() {
+    float avg = (getLeftWinchPosition() + getRigthWinchPosition()) / 2;
+    return (int) avg;
   }
-  private void updateClimberPIDs(){
+
+  private void updateClimberPIDs() {
     Preference.UpdateSRXPIDPreferences("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
-    //TODO: make sure these motors dont need spearate PIDs
+    // TODO: make sure these motors dont need spearate PIDs
     Preference.UpdateSRXPIDPreferences("climberWinch", climberWinchLeft, 0.0, 0.0, 0.0);
     Preference.UpdateSRXPIDPreferences("climberWinch", climberWinchRight, 0.0, 0.0, 0.0);
   }
