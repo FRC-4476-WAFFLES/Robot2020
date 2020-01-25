@@ -47,6 +47,10 @@ public final class Constants {
     // otherContsants
     public static final double ulrasonicValueToInches = 0.125 * 2.4;
     public static final double climberRel = 1;
+    public static final double DRIVE_ENCODERS_TO_METERS = 0;
+    public static final double kMaxSpeedMetersPerSecond = 0;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0;
+    public static final double kDriveKinematics = 0;
 
     // analog input
     public static final int FRONT_ULTRASONIC = 0; // MB1013
