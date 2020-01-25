@@ -31,6 +31,8 @@ public class CommandSwitch extends SelectCommand {
                 i = 0;
             }
 
+            System.out.println(i);
+
             return list[i];
         }
     }

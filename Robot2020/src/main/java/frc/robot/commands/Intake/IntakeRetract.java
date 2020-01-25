@@ -9,6 +9,7 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import static frc.robot.RobotContainer.*;
+import java.lang.System;
 
 public class IntakeRetract extends InstantCommand {
   /**
@@ -22,5 +23,6 @@ public class IntakeRetract extends InstantCommand {
   @Override
   public void initialize() {
     intakeSubsystem.retract();
+    System.out.println("retract ran");
   }
 }

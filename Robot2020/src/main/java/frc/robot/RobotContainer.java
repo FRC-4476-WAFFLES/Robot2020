@@ -27,11 +27,14 @@ import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
+import frc.robot.commands.Utility.CommandSwitch;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.ClimberUndeploy;
 import frc.robot.commands.Climber.ClimberWinchCommand;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
+import frc.robot.commands.Intake.IntakeExtend;
+import frc.robot.commands.Intake.IntakeRetract;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -85,6 +88,7 @@ public class RobotContainer {
     final var back = new JoystickButton(operate, XboxController.Button.kBack.value);
     final var start = new JoystickButton(operate, XboxController.Button.kStart.value);
     final var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
+    final var bumperRight = new JoystickButton(operate, XboxController.Button.kBumperRight.value);
 
     final var povUp = new POVTrigger(operate, 0);
     final var povDown = new POVTrigger(operate, 180);
@@ -108,6 +112,7 @@ public class RobotContainer {
     povDown.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(-1)));
 
     doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
+    bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
     
   }
 
