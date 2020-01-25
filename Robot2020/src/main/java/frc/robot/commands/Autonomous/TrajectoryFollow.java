@@ -9,6 +9,7 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -29,13 +30,15 @@ public class TrajectoryFollow extends RamseteCommand {
   /**
    * Creates a new TrajectoryFollow.
    */
-  public TrajectoryFollow(TrajectoryFollow traj) {
+  public TrajectoryFollow(Trajectory traj) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     super(traj, 
       RobotContainer.driveSubsystem::getPose, 
       new RamseteController(kRamseteB, kRamseteZeta), 
-      kinematics_thing, RobotContainer.driveSubsystem::TankDriveVelocity, RobotContainer.driveSubsystem);
+      kinematics_thing, 
+      RobotContainer.driveSubsystem::TankDriveVelocity, 
+      RobotContainer.driveSubsystem);
   }
   @Override
   public void end(boolean interrupted) {
