@@ -42,19 +42,4 @@ public class ClimberDefault extends CommandBase {
   @Override
   public void end(boolean interrupted) {
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    if (climberSubsystem.isGoingToSetPoint && Math.abs(climberSubsystem.getDeployError()) <= compressionThreshold) {
-      climberSubsystem.isGoingToSetPoint = false;
-      return false;
-    } else if (!climberSubsystem.isGoingToSetPoint
-        && Math.abs(climberSubsystem.getDeployError()) >= compressionThreshold) {
-      new ClimberUndeploy(climberSubsystem, operate).schedule(false);
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

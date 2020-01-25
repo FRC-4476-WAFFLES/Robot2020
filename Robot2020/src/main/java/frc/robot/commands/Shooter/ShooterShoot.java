@@ -8,7 +8,6 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.Preference;
 import static frc.robot.RobotContainer.*;
 
 public class ShooterShoot extends CommandBase {

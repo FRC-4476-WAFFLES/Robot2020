@@ -10,8 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -22,6 +20,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ColourWheelThingySubsystem.Direction;
+import frc.robot.triggers.CollidedWithBarTrigger;
 import frc.robot.triggers.POVTrigger;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.Drive.OperatorTankDrive;
@@ -29,6 +28,8 @@ import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Climber.ClimberDefault;
+import frc.robot.commands.Climber.ClimberUndeploy;
+import frc.robot.commands.Climber.ClimberWinchCommand;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 
@@ -87,6 +88,7 @@ public class RobotContainer {
 
     final var povUp = new POVTrigger(operate, 0);
     final var povDown = new POVTrigger(operate, 180);
+    final var doUndeploy = new CollidedWithBarTrigger();
 
     // TODO: make sure this works as a toggle.
     x.toggleWhenPressed(new ShooterRun());
@@ -104,6 +106,9 @@ public class RobotContainer {
 
     povUp.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(1)));
     povDown.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(-1)));
+
+    doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
+    
   }
 
   /**
