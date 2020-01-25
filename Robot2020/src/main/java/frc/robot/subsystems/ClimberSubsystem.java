@@ -28,8 +28,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public static final float DEPLOY_CENTER = 0;
   public static final float DEPLOY_CENTER_HIGH = 0;
   public boolean isGoingToSetPoint = true;
-  public boolean public_isClimbLocked = false;
-  private boolean private_isClimbLocked = false;
+  private boolean isClimbLocked = false;
 
   /**
    * Creates a new ClimberSubsystem.
@@ -38,7 +37,6 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberWinchLeft.setSelectedSensorPosition(0);
     climberWinchRight.setSelectedSensorPosition(0);
-
   }
 
   @Override
@@ -71,17 +69,17 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void ToggleWinchLock() {
-    if (private_isClimbLocked != public_isClimbLocked) {
-      System.out.println("private - public climblock state mismatched!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }
-    if (private_isClimbLocked) {
+    if (isClimbLocked) {
       climberLock.set(DoubleSolenoid.Value.kReverse);
-      private_isClimbLocked = false;
+      isClimbLocked = false;
     } else {
       climberLock.set(DoubleSolenoid.Value.kForward);
-      private_isClimbLocked = true;
+      isClimbLocked = true;
     }
-    public_isClimbLocked = private_isClimbLocked;
+  }
+
+  public boolean getIsClimbLocked() {
+    return isClimbLocked;
   }
 
   public float getDeployError() {

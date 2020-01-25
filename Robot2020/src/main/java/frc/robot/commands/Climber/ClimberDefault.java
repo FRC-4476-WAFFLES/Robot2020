@@ -19,6 +19,7 @@ public class ClimberDefault extends CommandBase {
   private double currentPos;
   //TODO: make this threshold a real number
   private final float compressionThreshold = 0;
+
   /**
    * Creates a new ClimberDefault.
    */
@@ -49,13 +50,14 @@ public class ClimberDefault extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(climberSubsystem.isGoingToSetPoint && Math.abs(climberSubsystem.getDeployError()) <= compressionThreshold){
+    if (climberSubsystem.isGoingToSetPoint && Math.abs(climberSubsystem.getDeployError()) <= compressionThreshold) {
       climberSubsystem.isGoingToSetPoint = false;
       return false;
-    }else if(!climberSubsystem.isGoingToSetPoint && Math.abs(climberSubsystem.getDeployError()) >= compressionThreshold){
+    } else if (!climberSubsystem.isGoingToSetPoint
+        && Math.abs(climberSubsystem.getDeployError()) >= compressionThreshold) {
       new ClimberUndeploy(climberSubsystem, operate).schedule(false);
       return true;
-    }else{
+    } else {
       return false;
     }
   }

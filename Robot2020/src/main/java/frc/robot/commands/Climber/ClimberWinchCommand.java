@@ -11,18 +11,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 
-public class ClimberClimberWinchCommand extends CommandBase {
+public class ClimberWinchCommand extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
-  private final XboxController operate; 
-  //TODO: get the encoder difference that is on the edge of legal.
+  private final XboxController operate;
+  // TODO: get the encoder difference that is on the edge of legal.
   private static final int maxEncDiff_angle = 0;
   private int currentLeftPos;
   private int currentRightPos;
   private boolean waitingBtnRelease = false;
+
   /**
    * Creates a new ClimberClimberWinchCommand.
    */
-  public ClimberClimberWinchCommand(ClimberSubsystem climberSubsystem, XboxController operate) {
+  public ClimberWinchCommand(ClimberSubsystem climberSubsystem, XboxController operate) {
     this.climberSubsystem = climberSubsystem;
     this.operate = operate;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,25 +40,26 @@ public class ClimberClimberWinchCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!climberSubsystem.public_isClimbLocked){
-      double adjust = (operate.getRawAxis(0) + operate.getRawAxis(4))*10;
-      //TODO: make sure this threshold keeps us legal, instead of preventing us from moving
-      if(adjust >= 0 && currentLeftPos-currentRightPos < maxEncDiff_angle){
-        currentLeftPos = currentLeftPos + (int)adjust;
-      }else if(adjust < 0 && currentRightPos-currentLeftPos < maxEncDiff_angle){
-        currentRightPos = currentRightPos + (int)adjust;
+    if (!climberSubsystem.getIsClimbLocked()) {
+      double adjust = (operate.getRawAxis(0) + operate.getRawAxis(4)) * 10;
+      // TODO: make sure this threshold keeps us legal, instead of preventing us from
+      // moving
+      if (adjust >= 0 && currentLeftPos - currentRightPos < maxEncDiff_angle) {
+        currentLeftPos = currentLeftPos + (int) adjust;
+      } else if (adjust < 0 && currentRightPos - currentLeftPos < maxEncDiff_angle) {
+        currentRightPos = currentRightPos + (int) adjust;
       }
 
       climberSubsystem.setLeftWinchSetpoint(currentLeftPos);
       climberSubsystem.setRightWinchSetpoint(currentRightPos);
-      if(operate.getAButtonPressed()){
+      if (operate.getAButtonPressed()) {
         climberSubsystem.ToggleWinchLock();
         waitingBtnRelease = true;
-      }else{
-        if(!operate.getAButton()){
+      } else {
+        if (!operate.getAButton()) {
           waitingBtnRelease = false;
         }
-        if(operate.getAButton() && !waitingBtnRelease){
+        if (operate.getAButton() && !waitingBtnRelease) {
           climberSubsystem.ToggleWinchLock();
         }
       }

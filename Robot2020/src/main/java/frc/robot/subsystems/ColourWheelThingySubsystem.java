@@ -19,12 +19,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ColourWheelThingySubsystem extends SubsystemBase {
   private final TalonSRX colourWheelMotor = new TalonSRX(Constants.COLOUR_WHEEL_MANIPULATOR);
-  private final DoubleSolenoid deployWheel = new DoubleSolenoid(Constants.COLOUR_WHEEL_DEPLOY, Constants.COLOUR_WHEEL_RECALL);
+  private final DoubleSolenoid deployWheel = new DoubleSolenoid(Constants.COLOUR_WHEEL_DEPLOY,
+      Constants.COLOUR_WHEEL_RECALL);
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   public boolean deploymentState = false;
 
-  public static enum Direction{
+  public static enum Direction {
     Left, Right, Stop
   }
 
@@ -39,23 +40,25 @@ public class ColourWheelThingySubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("ColorWheelThingySubsystem/hue", getHue());
   }
-  public void deploy(){
+
+  public void deploy() {
     deployWheel.set(DoubleSolenoid.Value.kForward);
     deploymentState = true;
   }
-  public void recall(){
+
+  public void recall() {
     deployWheel.set(DoubleSolenoid.Value.kReverse);
     deploymentState = false;
   }
 
-  public void setDirection(Direction direction){
-    //TODO: make sure the motor spin directions correllates to the set direction
+  public void setDirection(Direction direction) {
+    // TODO: make sure the motor spin directions correllates to the set direction
     float spd;
-    if(direction == Direction.Left){
+    if (direction == Direction.Left) {
       spd = 1;
-    }else if(direction == Direction.Right){
+    } else if (direction == Direction.Right) {
       spd = -1;
-    }else{
+    } else {
       spd = 0;
     }
     colourWheelMotor.set(ControlMode.PercentOutput, spd);
@@ -70,6 +73,5 @@ public class ColourWheelThingySubsystem extends SubsystemBase {
 
     return hue < 0 ? 360 + hue : hue;
   }
-  
-  
+
 }

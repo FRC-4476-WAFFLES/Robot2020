@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class IntakeDefault extends CommandBase {
   private final IntakeSubsystem intakeSubsystem;
   private final XboxController operate;
+
   /**
    * Creates a new IntakeDefault.
    */
@@ -33,14 +34,14 @@ public class IntakeDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!ShooterSubsystem.shouldIntake){
+    if (!ShooterSubsystem.shouldIntake) {
       double in = operate.getRawAxis(3);
       double out = operate.getRawAxis(2);
-      intakeSubsystem.run((in*in + out*out)*1);
-    }else{
+      intakeSubsystem.run((in * in + out * out) * 1);
+    } else {
       intakeSubsystem.run();
     }
-    
+
   }
 
   // Called once the command ends or is interrupted.
