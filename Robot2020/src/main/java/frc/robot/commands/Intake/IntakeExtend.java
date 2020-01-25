@@ -8,16 +8,13 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.IntakeSubsystem;
+import static frc.robot.RobotContainer.*;
 
 public class IntakeExtend extends InstantCommand {
-  IntakeSubsystem intakeSubsystem;
-
   /**
    * Creates a new IntakeExtend.
    */
-  public IntakeExtend(IntakeSubsystem intakeSubsystem) {
-    this.intakeSubsystem = intakeSubsystem;
+  public IntakeExtend() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

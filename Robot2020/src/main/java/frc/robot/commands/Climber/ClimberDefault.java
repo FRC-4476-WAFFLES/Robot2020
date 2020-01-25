@@ -8,14 +8,11 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
-import edu.wpi.first.wpilibj.XboxController;
 import java.lang.Math;
 import frc.robot.commands.Climber.ClimberUndeploy;
+import static frc.robot.RobotContainer.*;
 
 public class ClimberDefault extends CommandBase {
-  private final ClimberSubsystem climberSubsystem;
-  private final XboxController operate;
   private double currentPos;
   //TODO: make this threshold a real number
   private final float compressionThreshold = 0;
@@ -23,9 +20,7 @@ public class ClimberDefault extends CommandBase {
   /**
    * Creates a new ClimberDefault.
    */
-  public ClimberDefault(ClimberSubsystem climberSubsystem, XboxController operate) {
-    this.climberSubsystem = climberSubsystem;
-    this.operate = operate;
+  public ClimberDefault() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

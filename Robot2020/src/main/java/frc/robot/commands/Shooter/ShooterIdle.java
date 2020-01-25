@@ -8,27 +8,25 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.RobotContainer;
+import static frc.robot.RobotContainer.*;
 
 public class ShooterIdle extends CommandBase {
-  ShooterSubsystem shooter;
-
-
   /**
    * Creates a new ShooterIdle.
    */
-  public ShooterIdle(ShooterSubsystem shooter) {
-    this.shooter = shooter;
-    addRequirements(shooter);
+  public ShooterIdle() {
+    addRequirements(shooterSubsystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.stop();
+    RobotContainer.shooterSubsystem.stop();
   }
+
   @Override
-  public boolean isFinished(){
+  public boolean isFinished() {
     return false;
   }
 }

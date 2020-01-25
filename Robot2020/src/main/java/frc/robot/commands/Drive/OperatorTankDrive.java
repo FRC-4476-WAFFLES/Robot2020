@@ -6,24 +6,16 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands.Drive;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import static frc.robot.RobotContainer.*;
 
 public class OperatorTankDrive extends CommandBase {
-  private final DriveSubsystem driveSubsystem; 
-  private final Joystick leftJoystick, rightJoystick; 
-  private final XboxController operate;
   /**
    * Creates a new OperatorTankDrive.
    */
-  public OperatorTankDrive(DriveSubsystem driveSubsystem, Joystick leftJoystick, Joystick rightJoystick, XboxController operate) {
-    this.driveSubsystem = driveSubsystem;
-    this.leftJoystick = leftJoystick;
-    this.rightJoystick = rightJoystick;
-    this.operate = operate;
+  public OperatorTankDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveSubsystem);
   }

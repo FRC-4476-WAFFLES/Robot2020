@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.Climber.ClimberWinchCommand;
+import static frc.robot.RobotContainer.*;
 
 public class ClimberUndeploy extends CommandBase {
-  private final ClimberSubsystem climberSubsystem;
-  private final XboxController operate;
-
   // TODO: make sure the deploy is stowed before climbing
   private final int deployStowedThreshold = 0;
 
@@ -23,8 +21,6 @@ public class ClimberUndeploy extends CommandBase {
    * Creates a new ClimberUndeploy.
    */
   public ClimberUndeploy(ClimberSubsystem climberSubsystem, XboxController operate) {
-    this.climberSubsystem = climberSubsystem;
-    this.operate = operate;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,11 +28,10 @@ public class ClimberUndeploy extends CommandBase {
   @Override
   public boolean isFinished() {
     if (operate.getRawButton(1) && climberSubsystem.getDeployError() > deployStowedThreshold) {
-      new ClimberWinchCommand(climberSubsystem, operate).schedule(false);
+      new ClimberWinchCommand().schedule(false);
       return true;
     } else {
       return false;
     }
-
   }
 }

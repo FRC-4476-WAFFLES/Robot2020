@@ -7,20 +7,15 @@
 
 package frc.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Preference;
+import static frc.robot.RobotContainer.*;
 
 public class ShooterShoot extends CommandBase {
-  ShooterSubsystem shooterSubsystem;
-  XboxController operate;
   /**
    * Creates a new ShooterShoot.
    */
-  public ShooterShoot(ShooterSubsystem shooterSubsystem, XboxController operate) {
-    this.shooterSubsystem = shooterSubsystem;
-    this.operate = operate;
+  public ShooterShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -40,7 +35,7 @@ public class ShooterShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.feed(false);
-    new ShooterRun(shooterSubsystem, operate).schedule();
+    new ShooterRun().schedule();
   }
 
   // Returns true when the command should end.

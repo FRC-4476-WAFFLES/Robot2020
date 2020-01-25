@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -26,7 +25,6 @@ import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Climber.ClimberDefault;
-import frc.robot.commands.ColourWheel.ColourWheelDefault;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 
@@ -40,24 +38,23 @@ import frc.robot.commands.Intake.IntakeDefault;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // subsystems
-  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-  private final ColourWheelThingySubsystem colourWheelThingySubsystem = new ColourWheelThingySubsystem();
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public static final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  public static final ColourWheelThingySubsystem colourWheelThingySubsystem = new ColourWheelThingySubsystem();
+  public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
   // input devices
-  public final Joystick leftJoystick = new Joystick(0);
-  public final Joystick rightJoystick = new Joystick(1);
-  public final XboxController operate = new XboxController(2);
-  public final static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
+  public static final Joystick leftJoystick = new Joystick(0);
+  public static final Joystick rightJoystick = new Joystick(1);
+  public static final XboxController operate = new XboxController(2);
+  public static final PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
   // Default commands
-  private final OperatorTankDrive driveCommand = new OperatorTankDrive(driveSubsystem, leftJoystick, rightJoystick,
-      operate);
-  private final ShooterIdle shooterIdle = new ShooterIdle(shooterSubsystem);
-  private final ClimberDefault climberDefault = new ClimberDefault(climberSubsystem, operate);
-  private final IntakeDefault intakeDefault = new IntakeDefault(intakeSubsystem, operate);
+  private final OperatorTankDrive driveCommand = new OperatorTankDrive();
+  private final ShooterIdle shooterIdle = new ShooterIdle();
+  private final ClimberDefault climberDefault = new ClimberDefault();
+  private final IntakeDefault intakeDefault = new IntakeDefault();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,15 +75,15 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton a = new JoystickButton(operate, XboxController.Button.kA.value);
-    JoystickButton y = new JoystickButton(operate, XboxController.Button.kY.value);
-    JoystickButton back = new JoystickButton(operate, XboxController.Button.kBack.value);
-    JoystickButton start = new JoystickButton(operate, XboxController.Button.kStart.value);
-    JoystickButton bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
+    var a = new JoystickButton(operate, XboxController.Button.kA.value);
+    var y = new JoystickButton(operate, XboxController.Button.kY.value);
+    var back = new JoystickButton(operate, XboxController.Button.kBack.value);
+    var start = new JoystickButton(operate, XboxController.Button.kStart.value);
+    var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
 
     // TODO: make sure this works as a toggle.
-    a.whenPressed(new ShooterRun(shooterSubsystem, operate));
-    y.whenPressed(new ShooterShoot(shooterSubsystem, operate));
+    a.whenPressed(new ShooterRun());
+    y.whenPressed(new ShooterShoot());
 
     // Colour wheel controls
     start.whileHeld(

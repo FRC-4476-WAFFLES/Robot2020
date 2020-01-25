@@ -33,8 +33,9 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void run() {
-    intakeRoller.set(ControlMode.PercentOutput, 1);
+    run(1.0);
   }
+
   public void run(double percent){
     intakeRoller.set(ControlMode.PercentOutput, percent);
   }

@@ -9,15 +9,14 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
+import static frc.robot.RobotContainer.*;
 
 public class ClimberGoToSetpoint extends CommandBase {
-  private final ClimberSubsystem climberSubsystem;
   private final int povAngle; 
   /**
    * Creates a new ClimberGoToSetpoint.
    */
-  public ClimberGoToSetpoint(ClimberSubsystem climberSubsystem, int angle) {
-    this.climberSubsystem = climberSubsystem; 
+  public ClimberGoToSetpoint(int angle) {
     povAngle = angle;
     addRequirements(climberSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.

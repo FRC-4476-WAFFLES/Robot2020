@@ -8,16 +8,13 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import static frc.robot.RobotContainer.*;
 
 public class IntakeStop extends CommandBase {
-  private IntakeSubsystem intakeSubsystem;
-
   /**
    * Creates a new IntakeStop.
    */
-  public IntakeStop(IntakeSubsystem intakeSubsystem) {
-    this.intakeSubsystem = intakeSubsystem;
+  public IntakeStop() {
     addRequirements(intakeSubsystem);
   }
 

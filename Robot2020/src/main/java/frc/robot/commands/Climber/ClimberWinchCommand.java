@@ -8,12 +8,9 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
-import edu.wpi.first.wpilibj.XboxController;
+import static frc.robot.RobotContainer.*;
 
 public class ClimberWinchCommand extends CommandBase {
-  private final ClimberSubsystem climberSubsystem;
-  private final XboxController operate;
   // TODO: get the encoder difference that is on the edge of legal.
   private static final int maxEncDiff_angle = 0;
   private int currentLeftPos;
@@ -23,9 +20,7 @@ public class ClimberWinchCommand extends CommandBase {
   /**
    * Creates a new ClimberClimberWinchCommand.
    */
-  public ClimberWinchCommand(ClimberSubsystem climberSubsystem, XboxController operate) {
-    this.climberSubsystem = climberSubsystem;
-    this.operate = operate;
+  public ClimberWinchCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climberSubsystem);
   }

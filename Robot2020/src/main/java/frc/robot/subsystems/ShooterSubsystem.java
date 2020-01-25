@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
   private final VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
   private final VictorSPX shooterFeeder = new VictorSPX(Constants.SHOOTER_FEEDER_1);
-  public static boolean shouldIntake = false;
+  public boolean shouldIntake = false;
 
   // A mapping of speeds (in RPM) to output percentages.
   final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 1.0));
