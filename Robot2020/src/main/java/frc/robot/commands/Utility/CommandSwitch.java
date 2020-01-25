@@ -24,7 +24,7 @@ public class CommandSwitch extends CommandBase {
     @Override
     public void initialize() {
         i++;
-        if(i > list.length) {
+        if(i >= list.length) {
             i = 0;
         }
 
