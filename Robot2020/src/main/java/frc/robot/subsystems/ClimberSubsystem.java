@@ -21,14 +21,15 @@ public class ClimberSubsystem extends SubsystemBase {
   private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
   private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
   private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
-  private DoubleSolenoid climberLock = new DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
+  // private DoubleSolenoid climberLock = new DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
   // TODO: make sure the setpoints are correct
-  public static final float DEFAULT_DEPLOY_POSTION = 0;
-  public static final float DEPLOY_CENTER_LOW = 0;
-  public static final float DEPLOY_CENTER = 0;
-  public static final float DEPLOY_CENTER_HIGH = 0;
+  private static final int[] deploySetpoints = new int[] {
+    0, 0, 0, 0
+  };
   public boolean isGoingToSetPoint = true;
   private boolean isClimbLocked = false;
+
+  private int currentDeploySetpoint = 0;
 
   /**
    * Creates a new ClimberSubsystem.
@@ -47,15 +48,35 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   // TODO make all these functions do stuff
-  public void setDeploySetpoint(float point) {
-    climberDeploy.set(ControlMode.Position, point);
+  public void setDeploySetpoint(int change) {
+    currentDeploySetpoint += change;
+
+    if(currentDeploySetpoint < 0) {
+      currentDeploySetpoint = 0;
+    } else if (currentDeploySetpoint >= deploySetpoints.length) {
+      currentDeploySetpoint = deploySetpoints.length - 1;
+    }
+
+    climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint]);
+  }
+
+  public void changeDeployWinchSetpoint(int change) {
+    currentDeploySetpoint += change;
+
+    if(currentDeploySetpoint < 0) {
+      currentDeploySetpoint = 0;
+    } else if (currentDeploySetpoint >= deploySetpoints.length) {
+      currentDeploySetpoint = deploySetpoints.length - 1;
+    }
+    setDeployWinchSetpoint(deploySetpoints[currentDeploySetpoint]);
   }
 
   public void setDeployWinchSetpoint(double point) {
+    climberDeploy.set(ControlMode.Position, point);
+
     // TODO: make this relationship a real one
     double deployWinchLinearRelation = point;
 
-    climberDeploy.set(ControlMode.Position, point);
     climberWinchLeft.set(ControlMode.Position, deployWinchLinearRelation);
     climberWinchRight.set(ControlMode.Position, deployWinchLinearRelation);
   }
@@ -70,10 +91,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void ToggleWinchLock() {
     if (isClimbLocked) {
-      climberLock.set(DoubleSolenoid.Value.kReverse);
+      // climberLock.set(DoubleSolenoid.Value.kReverse);
       isClimbLocked = false;
     } else {
-      climberLock.set(DoubleSolenoid.Value.kForward);
+      // climberLock.set(DoubleSolenoid.Value.kForward);
       isClimbLocked = true;
     }
   }

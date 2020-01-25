@@ -1,0 +1,13 @@
+Default
+    - Does fudge
+
+Go to setpoint
+    - Sets flag in subsystem and ends
+
+Trigger when bar hit -> Undeploy -> Button -> Winch Command
+
+Undeploy
+    - Deploy down, but not winch
+
+WinchCommand
+    - Takes you up to the winch setpoint

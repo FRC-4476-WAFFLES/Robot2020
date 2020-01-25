@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -19,6 +22,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ColourWheelThingySubsystem.Direction;
+import frc.robot.triggers.POVTrigger;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
@@ -75,15 +79,18 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    var a = new JoystickButton(operate, XboxController.Button.kA.value);
-    var y = new JoystickButton(operate, XboxController.Button.kY.value);
-    var back = new JoystickButton(operate, XboxController.Button.kBack.value);
-    var start = new JoystickButton(operate, XboxController.Button.kStart.value);
-    var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
+    final var x = new JoystickButton(operate, XboxController.Button.kX.value);
+    final var y = new JoystickButton(operate, XboxController.Button.kY.value);
+    final var back = new JoystickButton(operate, XboxController.Button.kBack.value);
+    final var start = new JoystickButton(operate, XboxController.Button.kStart.value);
+    final var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
+
+    final var povUp = new POVTrigger(operate, 0);
+    final var povDown = new POVTrigger(operate, 180);
 
     // TODO: make sure this works as a toggle.
-    a.whenPressed(new ShooterRun());
-    y.whenPressed(new ShooterShoot());
+    x.toggleWhenPressed(new ShooterRun());
+    y.whileHeld(new ShooterShoot());
 
     // Colour wheel controls
     start.whileHeld(
@@ -94,6 +101,9 @@ public class RobotContainer {
         new RunCommand(() -> colourWheelThingySubsystem.setDirection(Direction.Stop), colourWheelThingySubsystem));
     bumperLeft.toggleWhenActive(
         new StartEndCommand(() -> colourWheelThingySubsystem.deploy(), () -> colourWheelThingySubsystem.recall()));
+
+    povUp.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(1)));
+    povDown.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(-1)));
   }
 
   /**

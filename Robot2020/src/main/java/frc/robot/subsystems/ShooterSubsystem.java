@@ -28,6 +28,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final VictorSPX shooterFeeder = new VictorSPX(Constants.SHOOTER_FEEDER_1);
   public boolean shouldIntake = false;
 
+  private final int ACCEPTABLE_VELOCITY_ERROR = 10;
+
   // A mapping of speeds (in RPM) to output percentages.
   final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 1.0));
 
@@ -105,11 +107,17 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stop() {
     shooterMaster.set(ControlMode.Disabled, 0.0);
   }
-  public void feed(boolean feeding){
-    if(feeding){
+
+  public boolean canShoot() {
+    return shooterMaster.getClosedLoopError() < ACCEPTABLE_VELOCITY_ERROR &&
+      Math.abs(shooterMaster.getSelectedSensorVelocity()) > 1000;
+  }
+
+  public void feed(boolean feeding) {
+    if (feeding) {
       shooterFeeder.set(ControlMode.PercentOutput, 1);
       shouldIntake = true;
-    }else{
+    } else {
       shooterFeeder.set(ControlMode.PercentOutput, 0);
       shouldIntake = false;
     }

@@ -19,32 +19,15 @@ public class ShooterShoot extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setSpeed(Preference.getDouble("Shooter/PercentOutput", 0.1));
-    shooterSubsystem.feed(true);
+    shooterSubsystem.feed(shooterSubsystem.canShoot());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.feed(false);
-    new ShooterRun().schedule();
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    if(!operate.getYButton()){
-      return true;
-    }else{
-      return false;
-    }
   }
 }

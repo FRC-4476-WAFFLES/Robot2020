@@ -22,6 +22,12 @@ public class ClimberUndeploy extends CommandBase {
    */
   public ClimberUndeploy(ClimberSubsystem climberSubsystem, XboxController operate) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climberSubsystem);
+  }
+
+  @Override
+  public void initialize() {
+    climberSubsystem.setDeploySetpoint(-1000);
   }
 
   // Returns true when the command should end.

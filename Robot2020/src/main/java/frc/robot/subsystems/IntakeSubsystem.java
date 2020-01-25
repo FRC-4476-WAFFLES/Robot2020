@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
+  // private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
   private final VictorSPX intakeRoller = new VictorSPX(Constants.INTAKE_ROLLER);
 
   /**
@@ -25,11 +25,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void extend() {
-    intakeExtend.set(DoubleSolenoid.Value.kForward);
+    // intakeExtend.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retract() {
-    intakeExtend.set(DoubleSolenoid.Value.kReverse);
+    // intakeExtend.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void run() {

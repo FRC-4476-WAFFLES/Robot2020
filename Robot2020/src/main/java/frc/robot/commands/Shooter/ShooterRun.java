@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import static frc.robot.RobotContainer.*;
 
 public class ShooterRun extends CommandBase {
-  Timer t;
+  Timer t = new Timer();
 
   /**
    * Creates a new ShooterRun.
