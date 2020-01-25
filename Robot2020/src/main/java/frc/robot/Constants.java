@@ -31,6 +31,10 @@ public final class Constants {
     // solenoids
     public static final int INTAKE_EXTEND = 0;
     public static final int INTAKE_RETRACT = 1;
+    public static final int CLIMBER_LOCK = 2;
+    public static final int CLIMBER_UNLOCK = 3;
+    public static final int COLOUR_WHEEL_DEPLOY = 4;
+    public static final int COLOUR_WHEEL_RECALL = 5;
 
     // canbus
     public static final int CLIMBER_DEPLOY = 0; // SRX
@@ -51,16 +55,11 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 0;
     public static final double kMaxAccelerationMetersPerSecondSquared = 0;
     public static final double kDriveKinematics = 0;
+    public static final int kTimeoutMs = 10;
+    public static double kShooterUnitsPer100MsToRPM = (60.0 * 10.0) / (256.0 * 4.0);
 
     // analog input
     public static final int FRONT_ULTRASONIC = 0; // MB1013
 
-    public static final int kTimeoutMs = 10;
-    public static double kShooterUnitsPer100MsToRPM = (60.0 * 10.0) / (256.0 * 4.0);
 
-    //PCM
-    public static final int CLIMBER_LOCK = 0;
-    public static final int CLIMBER_UNLOCK = 0;
-    public static final int COLOUR_WHEEL_DEPLOY = 0;
-    public static final int COLOUR_WHEEL_RECALL = 0;
 }

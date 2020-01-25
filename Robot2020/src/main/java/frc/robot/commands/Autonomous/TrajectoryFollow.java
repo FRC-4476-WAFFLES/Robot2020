@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import static frc.robot.RobotContainer.*;
 
 public class TrajectoryFollow extends RamseteCommand {
   //TODO: double check these are the correct numbers
@@ -34,16 +34,16 @@ public class TrajectoryFollow extends RamseteCommand {
     // Use addRequirements() here to declare subsystem dependencies.
 
     super(traj, 
-      RobotContainer.driveSubsystem::getPose, 
+      driveSubsystem::getPose, 
       new RamseteController(kRamseteB, kRamseteZeta), 
       kinematics_thing, 
-      RobotContainer.driveSubsystem::TankDriveVelocity, 
-      RobotContainer.driveSubsystem);
+      driveSubsystem::TankDriveVelocity, 
+      driveSubsystem);
   }
   @Override
   public void end(boolean interrupted) {
     // TODO Auto-generated method stub
     super.end(interrupted);
-    RobotContainer.driveSubsystem.drive(0,0);
+    driveSubsystem.drive(0,0);
   }
 }
