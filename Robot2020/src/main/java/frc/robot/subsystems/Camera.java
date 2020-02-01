@@ -20,10 +20,10 @@ public class Camera  {
   public static enum ProcessingMode {
     Vision, Driver
   }
-  enum SnapshotMode {
+  public enum SnapshotMode {
     SnapOff, SnapOn
   }
-  enum Pipeline {
+  public enum Pipeline {
     Close, Far, Search
   }
   NetworkTable camera = NetworkTableInstance.getDefault().getTable("limelight");
@@ -46,9 +46,9 @@ public class Camera  {
     camera.getEntry("pipeline").setNumber(line.ordinal());
   }
   
-  public double getHasTarget(){
+  public boolean getHasTarget(){
     //tv:	Whether the limelight has any valid targets (0 or 1)
-    return camera.getEntry("tv").getDouble(0);
+    return camera.getEntry("tv").getDouble(0)!=0;
   }
 
   public double getHorizontal(){
@@ -96,9 +96,18 @@ public class Camera  {
     return camera.getEntry("tvert").getDouble(0);
   }
 
-  public double getActivePipeline(){
+  public Pipeline getActivePipeline(){
     //getpipe:	True active pipeline index of the camera (0 .. 9)
-    return camera.getEntry("getpipe").getDouble(0);
+    switch((int)camera.getEntry("getpipe").getDouble(0)){
+      case 0:
+        return Pipeline.Close;
+      case 1:
+        return Pipeline.Far;
+      case 2:
+        return Pipeline.Search;
+      default:
+        return Pipeline.Search;
+    }
   }
 }
 /*

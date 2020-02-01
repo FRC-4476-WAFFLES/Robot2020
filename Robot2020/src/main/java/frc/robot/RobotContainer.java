@@ -35,6 +35,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 import frc.robot.commands.Intake.IntakeExtend;
 import frc.robot.commands.Intake.IntakeRetract;
+import frc.robot.commands.Drive.CameraAim;
+import frc.robot.subsystems.Camera;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -57,6 +59,7 @@ public class RobotContainer {
   public static final Joystick rightJoystick = new Joystick(1);
   public static final XboxController operate = new XboxController(2);
   public static final PowerDistributionPanel pdp = new PowerDistributionPanel(0);
+  public static final Camera vision = new Camera();
 
   // Default commands
   private final OperatorTankDrive driveCommand = new OperatorTankDrive();
@@ -89,6 +92,10 @@ public class RobotContainer {
     final var start = new JoystickButton(operate, XboxController.Button.kStart.value);
     final var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
     final var bumperRight = new JoystickButton(operate, XboxController.Button.kBumperRight.value);
+    final var left6 = new JoystickButton(leftJoystick, 6);
+    final var left7 = new JoystickButton(leftJoystick, 7);
+    final var right10 = new JoystickButton(rightJoystick, 10);
+    final var right11 = new JoystickButton(rightJoystick, 11);
 
     final var povUp = new POVTrigger(operate, 0);
     final var povDown = new POVTrigger(operate, 180);
@@ -113,6 +120,8 @@ public class RobotContainer {
 
     doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
+
+    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAim());
     
   }
 
