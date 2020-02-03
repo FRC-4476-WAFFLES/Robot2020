@@ -1,0 +1,10 @@
+1. "Drive forwards" Drive forwards (intake at front)
+2. "In-front of the goal" Shoot with vision + drive forwards
+3. "In-front of the goal trench" Shoot with vision + drive to trench and pick up balls + shoot far
+4. "Right side shoot trench" Shoot with vision + drive to trench and pick up balls + shoot far
+5. "In-front of the goal rendevous" Shoot with vidion + drive to rendevous and pick up balls + shoot
+6. "Left side shoot rendevous" Shoot with vision + drive to rendevous and pick up balls + shoot
+7. "Feed me" Shoot balls and intake forever.
+8. "Left side enemy trench" Shoot with vision + drive to enemy trench + steal 2 balls + shoot.
+9. "Left side enemy trench all" Shoot with vision + drive to enemy trench + steal 5 balls + escape + shoot.
+10. "Left side enemy rendevous" Shoot with vision + drive to rendevous + steal balls + escape + shoot. 

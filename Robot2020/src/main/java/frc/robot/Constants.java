@@ -7,6 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -46,14 +51,14 @@ public final class Constants {
     // public static final int SHOOTER_FEEDER_N = 0; // SPX
     public static final int INTAKE_ROLLER = 0; // SPX
     public static final int COLOUR_WHEEL_MANIPULATOR = 0; // SRX
-    public static final int PCM = 0;//PCM
+    public static final int PCM = 0;// PCM
 
     // otherContsants
     public static final double ulrasonicValueToInches = 0.125 * 2.4;
     public static final double climberRel = 1;
     public static final double DRIVE_ENCODERS_TO_METERS = 0;
-    public static final double kMaxSpeedMetersPerSecond = 0;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0;
+    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
     public static final double kDriveKinematics = 0;
     public static final int kTimeoutMs = 10;
     public static double kShooterUnitsPer100MsToRPM = (60.0 * 10.0) / (256.0 * 4.0);
@@ -61,5 +66,7 @@ public final class Constants {
     // analog input
     public static final int FRONT_ULTRASONIC = 0; // MB1013
 
-
+    // path nodes
+    public static final Pose2d START_CENTER = new Pose2d(new Translation2d(Units.feetToMeters(10), 0), new Rotation2d(0));
+    public static final Pose2d DRIVE_FORWARD = new Pose2d(new Translation2d(Units.feetToMeters(20), 0), new Rotation2d(0));
 }

@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -28,6 +30,7 @@ import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Utility.CommandSwitch;
+import frc.robot.commands.Autonomous.DriveForward;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.ClimberUndeploy;
 import frc.robot.commands.Climber.ClimberWinchCommand;
@@ -67,6 +70,9 @@ public class RobotContainer {
   private final ClimberDefault climberDefault = new ClimberDefault();
   private final IntakeDefault intakeDefault = new IntakeDefault();
 
+  // Autonomous command chooser
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -77,6 +83,10 @@ public class RobotContainer {
     shooterSubsystem.setDefaultCommand(shooterIdle);
     climberSubsystem.setDefaultCommand(climberDefault);
     intakeSubsystem.setDefaultCommand(intakeDefault);
+
+    autoChooser.addOption("Do Nothing", new InstantCommand());
+    autoChooser.setDefaultOption("Drive Forward", new DriveForward());
+    SmartDashboard.putData(autoChooser);
   }
 
   /**
@@ -132,6 +142,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return driveCommand;
+    return autoChooser.getSelected();
   }
 }
