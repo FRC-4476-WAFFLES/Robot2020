@@ -8,14 +8,10 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import java.lang.Math;
-import frc.robot.commands.Climber.ClimberUndeploy;
 import static frc.robot.RobotContainer.*;
 
 public class ClimberDefault extends CommandBase {
   private double currentPos;
-  //TODO: make this threshold a real number
-  private final float compressionThreshold = 0;
 
   /**
    * Creates a new ClimberDefault.
@@ -28,13 +24,13 @@ public class ClimberDefault extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentPos = (double)climberSubsystem.getDeployPosition();
+    currentPos = (double) climberSubsystem.getDeployPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currentPos = -10.0*(operate.getRawAxis(1)+operate.getRawAxis(5));
+    currentPos = -10.0 * (operate.getRawAxis(1) + operate.getRawAxis(5));
     climberSubsystem.setDeployWinchSetpoint(currentPos);
   }
 

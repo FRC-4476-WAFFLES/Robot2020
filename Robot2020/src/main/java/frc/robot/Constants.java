@@ -67,6 +67,8 @@ public final class Constants {
     public static final int FRONT_ULTRASONIC = 0; // MB1013
 
     // path nodes
-    public static final Pose2d START_CENTER = new Pose2d(new Translation2d(Units.feetToMeters(10), 0), new Rotation2d(0));
-    public static final Pose2d DRIVE_FORWARD = new Pose2d(new Translation2d(Units.feetToMeters(20), 0), new Rotation2d(0));
+    public static final Pose2d START_CENTER = new Pose2d(new Translation2d(Units.feetToMeters(10), 0),
+            new Rotation2d(0));
+    public static final Pose2d DRIVE_FORWARD = new Pose2d(new Translation2d(Units.feetToMeters(20), 0),
+            new Rotation2d(0));
 }

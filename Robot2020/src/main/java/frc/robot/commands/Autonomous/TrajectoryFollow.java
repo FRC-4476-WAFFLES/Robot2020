@@ -11,22 +11,21 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
 import static frc.robot.RobotContainer.*;
 
 public class TrajectoryFollow extends RamseteCommand {
-  //TODO: double check these are the correct numbers
+  // TODO: double check these are the correct numbers
   private static final double kRamseteB = 2;
   private static final double kRamseteZeta = 0.7;
   private static DifferentialDriveKinematics kinematics_thing = new DifferentialDriveKinematics(0.6);
-  public static final TrajectoryConfig config =
-  new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
-                       Constants.kMaxAccelerationMetersPerSecondSquared)
-      // Add kinematics to ensure max speed is actually obeyed
-      //TODO: measure track widths
-      .setKinematics(kinematics_thing);
+
+  public static final TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+      Constants.kMaxAccelerationMetersPerSecondSquared)
+          // Add kinematics to ensure max speed is actually obeyed
+          // TODO: measure track widths
+          .setKinematics(kinematics_thing);
 
   /**
    * Creates a new TrajectoryFollow.
@@ -34,17 +33,13 @@ public class TrajectoryFollow extends RamseteCommand {
   public TrajectoryFollow(Trajectory traj) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    super(traj, 
-      driveSubsystem::getPose, 
-      new RamseteController(kRamseteB, kRamseteZeta), 
-      kinematics_thing, 
-      driveSubsystem::TankDriveVelocity, 
-      driveSubsystem);
+    super(traj, driveSubsystem::getPose, new RamseteController(kRamseteB, kRamseteZeta), kinematics_thing,
+        driveSubsystem::TankDriveVelocity, driveSubsystem);
   }
+
   @Override
   public void end(boolean interrupted) {
-    // TODO Auto-generated method stub
     super.end(interrupted);
-    driveSubsystem.drive(0,0);
+    driveSubsystem.drive(0, 0);
   }
 }

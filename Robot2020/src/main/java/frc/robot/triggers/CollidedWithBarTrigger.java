@@ -13,11 +13,13 @@ import static frc.robot.RobotContainer.*;
 /**
  * Add your docs here.
  */
-public class CollidedWithBarTrigger extends Trigger{
+public class CollidedWithBarTrigger extends Trigger {
     // TODO: make sure the deploy is stowed before climbing
     private final int compressionThreshold = 0;
+
     @Override
     public boolean get() {
-        return !climberSubsystem.isGoingToSetPoint && Math.abs(climberSubsystem.getDeployError()) >= compressionThreshold;
+        return !climberSubsystem.isGoingToSetPoint
+                && Math.abs(climberSubsystem.getDeployError()) >= compressionThreshold;
     }
 }

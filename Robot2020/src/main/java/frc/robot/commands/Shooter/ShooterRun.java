@@ -42,10 +42,10 @@ public class ShooterRun extends CommandBase {
   }
 
   @Override
-  public boolean isFinished(){
-    if(t.get()>1 && operate.getXButton()){
+  public boolean isFinished() {
+    if (t.get() > 1 && operate.getXButton()) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }

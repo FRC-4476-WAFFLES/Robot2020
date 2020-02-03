@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -21,11 +20,10 @@ public class ClimberSubsystem extends SubsystemBase {
   private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
   private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
   private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
-  // private DoubleSolenoid climberLock = new DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
+  // private DoubleSolenoid climberLock = new
+  // DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
   // TODO: make sure the setpoints are correct
-  private static final int[] deploySetpoints = new int[] {
-    0, 0, 0, 0
-  };
+  private static final int[] deploySetpoints = new int[] { 0, 0, 0, 0 };
   public boolean isGoingToSetPoint = true;
   private boolean isClimbLocked = false;
 
@@ -51,7 +49,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void setDeploySetpoint(int change) {
     currentDeploySetpoint += change;
 
-    if(currentDeploySetpoint < 0) {
+    if (currentDeploySetpoint < 0) {
       currentDeploySetpoint = 0;
     } else if (currentDeploySetpoint >= deploySetpoints.length) {
       currentDeploySetpoint = deploySetpoints.length - 1;
@@ -63,7 +61,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void changeDeployWinchSetpoint(int change) {
     currentDeploySetpoint += change;
 
-    if(currentDeploySetpoint < 0) {
+    if (currentDeploySetpoint < 0) {
       currentDeploySetpoint = 0;
     } else if (currentDeploySetpoint >= deploySetpoints.length) {
       currentDeploySetpoint = deploySetpoints.length - 1;

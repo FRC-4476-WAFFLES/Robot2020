@@ -13,14 +13,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.ColorSensorV3;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ColourWheelThingySubsystem extends SubsystemBase {
   private final TalonSRX colourWheelMotor = new TalonSRX(Constants.COLOUR_WHEEL_MANIPULATOR);
-  // private final DoubleSolenoid deployWheel = new DoubleSolenoid(Constants.COLOUR_WHEEL_DEPLOY,
-      // Constants.COLOUR_WHEEL_RECALL);
+  // private final DoubleSolenoid deployWheel = new
+  // DoubleSolenoid(Constants.COLOUR_WHEEL_DEPLOY,
+  // Constants.COLOUR_WHEEL_RECALL);
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   public boolean deploymentState = false;
@@ -73,5 +73,4 @@ public class ColourWheelThingySubsystem extends SubsystemBase {
 
     return hue < 0 ? 360 + hue : hue;
   }
-
 }

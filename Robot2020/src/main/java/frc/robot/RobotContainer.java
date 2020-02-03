@@ -132,7 +132,6 @@ public class RobotContainer {
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
 
     left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAim());
-    
   }
 
   /**

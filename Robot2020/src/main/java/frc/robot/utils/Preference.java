@@ -8,23 +8,24 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * that the preferences are set to the default value if they are not set.
  */
 public class Preference {
-    public static double getDouble(String key, double defaultValue) {
-        Preferences preferences = Preferences.getInstance();
+  public static double getDouble(String key, double defaultValue) {
+    Preferences preferences = Preferences.getInstance();
 
-        if(!preferences.containsKey(key)) {
-            preferences.putDouble(key, defaultValue);
-        }
-
-        return preferences.getDouble(key, defaultValue);
+    if (!preferences.containsKey(key)) {
+      preferences.putDouble(key, defaultValue);
     }
-    
-  public static void UpdateSRXPIDPreferences(String name, TalonSRX talon, double kP, double kI, double kD){
+
+    return preferences.getDouble(key, defaultValue);
+  }
+
+  public static void UpdateSRXPIDPreferences(String name, TalonSRX talon, double kP, double kI, double kD) {
     talon.config_kP(0, getDouble(name + " P", kP), 0);
     talon.config_kI(0, getDouble(name + " I", kI), 0);
     talon.config_kD(0, getDouble(name + " D", kD), 0);
-    
+
   }
-  public static void UpdateSRXPIDPreferences(String name, TalonSRX talon, double kP, double kI, double kD, double kF){
+
+  public static void UpdateSRXPIDPreferences(String name, TalonSRX talon, double kP, double kI, double kD, double kF) {
     UpdateSRXPIDPreferences(name, talon, kP, kI, kD);
     talon.config_kF(0, getDouble(name + " F", kF), 0);
   }

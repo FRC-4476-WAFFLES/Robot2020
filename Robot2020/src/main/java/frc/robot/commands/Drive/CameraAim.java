@@ -13,9 +13,10 @@ import frc.robot.subsystems.Camera;
 import static frc.robot.RobotContainer.*;
 
 public class CameraAim extends CommandBase {
-  //TODO: make this a real threshold
+  // TODO: make this a real threshold
   final static double closeFarsplit = 0;
   double angle = 0;
+
   /**
    * Creates a new CameraAim.
    */
@@ -32,33 +33,33 @@ public class CameraAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    switch(vision.getActivePipeline()){
-      case Search:
-        if(vision.getHasTarget()){
-          if(vision.getArea()>closeFarsplit){
-            vision.setPipeline(Camera.Pipeline.Close);
-          }else{
-            vision.setPipeline(Camera.Pipeline.Far);
-          }
-          driveSubsystem.aimTowards(vision.getHorizontal());
+    switch (vision.getActivePipeline()) {
+    case Search:
+      if (vision.getHasTarget()) {
+        if (vision.getArea() > closeFarsplit) {
+          vision.setPipeline(Camera.Pipeline.Close);
+        } else {
+          vision.setPipeline(Camera.Pipeline.Far);
         }
-        break;
+        driveSubsystem.aimTowards(vision.getHorizontal());
+      }
+      break;
 
-      case Close:
-        if(vision.getHasTarget()){
-          driveSubsystem.aimTowards(vision.getHorizontal());
-        }else{
-          vision.setPipeline(Camera.Pipeline.Search);
-        }
-        break;
+    case Close:
+      if (vision.getHasTarget()) {
+        driveSubsystem.aimTowards(vision.getHorizontal());
+      } else {
+        vision.setPipeline(Camera.Pipeline.Search);
+      }
+      break;
 
-      case Far:
-        if(vision.getHasTarget()){
-          driveSubsystem.aimTowards(vision.getHorizontal());
-        }else{
-          vision.setPipeline(Camera.Pipeline.Search);
-        }
-        break;
+    case Far:
+      if (vision.getHasTarget()) {
+        driveSubsystem.aimTowards(vision.getHorizontal());
+      } else {
+        vision.setPipeline(Camera.Pipeline.Search);
+      }
+      break;
     }
   }
 

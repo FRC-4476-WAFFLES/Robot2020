@@ -24,7 +24,8 @@ public class OperatorTankDrive extends CommandBase {
   @Override
   public void execute() {
     driveSubsystem.drive(leftJoystick.getY(), rightJoystick.getY());
-    if(leftJoystick.getRawButton(3) && rightJoystick.getRawButton(3) && (operate.getStickButtonPressed(Hand.kLeft) || operate.getStickButtonPressed(Hand.kRight))){
+    if (leftJoystick.getRawButton(3) && rightJoystick.getRawButton(3)
+        && (operate.getStickButtonPressed(Hand.kLeft) || operate.getStickButtonPressed(Hand.kRight))) {
       driveSubsystem.hyperspeed_happyface_ = !driveSubsystem.hyperspeed_happyface_;
     }
   }

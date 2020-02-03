@@ -109,8 +109,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean canShoot() {
-    return shooterMaster.getClosedLoopError() < ACCEPTABLE_VELOCITY_ERROR &&
-      Math.abs(shooterMaster.getSelectedSensorVelocity()) > 1000;
+    return shooterMaster.getClosedLoopError() < ACCEPTABLE_VELOCITY_ERROR
+        && Math.abs(shooterMaster.getSelectedSensorVelocity()) > 1000;
   }
 
   public void feed(boolean feeding) {
