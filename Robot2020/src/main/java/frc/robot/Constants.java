@@ -24,14 +24,6 @@ import edu.wpi.first.wpilibj.util.Units;
  */
 public final class Constants {
     // pwm
-    public static final int DRIVE_LEFT_1 = 0; // SRX
-    public static final int DRIVE_LEFT_2 = 1; // SPX
-    public static final int DRIVE_LEFT_3 = 2; // SPX
-    // public static int INTAKE_MOTOR = 3;
-
-    public static final int DRIVE_RIGHT_1 = 7; // SRX
-    public static final int DRIVE_RIGHT_2 = 8; // SPX
-    public static final int DRIVE_RIGHT_3 = 9; // SPX
 
     // solenoids
     public static final int INTAKE_EXTEND = 0;
@@ -44,17 +36,21 @@ public final class Constants {
     public static final int HOOD_RETRACT = 7;
 
     // canbus
-    public static final int CLIMBER_DEPLOY = 0; // SRX
-    public static final int CLIMBER_LEFT_WINCH = 0; // SRX
-    public static final int CLIMBER_RIGHT_WINCH = 0; // SRX
-    public static final int SHOOTER_MASTER = 1; // SRX
-    public static final int SHOOTER_FOLLOWER = 0; // SPX
-    public static final int SHOOTER_FEEDER_1 = 0; // SPX
+    public static final int DRIVE_LEFT_1 = 0; // FX
+    public static final int DRIVE_LEFT_2 = 1; // FX
+    public static final int DRIVE_RIGHT_1 = 2; // FX
+    public static final int DRIVE_RIGHT_2 = 3; // FX
+    public static final int CLIMBER_DEPLOY = 4; // SRX
+    public static final int CLIMBER_LEFT_WINCH = 5; // SRX
+    public static final int CLIMBER_RIGHT_WINCH = 6; // SRX
+    public static final int SHOOTER_MASTER = 7; // SRX
+    public static final int SHOOTER_FOLLOWER = 8; // SPX
+    public static final int SHOOTER_FEEDER_1 = 9; // SPX
     // public static final int SHOOTER_FEEDER_N = 0; // SPX
-    public static final int INTAKE_ROLLER = 0; // SPX
-    public static final int INDEXER = 0; // SPX
-    public static final int CONVEYOR = 0; // SPX
-    public static final int COLOUR_WHEEL_MANIPULATOR = 0; // SRX
+    public static final int INTAKE_ROLLER = 10; // SPX
+    public static final int INDEXER = 11; // SPX
+    public static final int CONVEYOR = 12; // SPX
+    public static final int COLOUR_WHEEL_MANIPULATOR = 13; // SRX
     public static final int PCM = 0;// PCM
 
     // otherContsants
