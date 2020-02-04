@@ -1,0 +1,91 @@
+!!com.snobot.simulator.config.v1.SimulatorConfigV1
+mAccelerometers: []
+mAnalogIn:
+- mHandle: 0
+  mName: Analog In 0
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiAnalogInWrapper
+mAnalogOut: []
+mDefaultI2CWrappers: {}
+mDefaultSpiWrappers: {}
+mDigitalIO:
+- mHandle: 18
+  mName: Digital IO 18
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
+mEncoders:
+- mConnectedSpeedControllerHandle: 100
+  mHandle: 100
+  mName: CAN Encoder (0)
+  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
+- mConnectedSpeedControllerHandle: 102
+  mHandle: 102
+  mName: CAN Encoder (2)
+  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
+- mConnectedSpeedControllerHandle: 107
+  mHandle: 107
+  mName: CAN Encoder (7)
+  mType: com.snobot.simulator.simulator_components.smart_sc.SmartScEncoder
+mGyros: []
+mPwm:
+- mHandle: 100
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 0
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 101
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 1
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 102
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 2
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 103
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 3
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 104
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 4
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 105
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 5
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 106
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 6
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 107
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 7
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 108
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 8
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 109
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 9
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 110
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 10
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 111
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: CTRE SC 11
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+mRelays: []
+mSimulatorComponents: []
+mSolenoids: []
