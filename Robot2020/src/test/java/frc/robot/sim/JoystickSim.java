@@ -11,6 +11,7 @@ public class JoystickSim {
 
     public JoystickSim(int aJoystick) {
         this.aJoystick = aJoystick;
+        update();
     }
 
     public void setAxis(int axis, float value) {
@@ -24,6 +25,8 @@ public class JoystickSim {
     }
 
     public void setButton(int button, boolean pressed) {
+        button -= 1; // Buttons are 1-indexed, but the bitstring is zero-indexed.
+
         if(pressed) {
             aButtonMask |= 1 << button;
         } else {

@@ -27,10 +27,17 @@ public class WafflesSimulator extends ASimulator
     }
 
     /**
-     * Returns the output voltage of the given talon/victor
+     * Returns the output percentage of the given talon/victor
      */
     public double getTalonOutput(int aPort) {
         return DataAccessorFactory.getInstance().getSpeedControllerAccessor().getVoltagePercentage(aPort + 100);
+    }
+
+    /**
+     * Returns the speed of the given talon/victor
+     */
+    public double getTalonVelocity(int aPort) {
+        return DataAccessorFactory.getInstance().getSpeedControllerAccessor().getVelocity(aPort + 100);
     }
 
     /**
@@ -38,6 +45,14 @@ public class WafflesSimulator extends ASimulator
      */
     public JoystickSim getJoystick(int aJoystick) {
         return joysticks[aJoystick];
+    }
+
+    /**
+     * Enables the robot in teleoperated mode
+     */
+    public void enableTeleop() {
+        DataAccessorFactory.getInstance().getDriverStationAccessor().setDisabled(false);
+        DataAccessorFactory.getInstance().getDriverStationAccessor().setAutonomous(false);
     }
     
     @Override

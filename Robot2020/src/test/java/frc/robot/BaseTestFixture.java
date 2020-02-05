@@ -10,20 +10,23 @@ public class BaseTestFixture
 {
     private static boolean INITIALIZED;
 
-    protected Robot mRobot;
-    protected WafflesSimulator mSimulator;
+    protected static Robot mRobot;
+    protected static WafflesSimulator mSimulator;
 
     protected BaseTestFixture()
     {
-        setupSimulator();
+        if(!INITIALIZED) {
+            setupSimulator();
+            
+            mSimulator = new WafflesSimulator();
+            mSimulator.loadConfig("simulator_config/simulator_config.yml");
 
-        mSimulator = new WafflesSimulator();
-        mSimulator.loadConfig("simulator_config/simulator_config.yml");
+            mRobot = new Robot();
+            mRobot.robotInit();
 
-        mRobot = new Robot();
-        mRobot.robotInit();
-
-        mSimulator.setRobot(mRobot);
+            mSimulator.setRobot(mRobot);
+            mSimulator.enableTeleop();
+        }
     }
 
     private void setupSimulator()
@@ -58,10 +61,23 @@ public class BaseTestFixture
         for (int i = 0; i < updateFrequency * aSeconds; ++i)
         {
             aTask.run();
+            DataAccessorFactory.getInstance().getDriverStationAccessor().waitForNextUpdateLoop(aUpdatePeriod);
             mSimulator.update();
             mRobot.robotPeriodic();
             mRobot.teleopPeriodic();
             DataAccessorFactory.getInstance().getSimulatorDataAccessor().updateSimulatorComponents(aUpdatePeriod);
         }
+    }
+
+    protected boolean approxZero(double a) {
+        return approxEq(a, 0);
+    }
+
+    protected boolean approxEq(double a, double b) {
+        return approxEq(a, b, 0.01);
+    }
+
+    protected boolean approxEq(double a, double b, double tolerence) {
+        return Math.abs(a - b) < tolerence;
     }
 }
