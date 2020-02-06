@@ -642,6 +642,17 @@
               "_source0": "network_table:///SmartDashboard/Shooter/Speed (rpm)",
               "_title": "Shooter/Speed (rpm)"
             }
+          },
+          "16,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/runningCommands",
+              "_title": "runningCommands"
+            }
           }
         }
       }
@@ -1026,6 +1037,17 @@
               "_source0": "network_table:///LiveWindow/Ungrouped/Scheduler",
               "_title": "LiveWindow/Ungrouped/Scheduler"
             }
+          },
+          "11,7": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///LiveWindow/ClimberSubsystem",
+              "_title": "ClimberSubsystem"
+            }
           }
         }
       }
@@ -1322,7 +1344,7 @@
               "_title": "/SmartDashboard/PDP/Tot Current"
             }
           },
-          "1,4": {
+          "0,4": {
             "size": [
               18,
               3
@@ -1354,6 +1376,17 @@
             "size": [
               2,
               1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PDP/shooter Current",
+              "_title": "/SmartDashboard/PDP/shooter Current"
+            }
+          },
+          "7,7": {
+            "size": [
+              6,
+              2
             ],
             "content": {
               "_type": "Text View",
