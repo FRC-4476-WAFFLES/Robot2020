@@ -40,6 +40,8 @@ public final class Constants {
     public static final int CLIMBER_UNLOCK = 3;
     public static final int COLOUR_WHEEL_DEPLOY = 4;
     public static final int COLOUR_WHEEL_RECALL = 5;
+    public static final int HOOD_EXTEND = 6;
+    public static final int HOOD_RETRACT = 7;
 
     // canbus
     public static final int CLIMBER_DEPLOY = 0; // SRX
@@ -50,6 +52,8 @@ public final class Constants {
     public static final int SHOOTER_FEEDER_1 = 0; // SPX
     // public static final int SHOOTER_FEEDER_N = 0; // SPX
     public static final int INTAKE_ROLLER = 0; // SPX
+    public static final int INDEXER = 0; // SPX
+    public static final int CONVEYOR = 0; // SPX
     public static final int COLOUR_WHEEL_MANIPULATOR = 0; // SRX
     public static final int PCM = 0;// PCM
 

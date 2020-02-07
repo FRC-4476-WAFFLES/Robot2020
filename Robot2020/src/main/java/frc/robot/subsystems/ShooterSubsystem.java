@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,6 +28,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
   private final VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
   private final VictorSPX shooterFeeder = new VictorSPX(Constants.SHOOTER_FEEDER_1);
+  private final DoubleSolenoid hood = new DoubleSolenoid(Constants.HOOD_EXTEND,Constants.HOOD_RETRACT);
+
   public boolean shouldIntake = false;
 
   private final int ACCEPTABLE_VELOCITY_ERROR = 10;
@@ -122,4 +126,10 @@ public class ShooterSubsystem extends SubsystemBase {
       shouldIntake = false;
     }
   }
+
+  public void moveHood(Boolean up){
+    hood.set(up ? Value.kForward : Value.kReverse);
+    
+  }
+
 }
