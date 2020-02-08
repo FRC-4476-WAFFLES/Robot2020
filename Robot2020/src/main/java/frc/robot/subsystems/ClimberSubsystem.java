@@ -13,13 +13,24 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import frc.robot.utils.Preference;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 
 public class ClimberSubsystem extends SubsystemBase {
   //////////////////////////////////////// encoders need to be more positive as
   //////////////////////////////////////// they extend
   private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
-  private TalonSRX climberWinchRight = new TalonSRX(Constants.CLIMBER_RIGHT_WINCH);
-  private TalonSRX climberWinchLeft = new TalonSRX(Constants.CLIMBER_LEFT_WINCH);
+  private CANSparkMax climberWinchRight = new CANSparkMax(Constants.CLIMBER_RIGHT_WINCH, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private CANSparkMax climberWinchLeft = new CANSparkMax(Constants.CLIMBER_LEFT_WINCH, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private CANEncoder climberWinchEncoderLeft = climberWinchLeft.getEncoder();
+  private CANEncoder climberWinchEncoderRight = climberWinchRight.getEncoder();
+  // work in rotations
+  private CANPIDController climberWinchPIDLeft = climberWinchLeft.getPIDController();
+  private CANPIDController climberWinchPIDRight = climberWinchRight.getPIDController();
+
   // private DoubleSolenoid climberLock = new
   // DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
   // TODO: make sure the setpoints are correct
@@ -37,8 +48,8 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public ClimberSubsystem() {
     climberDeploy.setSelectedSensorPosition(0);
-    climberWinchLeft.setSelectedSensorPosition(0);
-    climberWinchRight.setSelectedSensorPosition(0);
+    climberWinchEncoderLeft.setPosition(0);
+    climberWinchEncoderRight.setPosition(0);
   }
 
   @Override
@@ -75,19 +86,19 @@ public class ClimberSubsystem extends SubsystemBase {
   public void setDeployWinchSetpoint(double point) {
     climberDeploy.set(ControlMode.Position, point);
 
-    // TODO: make this relationship a real one
+    // TODO: make this relationship a real one, remembering that neos work in rotations
     double deployWinchLinearRelation = point;
 
-    climberWinchLeft.set(ControlMode.Position, deployWinchLinearRelation);
-    climberWinchRight.set(ControlMode.Position, deployWinchLinearRelation);
+    climberWinchPIDLeft.setReference(deployWinchLinearRelation, ControlType.kPosition);
+    climberWinchPIDRight.setReference(deployWinchLinearRelation, ControlType.kPosition);
   }
 
-  public void setLeftWinchSetpoint(float point) {
-    climberWinchLeft.set(ControlMode.Position, point);
+  public void setLeftWinchSetpoint(double point) {
+    climberWinchPIDLeft.setReference(point, ControlType.kPosition);
   }
 
-  public void setRightWinchSetpoint(float point) {
-    climberWinchRight.set(ControlMode.Position, point);
+  public void setRightWinchSetpoint(double point) {
+    climberWinchPIDRight.setReference(point, ControlType.kPosition);
   }
 
   public void ToggleWinchLock() {
@@ -112,23 +123,25 @@ public class ClimberSubsystem extends SubsystemBase {
     return climberDeploy.getSelectedSensorPosition();
   }
 
-  public int getLeftWinchPosition() {
-    return climberWinchLeft.getSelectedSensorPosition();
+  public double getLeftWinchPosition() {
+    //returns the rotations of the left winch
+    return climberWinchEncoderLeft.getPosition();
   }
 
-  public int getRigthWinchPosition() {
-    return climberWinchRight.getSelectedSensorPosition();
+  public double getRigthWinchPosition() {
+    // returns the rotations of the right winch
+    return climberWinchEncoderRight.getPosition();
   }
 
-  public int getAvgWinchPositions() {
-    float avg = (getLeftWinchPosition() + getRigthWinchPosition()) / 2;
-    return (int) avg;
+  public double getAvgWinchPositions() {
+    double avg = (getLeftWinchPosition() + getRigthWinchPosition()) / 2;
+    return avg;
   }
 
   private void updateClimberPIDs() {
     Preference.UpdateSRXPIDPreferences("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     // TODO: make sure these motors dont need spearate PIDs
-    Preference.UpdateSRXPIDPreferences("climberWinch", climberWinchLeft, 0.0, 0.0, 0.0);
-    Preference.UpdateSRXPIDPreferences("climberWinch", climberWinchRight, 0.0, 0.0, 0.0);
+    Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
+    Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
   }
 }

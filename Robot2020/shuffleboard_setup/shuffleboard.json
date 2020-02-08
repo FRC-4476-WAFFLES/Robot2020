@@ -653,6 +653,17 @@
               "_source0": "network_table:///SmartDashboard/runningCommands",
               "_title": "runningCommands"
             }
+          },
+          "18,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/NEO encoder",
+              "_title": "NEO encoder"
+            }
           }
         }
       }
@@ -1206,6 +1217,17 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Drive/trackingError",
               "_title": "/SmartDashboard/Drive/trackingError"
+            }
+          },
+          "13,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/NEO encoder",
+              "_title": "SmartDashboard/NEO encoder"
             }
           }
         }

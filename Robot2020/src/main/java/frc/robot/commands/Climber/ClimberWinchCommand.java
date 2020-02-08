@@ -13,8 +13,8 @@ import static frc.robot.RobotContainer.*;
 public class ClimberWinchCommand extends CommandBase {
   // TODO: get the encoder difference that is on the edge of legal.
   private static final int maxEncDiff_angle = 0;
-  private int currentLeftPos;
-  private int currentRightPos;
+  private double currentLeftPos;
+  private double currentRightPos;
   private boolean waitingBtnRelease = false;
 
   /**

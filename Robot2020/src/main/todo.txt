@@ -1,9 +1,5 @@
 Climber > Shooter
 
-Climber deploy is on a TalonSRX.
-
-Winch is on a SparkMax.
-
 Default state:
     - Default intake position is in.
     - Hood is down by default.

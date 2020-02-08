@@ -2,6 +2,8 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Preferences;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
 
 /**
  * An alternative to the default preferences manager. The main difference is
@@ -28,5 +30,16 @@ public class Preference {
   public static void UpdateSRXPIDPreferences(String name, TalonSRX talon, double kP, double kI, double kD, double kF) {
     UpdateSRXPIDPreferences(name, talon, kP, kI, kD);
     talon.config_kF(0, getDouble(name + " F", kF), 0);
+  }
+
+  public static void UpdateNEOPIDPreferences(String name, CANPIDController pid, double kP, double kI, double kD) {
+    pid.setP(getDouble(name + " P", kP), 0);
+    pid.setI(getDouble(name + " I", kI), 0);
+    pid.setD(getDouble(name + " D", kD), 0);
+  }
+
+  public static void UpdateNEOPIDPreferences(String name, CANPIDController pid, double kP, double kI, double kD, double kF) {
+    UpdateNEOPIDPreferences(name, pid, kP, kI, kD);
+    pid.setFF(getDouble(name + " F", kF), 0);
   }
 }
