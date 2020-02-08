@@ -15,7 +15,9 @@ import static frc.robot.RobotContainer.*;
 public class CameraAim extends CommandBase {
   // TODO: make this a real threshold
   final static double closeFarsplit = 0;
-  double angle = 0;
+  final static double amgle = 1;
+
+  boolean aimed = false;
 
   /**
    * Creates a new CameraAim.
@@ -28,6 +30,7 @@ public class CameraAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    aimed = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,10 +41,10 @@ public class CameraAim extends CommandBase {
       if (vision.getHasTarget()) {
         if (vision.getArea() > closeFarsplit) {
           vision.setPipeline(Camera.Pipeline.Close);
-          shooterSubsystem.moveHood(true );
+          shooterSubsystem.moveHood(true);
         } else {
           vision.setPipeline(Camera.Pipeline.Far);
-          shooterSubsystem.moveHood(false );
+          shooterSubsystem.moveHood(false);
         }
         driveSubsystem.aimTowards(vision.getHorizontal());
       }
@@ -63,6 +66,7 @@ public class CameraAim extends CommandBase {
       }
       break;
     }
+    aimed = vision.getHasTarget() && Math.abs(vision.getHorizontal()) < amgle;
   }
 
   // Called once the command ends or is interrupted.
@@ -74,6 +78,8 @@ public class CameraAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+
+    return aimed;
+
   }
 }
