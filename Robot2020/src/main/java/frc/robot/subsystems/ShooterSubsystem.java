@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -31,9 +29,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax shooterMaster = new CANSparkMax(Constants.SHOOTER_MASTER, MotorType.kBrushless);
   private final CANSparkMax shooterFollower = new CANSparkMax(Constants.SHOOTER_FOLLOWER, MotorType.kBrushless);
   private final VictorSPX shooterFeeder = new VictorSPX(Constants.SHOOTER_FEEDER_1);
-  private final DoubleSolenoid hood = new DoubleSolenoid(Constants.HOOD_EXTEND,Constants.HOOD_RETRACT);
+  private final DoubleSolenoid hood = new DoubleSolenoid(Constants.HOOD_EXTEND, Constants.HOOD_RETRACT);
 
   public boolean shouldIntake = false;
+  private double targetRpm = 0;
 
   private final int ACCEPTABLE_VELOCITY_ERROR = 10;
 
@@ -89,18 +88,19 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Set the motor setpoint
     shooterMaster.getPIDController().setReference(rpm, ControlType.kVelocity);
+    targetRpm = rpm;
   }
 
   /**
    * Stop the shooter wheel from spinning.
    */
   public void stop() {
-    shooterMaster.set(ControlMode.Disabled, 0.0);
+    shooterMaster.set(0);
   }
 
   public boolean canShoot() {
-    return shooterMaster.getClosedLoopError() < ACCEPTABLE_VELOCITY_ERROR
-        && Math.abs(shooterMaster.getSelectedSensorVelocity()) > 1000;
+    return Math.abs(shooterMaster.getEncoder().getVelocity() - targetRpm) < ACCEPTABLE_VELOCITY_ERROR
+        && Math.abs(shooterMaster.getEncoder().getVelocity()) > 1000;
   }
 
   public void feed(boolean feeding) {
@@ -113,9 +113,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
   }
 
-  public void moveHood(Boolean up){
+  public void moveHood(Boolean up) {
     hood.set(up ? Value.kForward : Value.kReverse);
-    
   }
 
 }
