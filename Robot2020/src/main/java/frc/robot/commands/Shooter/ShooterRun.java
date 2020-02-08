@@ -40,13 +40,4 @@ public class ShooterRun extends CommandBase {
     shooterSubsystem.stop();
     t.stop();
   }
-
-  @Override
-  public boolean isFinished() {
-    if (t.get() > 1 && operate.getXButton()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

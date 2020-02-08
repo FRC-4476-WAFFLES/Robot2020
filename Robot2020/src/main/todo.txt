@@ -1,0 +1,27 @@
+Climber > Shooter
+
+Climber deploy is on a TalonSRX.
+
+Winch is on a SparkMax.
+
+Default state:
+    - Default intake position is in.
+    - Hood is down by default.
+    - Climber lock ratchet engaged by default, only disengaging when climbing.
+
+Interferences:
+    - Climber deploy interferes with intake.
+        - Beginning of match:
+            - Intake out
+            - Climber down (zero ?)
+        - Start deploy:
+            - Intake out
+            - Climber up
+        - Undeploy
+            - Intake out
+            - Climber down
+    - Climber lock must be on while shooting and intaking.
+
+Shooter has a speedup motor on a talon/victor. Run back while intaking.
+
+Proximity sensors for intake and indexer.

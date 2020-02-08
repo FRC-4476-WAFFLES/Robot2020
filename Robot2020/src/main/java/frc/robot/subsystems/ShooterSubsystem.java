@@ -23,10 +23,13 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final TalonSRX shooterMaster = new TalonSRX(Constants.SHOOTER_MASTER);
-  private final VictorSPX shooterFollower = new VictorSPX(Constants.SHOOTER_FOLLOWER);
+  private final CANSparkMax shooterMaster = new CANSparkMax(Constants.SHOOTER_MASTER, MotorType.kBrushless);
+  private final CANSparkMax shooterFollower = new CANSparkMax(Constants.SHOOTER_FOLLOWER, MotorType.kBrushless);
   private final VictorSPX shooterFeeder = new VictorSPX(Constants.SHOOTER_FEEDER_1);
   private final DoubleSolenoid hood = new DoubleSolenoid(Constants.HOOD_EXTEND,Constants.HOOD_RETRACT);
 
@@ -41,25 +44,10 @@ public class ShooterSubsystem extends SubsystemBase {
    * Creates a new ShooterSubsystem.
    */
   public ShooterSubsystem() {
-    // Use default settings
-    shooterFollower.configFactoryDefault();
-    shooterMaster.configFactoryDefault();
+    // Follower follows master (inverted)
+    shooterFollower.follow(shooterMaster, true);
 
-    // Follower follows master
-    shooterFollower.follow(shooterMaster);
-
-    // Use Quad Encoder input
-    shooterMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, Constants.kTimeoutMs);
-    shooterMaster.setSensorPhase(true);
-
-    shooterMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
-    shooterMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
-    shooterMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
-    shooterMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-
-    shooterMaster.configContinuousCurrentLimit(23, 10);
-    shooterMaster.configPeakCurrentLimit(30, 10);
-    shooterMaster.enableCurrentLimit(true);
+    shooterMaster.setSmartCurrentLimit(23);
   }
 
   @Override
@@ -70,14 +58,13 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("PDP/shooter Current", RobotContainer.pdp.getCurrent(12));
 
     // Config the Velocity closed loop gains in slot0
-    shooterMaster.config_kP(0, Preference.getDouble("Shooter/kP", 0.001), Constants.kTimeoutMs);
-    shooterMaster.config_kI(0, Preference.getDouble("Shooter/kI", 0.001), Constants.kTimeoutMs);
-    shooterMaster.config_kD(0, Preference.getDouble("Shooter/kD", 1.0), Constants.kTimeoutMs);
+    var pid = shooterMaster.getPIDController();
+    pid.setP(Preference.getDouble("Shooter/kP", 0.001));
+    pid.setI(Preference.getDouble("Shooter/kI", 0.001));
+    pid.setD(Preference.getDouble("Shooter/kD", 1.0));
 
     // Show motor velocity in RPM on the dashboard
-    final double unitsPer100Ms = shooterMaster.getSelectedSensorVelocity();
-    final double rpm = unitsPer100Ms * Constants.kShooterUnitsPer100MsToRPM;
-    SmartDashboard.putNumber("Shooter/Speed (rpm)", rpm);
+    SmartDashboard.putNumber("Shooter/Speed (rpm)", shooterMaster.getEncoder().getVelocity());
   }
 
   /**
@@ -94,15 +81,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Calculate kF and the raw output value
     final double output = entry.getValue();
-    final double outputSpeed = (entry.getKey() / Constants.kShooterUnitsPer100MsToRPM);
-    final double kF = (output * 1023) / outputSpeed;
+    final double outputSpeed = entry.getKey();
+    final double kF = output / outputSpeed;
 
     // Set the feed-forward
-    shooterMaster.config_kF(0, kF, Constants.kTimeoutMs);
+    shooterMaster.getPIDController().setFF(kF);
 
     // Set the motor setpoint
-    final double unitsPer100Ms = rpm / Constants.kShooterUnitsPer100MsToRPM;
-    shooterMaster.set(ControlMode.Velocity, unitsPer100Ms);
+    shooterMaster.getPIDController().setReference(rpm, ControlType.kVelocity);
   }
 
   /**
