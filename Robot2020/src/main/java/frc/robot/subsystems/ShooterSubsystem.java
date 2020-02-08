@@ -36,8 +36,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final int ACCEPTABLE_VELOCITY_ERROR = 10;
 
-  // A mapping of speeds (in RPM) to output percentages.
-  final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 1.0));
+  // A mapping of speeds (in RPM) to output volatages.
+  final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 12.0));
 
   /**
    * Creates a new ShooterSubsystem.
@@ -60,7 +60,6 @@ public class ShooterSubsystem extends SubsystemBase {
     var pid = shooterMaster.getPIDController();
     pid.setP(Preference.getDouble("Shooter/kP", 0.001));
     pid.setI(Preference.getDouble("Shooter/kI", 0.001));
-    pid.setD(Preference.getDouble("Shooter/kD", 1.0));
 
     // Show motor velocity in RPM on the dashboard
     SmartDashboard.putNumber("Shooter/Speed (rpm)", shooterMaster.getEncoder().getVelocity());
@@ -78,16 +77,11 @@ public class ShooterSubsystem extends SubsystemBase {
       entry = feed_forwards.lastEntry();
     }
 
-    // Calculate kF and the raw output value
+    // Calculate the raw voltage output that will be closest to the speed.
     final double output = entry.getValue();
-    final double outputSpeed = entry.getKey();
-    final double kF = output / outputSpeed;
 
-    // Set the feed-forward
-    shooterMaster.getPIDController().setFF(kF);
-
-    // Set the motor setpoint
-    shooterMaster.getPIDController().setReference(rpm, ControlType.kVelocity);
+    // Set the motor setpoint and feed-forward
+    shooterMaster.getPIDController().setReference(rpm, ControlType.kVelocity, 0, output);
     targetRpm = rpm;
   }
 
@@ -95,6 +89,8 @@ public class ShooterSubsystem extends SubsystemBase {
    * Stop the shooter wheel from spinning.
    */
   public void stop() {
+    // Set output to zero.
+    shooterMaster.getPIDController().setReference(0, ControlType.kVelocity, 0, 0);
     shooterMaster.set(0);
   }
 
