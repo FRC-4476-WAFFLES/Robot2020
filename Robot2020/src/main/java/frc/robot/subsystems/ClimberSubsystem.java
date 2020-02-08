@@ -29,6 +29,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private int currentDeploySetpoint = 0;
 
+  // TODO: make sure the deploy is stowed before climbing
+  public static final int deployStowedThreshold = 0;
+
   /**
    * Creates a new ClimberSubsystem.
    */

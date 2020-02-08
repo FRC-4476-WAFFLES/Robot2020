@@ -5,34 +5,51 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Climber;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
 import static frc.robot.RobotContainer.*;
+import edu.wpi.first.wpilibj.Timer;
 
-public class ClimberUndeploy extends CommandBase {
-
+public class StartingConfig extends CommandBase {
+  Timer t = new Timer();
   /**
-   * Creates a new ClimberUndeploy.
+   * Creates a new StartingConfig.
    */
-  public ClimberUndeploy() {
+  public StartingConfig() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climberSubsystem);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climberSubsystem.setDeploySetpoint(-1000);
+    intakeSubsystem.extend();
+    t.reset();
+    t.start();
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    //TODO: make sure this time doesn't break stuff
+    if(t.get()>0.2){
+      climberSubsystem.changeDeployWinchSetpoint(-1);
+    }
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (operate.getRawButton(1) && climberSubsystem.getDeployError() > ClimberSubsystem.deployStowedThreshold) {
+    if(t.get()>0.2 && climberSubsystem.getDeployError()<ClimberSubsystem.deployStowedThreshold){
       return true;
-    } else {
+    }else{
       return false;
     }
   }
