@@ -15,8 +15,8 @@ public class DriveTest extends BaseTestFixture {
         simulateForTime(0.1);
 
         Assertions.assertTrue(
-            approxZero(mSimulator.getTalonOutput(Constants.DRIVE_LEFT_1)) &&
-            approxZero(mSimulator.getTalonOutput(Constants.DRIVE_RIGHT_1)),
+            approxZero(mSimulator.getOutput(Constants.DRIVE_LEFT_1)) &&
+            approxZero(mSimulator.getOutput(Constants.DRIVE_RIGHT_1)),
             "Drive should start stopped");
 
         // Move forward left
@@ -26,8 +26,8 @@ public class DriveTest extends BaseTestFixture {
         simulateForTime(0.1);
 
         Assertions.assertTrue(
-            !approxZero(mSimulator.getTalonOutput(Constants.DRIVE_LEFT_1)) &&
-            approxZero(mSimulator.getTalonOutput(Constants.DRIVE_RIGHT_1)),
+            !approxZero(mSimulator.getOutput(Constants.DRIVE_LEFT_1)) &&
+            approxZero(mSimulator.getOutput(Constants.DRIVE_RIGHT_1)),
             "Left drive should move");
 
         // Move forward right
@@ -37,8 +37,8 @@ public class DriveTest extends BaseTestFixture {
         simulateForTime(0.1);
 
         Assertions.assertTrue(
-            approxZero(mSimulator.getTalonOutput(Constants.DRIVE_LEFT_1)) &&
-            !approxZero(mSimulator.getTalonOutput(Constants.DRIVE_RIGHT_1)),
+            approxZero(mSimulator.getOutput(Constants.DRIVE_LEFT_1)) &&
+            !approxZero(mSimulator.getOutput(Constants.DRIVE_RIGHT_1)),
             "Right drive should move");
 
         // Move forward both
@@ -48,8 +48,8 @@ public class DriveTest extends BaseTestFixture {
         simulateForTime(0.1);
 
         Assertions.assertTrue(
-            !approxZero(mSimulator.getTalonOutput(Constants.DRIVE_LEFT_1)) &&
-            !approxZero(mSimulator.getTalonOutput(Constants.DRIVE_RIGHT_1)),
+            !approxZero(mSimulator.getOutput(Constants.DRIVE_LEFT_1)) &&
+            !approxZero(mSimulator.getOutput(Constants.DRIVE_RIGHT_1)),
             "Both drives should move");
 
         // Move forward left, back right
@@ -59,7 +59,7 @@ public class DriveTest extends BaseTestFixture {
         simulateForTime(0.1);
 
         Assertions.assertTrue(
-            approxZero(mSimulator.getTalonOutput(Constants.DRIVE_LEFT_1) - mSimulator.getTalonOutput(Constants.DRIVE_RIGHT_1)),
+            approxZero(mSimulator.getOutput(Constants.DRIVE_LEFT_1) - mSimulator.getOutput(Constants.DRIVE_RIGHT_1)),
             "Drive should turn");
     }
 }

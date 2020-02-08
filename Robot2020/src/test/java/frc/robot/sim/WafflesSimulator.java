@@ -29,14 +29,14 @@ public class WafflesSimulator extends ASimulator
     /**
      * Returns the output percentage of the given talon/victor
      */
-    public double getTalonOutput(int aPort) {
+    public double getOutput(int aPort) {
         return DataAccessorFactory.getInstance().getSpeedControllerAccessor().getVoltagePercentage(aPort + 100);
     }
 
     /**
      * Returns the speed of the given talon/victor
      */
-    public double getTalonVelocity(int aPort) {
+    public double getVelocity(int aPort) {
         return DataAccessorFactory.getInstance().getSpeedControllerAccessor().getVelocity(aPort + 100);
     }
 

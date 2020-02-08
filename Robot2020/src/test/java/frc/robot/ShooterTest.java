@@ -11,9 +11,9 @@ public class ShooterTest extends BaseTestFixture {
     public void testSpinUpSpinDown() throws Exception {
         // Check that the wheel starts stopped
         mSimulator.getJoystick(2).setButton(XboxButtonMap.X_BUTTON, false);
-        simulateForTime(1.0);
+        simulateForTime(0.2);
         Assertions.assertTrue(
-            approxZero(mSimulator.getTalonVelocity(Constants.SHOOTER_MASTER)),
+            approxZero(mSimulator.getVelocity(Constants.SHOOTER_MASTER)),
             "Shooter motor should start stopped");
 
         for(int i=0; i<3; i++) {
@@ -23,7 +23,7 @@ public class ShooterTest extends BaseTestFixture {
             mSimulator.getJoystick(2).setButton(XboxButtonMap.X_BUTTON, false);
             simulateForTime(0.2);
             Assertions.assertTrue(
-                !approxZero(mSimulator.getTalonVelocity(Constants.SHOOTER_MASTER)),
+                !approxZero(mSimulator.getVelocity(Constants.SHOOTER_MASTER)),
                 "Shooter motor should spin up");
 
             // Check that the wheel stops again
@@ -32,7 +32,7 @@ public class ShooterTest extends BaseTestFixture {
             mSimulator.getJoystick(2).setButton(XboxButtonMap.X_BUTTON, false);
             simulateForTime(0.2);
             Assertions.assertTrue(
-                approxZero(mSimulator.getTalonVelocity(Constants.SHOOTER_MASTER)),
+                approxZero(mSimulator.getVelocity(Constants.SHOOTER_MASTER)),
                 "Shooter motor should spin down");
         }
     }

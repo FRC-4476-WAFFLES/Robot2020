@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.Timer;
 import static frc.robot.RobotContainer.*;
 
 public class ShooterRun extends CommandBase {
-  Timer t = new Timer();
-
   /**
    * Creates a new ShooterRun.
    */
@@ -22,22 +20,15 @@ public class ShooterRun extends CommandBase {
     addRequirements(shooterSubsystem);
   }
 
-  @Override
-  public void initialize() {
-    t.reset();
-    t.start();
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setSpeed(Preference.getDouble("Shooter/PercentOutput", 0.1));
+    shooterSubsystem.setSpeed(Preference.getDouble("Shooter/RPM", 6000));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.stop();
-    t.stop();
   }
 }
