@@ -1415,6 +1415,28 @@
               "_source0": "network_table:///SmartDashboard/PDP/shooter Current",
               "_title": "/SmartDashboard/PDP/shooter Current"
             }
+          },
+          "14,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/NEO encoder",
+              "_title": "/SmartDashboard/NEO encoder"
+            }
+          },
+          "15,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/PowerDistributionPanel[0]/Chan12",
+              "_title": "/LiveWindow/Ungrouped/PowerDistributionPanel[0]/Chan12"
+            }
           }
         }
       }
