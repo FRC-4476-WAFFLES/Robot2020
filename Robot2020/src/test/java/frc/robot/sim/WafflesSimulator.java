@@ -42,6 +42,13 @@ public class WafflesSimulator extends ASimulator
     }
 
     /**
+     * Returns true if the given solenoid is energized
+     */
+    public boolean getSolenoid(int aPort) {
+        return DataAccessorFactory.getInstance().getSolenoidAccessor().get(aPort);
+    }
+
+    /**
      * Returns the joystick bound to the given port
      */
     public JoystickSim getJoystick(int aJoystick) {

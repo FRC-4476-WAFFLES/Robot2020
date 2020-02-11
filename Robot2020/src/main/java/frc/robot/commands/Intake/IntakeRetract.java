@@ -23,6 +23,5 @@ public class IntakeRetract extends InstantCommand {
   @Override
   public void initialize() {
     intakeSubsystem.retract();
-    System.out.println("retract ran");
   }
 }

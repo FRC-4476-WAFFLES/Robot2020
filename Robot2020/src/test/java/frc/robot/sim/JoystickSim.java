@@ -14,8 +14,8 @@ public class JoystickSim {
         update();
     }
 
-    public void setAxis(int axis, float value) {
-        aAxisValues[axis] = value;
+    public void setAxis(int axis, double value) {
+        aAxisValues[axis] = (float) value;
         update();
     }
 
