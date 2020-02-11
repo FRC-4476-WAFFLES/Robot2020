@@ -5,6 +5,7 @@ import com.snobot.simulator.robot_container.IRobotClassContainer;
 import com.snobot.simulator.robot_container.JavaRobotContainer;
 import com.snobot.simulator.wrapper_accessors.DataAccessorFactory;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 
 /**
@@ -54,6 +55,22 @@ public class WafflesSimulator extends ASimulator
         DataAccessorFactory.getInstance().getDriverStationAccessor().setDisabled(false);
         DataAccessorFactory.getInstance().getDriverStationAccessor().setAutonomous(false);
     }
+
+    /**
+     * Disables the robot
+     */
+    public void disable() {
+        DataAccessorFactory.getInstance().getDriverStationAccessor().setDisabled(true);
+    }
+
+    /**
+     * Resets the joysticks.
+     */
+    public void reset() {
+        disable();
+        CommandScheduler.getInstance().cancelAll();
+        joysticks = new JoystickSim[] { new JoystickSim(0), new JoystickSim(1), new JoystickSim(2) };
+    }
     
     @Override
     public void setRobot(IRobotClassContainer aRobot)
@@ -70,5 +87,7 @@ public class WafflesSimulator extends ASimulator
     @Override
     public void update()
     {
+        mRobot.robotPeriodic();
+        mRobot.teleopPeriodic();
     }
 }

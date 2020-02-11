@@ -6,6 +6,8 @@ import com.snobot.simulator.DefaultDataAccessorFactory;
 import com.snobot.simulator.wrapper_accessors.DataAccessorFactory;
 import com.snobot.simulator.wrapper_accessors.SimulatorDataAccessor.SnobotLogLevel;
 
+import org.junit.jupiter.api.BeforeEach;
+
 public class BaseTestFixture
 {
     private static boolean INITIALIZED;
@@ -25,7 +27,6 @@ public class BaseTestFixture
             mRobot.robotInit();
 
             mSimulator.setRobot(mRobot);
-            mSimulator.enableTeleop();
         }
     }
 
@@ -63,10 +64,18 @@ public class BaseTestFixture
             aTask.run();
             DataAccessorFactory.getInstance().getDriverStationAccessor().waitForNextUpdateLoop(aUpdatePeriod);
             mSimulator.update();
-            mRobot.robotPeriodic();
-            mRobot.teleopPeriodic();
             DataAccessorFactory.getInstance().getSimulatorDataAccessor().updateSimulatorComponents(aUpdatePeriod);
         }
+    }
+
+    /**
+     * Disable and enable before each test
+     */
+    @BeforeEach
+    protected void disableAndEnable() {
+        mSimulator.reset();
+        simulateForTime(0.1);
+        mSimulator.enableTeleop();
     }
 
     protected boolean approxZero(double a) {

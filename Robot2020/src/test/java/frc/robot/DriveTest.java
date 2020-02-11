@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 public class DriveTest extends BaseTestFixture {
     @Test
     public void testTeleopDrive() throws Exception {
-        mSimulator.enableTeleop();
-
         // Stop both sides
         mSimulator.getJoystick(0).setAxis(1, 0);
         mSimulator.getJoystick(1).setAxis(1, 0);

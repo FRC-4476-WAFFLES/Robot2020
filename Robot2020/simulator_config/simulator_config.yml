@@ -71,7 +71,7 @@ mPwm:
 - mHandle: 107
   mMotorModelConfig: null
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
-    mMaxSpeed: 10.0
+    mMaxSpeed: 6000.0
   mName: SHOOTER_MASTER
   mType: com.snobot.simulator.simulator_components.rev.RevSpeedControllerSimWrapper
 - mHandle: 108
