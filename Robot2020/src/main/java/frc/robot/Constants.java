@@ -36,21 +36,21 @@ public final class Constants {
     public static final int HOOD_RETRACT = 7;
 
     // canbus
-    public static final int DRIVE_LEFT_1 = 0; // FX
-    public static final int DRIVE_LEFT_2 = 1; // FX
-    public static final int DRIVE_RIGHT_1 = 2; // FX
-    public static final int DRIVE_RIGHT_2 = 3; // FX
-    public static final int CLIMBER_DEPLOY = 4; // SRX
-    public static final int CLIMBER_LEFT_WINCH = 5; // SRX
-    public static final int CLIMBER_RIGHT_WINCH = 6; // SRX
-    public static final int SHOOTER_MASTER = 7; // SRX
-    public static final int SHOOTER_FOLLOWER = 8; // SPX
-    public static final int SHOOTER_FEEDER_1 = 9; // SPX
+    public static final int DRIVE_LEFT_1 = 1; // FX
+    public static final int DRIVE_LEFT_2 = 2; // FX
+    public static final int DRIVE_RIGHT_1 = 3; // FX
+    public static final int DRIVE_RIGHT_2 = 4; // FX
+    public static final int CLIMBER_DEPLOY = 5; // SRX
+    public static final int CLIMBER_LEFT_WINCH = 6; // SRX
+    public static final int CLIMBER_RIGHT_WINCH = 7; // SRX
+    public static final int SHOOTER_MASTER = 8; // SRX
+    public static final int SHOOTER_FOLLOWER = 9; // SPX
+    public static final int SHOOTER_FEEDER_1 = 10; // SPX
     // public static final int SHOOTER_FEEDER_N = 0; // SPX
-    public static final int INTAKE_ROLLER = 10; // SPX
-    public static final int INDEXER = 11; // SPX
-    public static final int CONVEYOR = 12; // SPX
-    public static final int COLOUR_WHEEL_MANIPULATOR = 13; // SRX
+    public static final int INTAKE_ROLLER = 11; // SPX
+    public static final int INDEXER = 12; // SPX
+    public static final int CONVEYOR = 13; // SPX
+    public static final int COLOUR_WHEEL_MANIPULATOR = 14; // SRX
     public static final int PCM = 0;// PCM
 
     // otherContsants
