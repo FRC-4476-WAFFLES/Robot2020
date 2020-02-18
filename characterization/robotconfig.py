@@ -27,7 +27,11 @@
     # Encoder edges-per-revolution (*NOT* cycles per revolution!)
     # This value should be the edges per revolution *of the wheels*, and so
     # should take into account gearing between the encoder and the wheels
-    "encoderEPR": 2048.0 * 1.0, # 2048 is talon fx counts per rev. 1 is gear reduction.
+    
+    # 2048 is ticks per rotation on falcons
+    # Drive gears are 50:14 and 54:20
+    "encoderEPR": 2048.0 * (50.0/14.0) * (54.0/20.0),
+	
 
     # Whether the left encoder is inverted
     "leftEncoderInverted": False,
@@ -47,4 +51,5 @@
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
     "gyroPort": "",
 }
+
 

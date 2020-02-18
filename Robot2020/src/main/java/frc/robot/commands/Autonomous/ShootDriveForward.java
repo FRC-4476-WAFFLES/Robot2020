@@ -32,7 +32,7 @@ public class ShootDriveForward extends SequentialCommandGroup {
   public ShootDriveForward() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new StartingConfig(), new AimAndShoot(),new TrajectoryFollow(traj));
+    super(new StartingConfig(), new AimAndShoot(), new TrajectoryFollow(traj));
     
   }
 }
