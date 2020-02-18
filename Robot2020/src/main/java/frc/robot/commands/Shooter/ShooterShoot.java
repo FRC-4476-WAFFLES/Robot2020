@@ -16,17 +16,25 @@ public class ShooterShoot extends CommandBase {
    */
   public ShooterShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intakeSubsystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     shooterSubsystem.feed(shooterSubsystem.canShoot());
+
+    if(shooterSubsystem.canShoot()) {
+      intakeSubsystem.run();
+    } else {
+      intakeSubsystem.stop();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.feed(false);
+    intakeSubsystem.stop();
   }
 }

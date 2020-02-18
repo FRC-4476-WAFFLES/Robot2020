@@ -59,7 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Config the Velocity closed loop gains in slot0
     var pid = shooterMaster.getPIDController();
     pid.setP(Preference.getDouble("Shooter/kP", 0.001));
-    pid.setI(Preference.getDouble("Shooter/kI", 0.001));
+    pid.setI(Preference.getDouble("Shooter/kI", 0.000));
 
     // Show motor velocity in RPM on the dashboard
     SmartDashboard.putNumber("Shooter/Speed (rpm)", shooterMaster.getEncoder().getVelocity());
@@ -79,9 +79,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Calculate the raw voltage output that will be closest to the speed.
     final double output = entry.getValue();
+    final double estimatedRpm = entry.getKey();
+    final double kF = output / estimatedRpm;
 
     // Set the motor setpoint and feed-forward
-    shooterMaster.getPIDController().setReference(rpm, ControlType.kVelocity, 0, output);
+    shooterMaster.getPIDController().setFF(kF);
+    shooterMaster.getPIDController().setReference(rpm, ControlType.kVelocity);
     targetRpm = rpm;
   }
 
@@ -89,14 +92,22 @@ public class ShooterSubsystem extends SubsystemBase {
    * Stop the shooter wheel from spinning.
    */
   public void stop() {
+    // Workaround for snobotsim bug #147
+    {
+      shooterMaster.getPIDController().setP(0);
+      shooterMaster.getPIDController().setI(0);
+      shooterMaster.getPIDController().setFF(0);
+      shooterMaster.getPIDController().setReference(0, ControlType.kVelocity);
+    }
+
     // Set output to zero.
-    shooterMaster.getPIDController().setReference(0, ControlType.kVelocity, 0, 0);
     shooterMaster.set(0);
+    targetRpm = 0;
   }
 
   public boolean canShoot() {
     return Math.abs(shooterMaster.getEncoder().getVelocity() - targetRpm) < ACCEPTABLE_VELOCITY_ERROR
-        && Math.abs(shooterMaster.getEncoder().getVelocity()) > 1000;
+        && Math.abs(targetRpm) > 1000;
   }
 
   public void feed(boolean feeding) {

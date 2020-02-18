@@ -1,9 +1,10 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Preferences;
+import frc.robot.Robot;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
 
 /**
  * An alternative to the default preferences manager. The main difference is
@@ -35,7 +36,11 @@ public class Preference {
   public static void UpdateNEOPIDPreferences(String name, CANPIDController pid, double kP, double kI, double kD) {
     pid.setP(getDouble(name + " P", kP), 0);
     pid.setI(getDouble(name + " I", kI), 0);
-    pid.setD(getDouble(name + " D", kD), 0);
+
+    // Workaround for error message from SnobotSim
+    if(Robot.isReal()) {
+      pid.setD(getDouble(name + " D", kD), 0);
+    }
   }
 
   public static void UpdateNEOPIDPreferences(String name, CANPIDController pid, double kP, double kI, double kD, double kF) {

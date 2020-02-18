@@ -5,6 +5,7 @@ import com.snobot.simulator.robot_container.IRobotClassContainer;
 import com.snobot.simulator.robot_container.JavaRobotContainer;
 import com.snobot.simulator.wrapper_accessors.DataAccessorFactory;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 
 /**
@@ -41,6 +42,13 @@ public class WafflesSimulator extends ASimulator
     }
 
     /**
+     * Returns true if the given solenoid is energized
+     */
+    public boolean getSolenoid(int aPort) {
+        return DataAccessorFactory.getInstance().getSolenoidAccessor().get(aPort);
+    }
+
+    /**
      * Returns the joystick bound to the given port
      */
     public JoystickSim getJoystick(int aJoystick) {
@@ -53,6 +61,22 @@ public class WafflesSimulator extends ASimulator
     public void enableTeleop() {
         DataAccessorFactory.getInstance().getDriverStationAccessor().setDisabled(false);
         DataAccessorFactory.getInstance().getDriverStationAccessor().setAutonomous(false);
+    }
+
+    /**
+     * Disables the robot
+     */
+    public void disable() {
+        DataAccessorFactory.getInstance().getDriverStationAccessor().setDisabled(true);
+    }
+
+    /**
+     * Resets the joysticks.
+     */
+    public void reset() {
+        disable();
+        CommandScheduler.getInstance().cancelAll();
+        joysticks = new JoystickSim[] { new JoystickSim(0), new JoystickSim(1), new JoystickSim(2) };
     }
     
     @Override
@@ -70,5 +94,7 @@ public class WafflesSimulator extends ASimulator
     @Override
     public void update()
     {
+        mRobot.robotPeriodic();
+        mRobot.teleopPeriodic();
     }
 }

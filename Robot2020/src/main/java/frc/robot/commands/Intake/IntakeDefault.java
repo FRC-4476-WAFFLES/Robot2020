@@ -30,7 +30,7 @@ public class IntakeDefault extends CommandBase {
     if (!shooterSubsystem.shouldIntake) {
       double in = operate.getRawAxis(3);
       double out = operate.getRawAxis(2);
-      intakeSubsystem.run((in * in + out * out) * 1);
+      intakeSubsystem.run((in * in - out * out) * 1);
     } else {
       intakeSubsystem.run();
     }

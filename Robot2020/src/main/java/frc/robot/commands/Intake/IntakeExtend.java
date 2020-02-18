@@ -23,6 +23,5 @@ public class IntakeExtend extends InstantCommand {
   @Override
   public void initialize() {
     intakeSubsystem.extend();
-    System.out.println("extend ran");
   }
 }
