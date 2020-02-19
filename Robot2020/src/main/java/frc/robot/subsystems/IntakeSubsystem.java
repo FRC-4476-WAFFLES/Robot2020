@@ -13,12 +13,13 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem extends SubsystemBase {
    private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
-  private final VictorSPX intakeRoller = new VictorSPX(Constants.INTAKE_ROLLER);
+  private final TalonSRX intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER);
   private final VictorSPX conveyor = new VictorSPX(Constants.CONVEYOR);
-  private final VictorSPX indexer = new VictorSPX(Constants.INDEXER);
+  private final VictorSPX funnel = new VictorSPX(Constants.FUNNEL);
 
   /**
    * Creates a new IntakeSubsystem.
@@ -40,13 +41,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void run(double percent){
     intakeRoller.set(ControlMode.PercentOutput, percent);
-    conveyor.set(ControlMode.PercentOutput, percent);
-    indexer.set(ControlMode.PercentOutput, percent);
+    conveyor.set(ControlMode.PercentOutput, -percent);
+    funnel.set(ControlMode.PercentOutput, -percent);
   }
 
   public void stop() {
     intakeRoller.set(ControlMode.PercentOutput, 0);
     conveyor.set(ControlMode.PercentOutput, 0);
-    indexer.set(ControlMode.PercentOutput, 0);
+    funnel.set(ControlMode.PercentOutput, 0);
   }
 }

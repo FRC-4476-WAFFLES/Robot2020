@@ -43,9 +43,9 @@ public class ShooterTest extends BaseTestFixture {
         simulateForTime(0.1);
         Assertions.assertTrue(
             approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             approxZero(mSimulator.getOutput(Constants.CONVEYOR)) &&
-            approxZero(mSimulator.getOutput(Constants.SHOOTER_FEEDER_1)),
+            approxZero(mSimulator.getOutput(Constants.SHOOTER_PREP)),
             "Should not shoot before the button is pressed");
         mSimulator.getJoystick(2).setButton(XboxButtonMap.Y_BUTTON, false);
 
@@ -58,9 +58,9 @@ public class ShooterTest extends BaseTestFixture {
         // Check that we haven't shot yet.
         Assertions.assertTrue(
             approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             approxZero(mSimulator.getOutput(Constants.CONVEYOR)) &&
-            approxZero(mSimulator.getOutput(Constants.SHOOTER_FEEDER_1)),
+            approxZero(mSimulator.getOutput(Constants.SHOOTER_PREP)),
             "Should not shoot before the button is pressed");
 
         // Check that we can shoot.
@@ -69,9 +69,9 @@ public class ShooterTest extends BaseTestFixture {
 
         Assertions.assertTrue(
             !approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            !approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            !approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             !approxZero(mSimulator.getOutput(Constants.CONVEYOR)) &&
-            !approxZero(mSimulator.getOutput(Constants.SHOOTER_FEEDER_1)),
+            !approxZero(mSimulator.getOutput(Constants.SHOOTER_PREP)),
             "Should run the intake and conveyor when shooting");
 
         // Check that we can stop shooting.
@@ -80,9 +80,9 @@ public class ShooterTest extends BaseTestFixture {
 
         Assertions.assertTrue(
             approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             approxZero(mSimulator.getOutput(Constants.CONVEYOR)) &&
-            approxZero(mSimulator.getOutput(Constants.SHOOTER_FEEDER_1)),
+            approxZero(mSimulator.getOutput(Constants.SHOOTER_PREP)),
             "Should not shoot before the button is pressed");
 
         // Spin down the shooter motor

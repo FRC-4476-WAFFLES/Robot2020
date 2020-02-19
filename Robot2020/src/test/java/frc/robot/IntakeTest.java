@@ -46,7 +46,7 @@ public class IntakeTest extends BaseTestFixture {
     public void testRollers() throws Exception {
         Assertions.assertTrue(
             approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             approxZero(mSimulator.getOutput(Constants.CONVEYOR)),
             "Should not run intake before button is pressed");
 
@@ -56,7 +56,7 @@ public class IntakeTest extends BaseTestFixture {
 
         Assertions.assertTrue(
             !approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            !approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            !approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             !approxZero(mSimulator.getOutput(Constants.CONVEYOR)),
             "Should run intake when button is pressed");
 
@@ -66,7 +66,7 @@ public class IntakeTest extends BaseTestFixture {
 
         Assertions.assertTrue(
             approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             approxZero(mSimulator.getOutput(Constants.CONVEYOR)),
             "Should stop intake after releasing");
 
@@ -76,7 +76,7 @@ public class IntakeTest extends BaseTestFixture {
 
         Assertions.assertTrue(
             !approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            !approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            !approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             !approxZero(mSimulator.getOutput(Constants.CONVEYOR)),
             "Should run intake when button is pressed");
 
@@ -86,7 +86,7 @@ public class IntakeTest extends BaseTestFixture {
 
         Assertions.assertTrue(
             approxZero(mSimulator.getOutput(Constants.INTAKE_ROLLER)) &&
-            approxZero(mSimulator.getOutput(Constants.INDEXER)) &&
+            approxZero(mSimulator.getOutput(Constants.FUNNEL)) &&
             approxZero(mSimulator.getOutput(Constants.CONVEYOR)),
             "Should stop intake after releasing");
     }

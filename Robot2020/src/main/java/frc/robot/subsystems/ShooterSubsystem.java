@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -28,7 +28,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax shooterMaster = new CANSparkMax(Constants.SHOOTER_MASTER, MotorType.kBrushless);
   private final CANSparkMax shooterFollower = new CANSparkMax(Constants.SHOOTER_FOLLOWER, MotorType.kBrushless);
-  private final VictorSPX shooterFeeder = new VictorSPX(Constants.SHOOTER_FEEDER_1);
+  private final TalonSRX shooterFeeder = new TalonSRX(Constants.SHOOTER_PREP);
   private final DoubleSolenoid hood = new DoubleSolenoid(Constants.HOOD_EXTEND, Constants.HOOD_RETRACT);
 
   public boolean shouldIntake = false;
@@ -83,8 +83,8 @@ public class ShooterSubsystem extends SubsystemBase {
     final double kF = output / estimatedRpm;
 
     // Set the motor setpoint and feed-forward
-    shooterMaster.getPIDController().setFF(kF);
-    shooterMaster.getPIDController().setReference(rpm, ControlType.kVelocity);
+    shooterMaster.getPIDController().setFF(-kF);
+    shooterMaster.getPIDController().setReference(-rpm, ControlType.kVelocity);
     targetRpm = rpm;
   }
 
@@ -112,7 +112,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void feed(boolean feeding) {
     if (feeding) {
-      shooterFeeder.set(ControlMode.PercentOutput, 1);
+      shooterFeeder.set(ControlMode.PercentOutput, -1);
       shouldIntake = true;
     } else {
       shooterFeeder.set(ControlMode.PercentOutput, 0);

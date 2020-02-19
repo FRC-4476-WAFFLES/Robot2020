@@ -35,7 +35,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
   //TODO: make sure this pid is tuned
-  PIDController aim = new PIDController(0.1, 0, 0);
+  PIDController aim = new PIDController(0, 0, 0);
 
   /**
    * Creates a new DriveSubsystem.
@@ -69,12 +69,14 @@ public class DriveSubsystem extends SubsystemBase {
     final double length = frontUltrasonic.getValue() * Constants.ulrasonicValueToInches;
     SmartDashboard.putNumber("Drive/ultarsonic value", frontUltrasonic.getValue());
     SmartDashboard.putNumber("Drive/length ultras", length);
+    SmartDashboard.putNumber("Drive/DriveOut", driveLeft1.getMotorOutputPercent());
     // This method will be called once per scheduler run
   }
 
   public void drive(final double left, final double right) {
     driveLeft1.set(ControlMode.PercentOutput, -left);
     driveRight1.set(ControlMode.PercentOutput, right);
+    SmartDashboard.putNumber("Drive/left", left);
     if(hyperspeed_happyface_){
       //remove any drive restrictions, current limiting, etc.
       driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 22, 22, 0.03));
@@ -85,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
       driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 22, 22, 0.03));
       has_disabled_hyperspeed_sadface_ = true;
     }
-    //Odometry
+    // Odometry 
     m_odometry.update(Rotation2d.fromDegrees(getHeading()), driveLeft1.getSelectedSensorPosition()*Constants.DRIVE_ENCODERS_TO_METERS,
     driveRight1.getSelectedSensorPosition()*Constants.DRIVE_ENCODERS_TO_METERS);
   }

@@ -22,9 +22,11 @@ public class ShooterShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.feed(shooterSubsystem.canShoot());
+    // shooterSubsystem.feed(shooterSubsystem.canShoot());
+    shooterSubsystem.feed(true);
 
-    if(shooterSubsystem.canShoot()) {
+    // if(shooterSubsystem.canShoot()) {
+    if(true) {
       intakeSubsystem.run();
     } else {
       intakeSubsystem.stop();
