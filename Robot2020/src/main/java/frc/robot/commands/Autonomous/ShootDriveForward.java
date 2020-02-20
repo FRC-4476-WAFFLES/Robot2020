@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 
 
 
@@ -27,7 +28,7 @@ public class ShootDriveForward extends SequentialCommandGroup {
 
   static final Trajectory traj = TrajectoryGenerator.generateTrajectory(
     List.of(Constants.START_CENTER, Constants.DRIVE_FORWARD),
-    TrajectoryFollow.config);
+    DriveConstants.getConfig());
 
   public ShootDriveForward() {
     // Add your commands in the super() call, e.g.
