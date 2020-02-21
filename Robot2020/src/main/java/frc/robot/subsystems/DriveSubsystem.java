@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -41,6 +42,11 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new DriveSubsystem.
    */
   public DriveSubsystem() {
+    driveLeft1.configFactoryDefault();
+    driveLeft2.configFactoryDefault();
+    driveRight1.configFactoryDefault();
+    driveRight2.configFactoryDefault();
+
     // make the secondary motors copy exactly what the master talons do.
     driveLeft2.follow(driveLeft1);
     driveLeft2.setInverted(InvertType.FollowMaster);
@@ -59,6 +65,9 @@ public class DriveSubsystem extends SubsystemBase {
     // TODO: get the correct current limiting values
     driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
     driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
+    driveLeft1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    driveRight1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    driveLeft1.setInverted(true);
 
     //Odometry
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
@@ -71,10 +80,16 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive/length ultras", length);
     SmartDashboard.putNumber("Drive/DriveOut", driveLeft1.getMotorOutputPercent());
     // This method will be called once per scheduler run
+
+    // Odometry 
+    m_odometry.update(
+      Rotation2d.fromDegrees(getHeading()),
+      nativeToMPerS(driveLeft1.getSelectedSensorPosition()),
+      nativeToMPerS(driveRight1.getSelectedSensorPosition()));
   }
 
   public void drive(final double left, final double right) {
-    driveLeft1.set(ControlMode.PercentOutput, -left);
+    driveLeft1.set(ControlMode.PercentOutput, left);
     driveRight1.set(ControlMode.PercentOutput, right);
     SmartDashboard.putNumber("Drive/left", left);
     if(hyperspeed_happyface_){
@@ -87,9 +102,6 @@ public class DriveSubsystem extends SubsystemBase {
       driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 22, 22, 0.03));
       has_disabled_hyperspeed_sadface_ = true;
     }
-    // Odometry 
-    m_odometry.update(Rotation2d.fromDegrees(getHeading()), driveLeft1.getSelectedSensorPosition()*Constants.DRIVE_ENCODERS_TO_METERS,
-    driveRight1.getSelectedSensorPosition()*Constants.DRIVE_ENCODERS_TO_METERS);
   }
 
   public double getHeading() {
@@ -106,12 +118,18 @@ public class DriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
-  public void TankDriveVelocity(double leftvelocity, double rightvelocity){
-    driveLeft1.set(ControlMode.Velocity, convertToVelcity(leftvelocity));
-    driveRight1.set(ControlMode.Velocity, convertToVelcity(rightvelocity));
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    double left = nativeToMPerS(driveLeft1.getSelectedSensorVelocity());
+    double right = nativeToMPerS(driveRight1.getSelectedSensorVelocity());
+    return new DifferentialDriveWheelSpeeds(left, right);
+  }
+
+  public void tankDriveVoltage(double leftVoltage, double rightVoltage) {
+    driveLeft1.set(ControlMode.PercentOutput, leftVoltage / driveLeft1.getBusVoltage());
+    driveRight1.set(ControlMode.PercentOutput, rightVoltage / driveRight1.getBusVoltage());
   }
   
-  private double convertToVelcity(double convert){
+  private double nativeToMPerS(double convert){
     //in: m/s
     //out: tics/0.1sec
     double codesPerRot = 256;
@@ -119,12 +137,12 @@ public class DriveSubsystem extends SubsystemBase {
     double diameter_inchesPerRot = 6;
     double metersPerInch = 0.0254;
     double timeshift = 0.1;
-    return convert*(codesPerRot*ticsPerCode*timeshift)/(metersPerInch*diameter_inchesPerRot);
+    return (convert/(codesPerRot*ticsPerCode*timeshift))*(metersPerInch*diameter_inchesPerRot);
   }
 
   public void aimTowards(double angle){
     //TODO: make sure this is added and not subtracted from the gyro
-    double out = aim.calculate(0, angle);
-    drive(out, out);    
+    double out = aim.calculate(angle, 0);
+    drive(-out, out);    
   }
 }

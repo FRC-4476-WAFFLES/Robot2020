@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.util.Units;
 
 /**
@@ -70,4 +74,34 @@ public final class Constants {
             new Rotation2d(0));
     public static final Pose2d DRIVE_FORWARD = new Pose2d(new Translation2d(Units.feetToMeters(20), 0),
             new Rotation2d(0));
+
+    public static final class DriveConstants {
+        private static final double kS = 1.0;
+        private static final double kV = 1.0;
+        private static final double kA = 1.0;
+        private static final double kTrackWidth = 0.6;
+
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidth);
+        public static final SimpleMotorFeedforward kFeedforward = new SimpleMotorFeedforward(kS, kV, kA);
+        public static final DifferentialDriveVoltageConstraint kVoltageConstraint = new DifferentialDriveVoltageConstraint(kFeedforward, kDriveKinematics, 12);
+
+        private static final double kMaxSpeed = 1.0;
+        private static final double kMaxAccel = 1.0;
+
+        public static TrajectoryConfig getConfig() {
+            return getConfig(kMaxSpeed);
+        }
+
+        public static TrajectoryConfig getConfig(double maxSpeed) {
+            return getConfig(maxSpeed, kMaxAccel);
+        }
+
+        public static TrajectoryConfig getConfig(double maxSpeed, double maxAccel) {
+            return new TrajectoryConfig(kMaxSpeed, maxAccel);
+        }
+
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+    }
 }
