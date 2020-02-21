@@ -10,6 +10,8 @@ package frc.robot.commands.Drive;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
+import java.lang.Math;
+import java.lang.System;
 
 public class OperatorTankDrive extends CommandBase {
   /**
@@ -23,10 +25,50 @@ public class OperatorTankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.drive(leftJoystick.getY(), rightJoystick.getY());
-    // if (leftJoystick.getRawButton(3) && rightJoystick.getRawButton(3)
-    //     && (operate.getStickButtonPressed(Hand.kLeft) || operate.getStickButtonPressed(Hand.kRight))) {
-    //   driveSubsystem.hyperspeed_happyface_ = !driveSubsystem.hyperspeed_happyface_;
+    driveSubsystem.drive(leftJoystick.getY()*0.7, rightJoystick.getY()*0.7);
+    if (leftJoystick.getRawButton(3) && rightJoystick.getRawButton(3)
+        && (operate.getStickButtonPressed(Hand.kLeft) || operate.getStickButtonPressed(Hand.kRight))) {
+      driveSubsystem.hyperspeed_happyface_ = !driveSubsystem.hyperspeed_happyface_;
+    }
+
+    // double joystickDiff = Math.abs(leftJoystick.getY() - rightJoystick.getY());
+    // // if within margin of error, adjust the output
+    // if (joystickDiff < 0.07){
+    //   // System.out.println("small diff: left = " + leftJoystick.getY() + " right = " + rightJoystick.getY());
+    //   double rspd = 0;
+    //   double lspd = 0;
+    //   // value overwritten
+    //   Hand fasterStick = Hand.kLeft;
+    //   double stick_avg = (leftJoystick.getY() + rightJoystick.getY())/2;
+    //   // get which stick is faster than the other
+    //   if(Math.abs(rightJoystick.getY()) > Math.abs(leftJoystick.getY())){
+    //     fasterStick = Hand.kRight;
+    //   }else{
+    //     fasterStick = Hand.kLeft;
+    //   }
+
+    //   //figure out what speed the robot should aim for
+    //   // if(joystickDiff < 0.02){
+    //   //   // if within super margin of error, set the output to the same speed
+    //   //   System.out.println("average");
+    //   //   lspd = stick_avg;
+    //   //   rspd = stick_avg;
+    //   // }else{
+    //   // System.out.println("square");
+    //   // if within margin of error, but outside super margin
+    //   double coef = (leftJoystick.getY()/Math.abs(leftJoystick.getY()));
+    //   if(fasterStick == Hand.kLeft){
+    //     lspd = coef*(Math.abs(stick_avg) - (joystickDiff*14.3)*(joystickDiff*14.3)*(joystickDiff*14.3)/14.3);
+    //     rspd = coef*(Math.abs(stick_avg));
+    //   }else{
+    //     lspd = coef*(Math.abs(stick_avg));
+    //     rspd = coef*(Math.abs(stick_avg) - joystickDiff*joystickDiff);
+    //     // }
+    //   }
+    //   driveSubsystem.drive(lspd, rspd);
+    // }else{
+    //   // System.out.println("large diff");
+    //   driveSubsystem.drive(leftJoystick.getY(), rightJoystick.getY());
     // }
   }
 

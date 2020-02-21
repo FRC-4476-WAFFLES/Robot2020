@@ -664,6 +664,39 @@
               "_source0": "network_table:///SmartDashboard/NEO encoder",
               "_title": "NEO encoder"
             }
+          },
+          "0,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/left",
+              "_title": "Drive/left"
+            }
+          },
+          "2,9": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/SendableChooser[0]",
+              "_title": "SendableChooser[0]"
+            }
+          },
+          "6,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/DriveOut",
+              "_title": "Drive/DriveOut"
+            }
           }
         }
       }
@@ -960,6 +993,16 @@
                   "_type": "Text View",
                   "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[0,2]/Value",
                   "_title": "DoubleSolenoid[0,2]/Value"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
+                  "_title": "PIDController[1]"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[0,6]/Value",
+                  "_title": "DoubleSolenoid[0,6]/Value"
                 }
               ]
             }
@@ -1385,7 +1428,7 @@
           "7,0": {
             "size": [
               4,
-              3
+              4
             ],
             "content": {
               "_type": "Robot Preferences",
@@ -1436,6 +1479,42 @@
               "_type": "Text View",
               "_source0": "network_table:///LiveWindow/Ungrouped/PowerDistributionPanel[0]/Chan12",
               "_title": "/LiveWindow/Ungrouped/PowerDistributionPanel[0]/Chan12"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 7",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 60.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "14,1": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Speed (rpm)",
+              "_title": "/SmartDashboard/Shooter/Speed (rpm)"
+            }
+          },
+          "9,0": {
+            "size": [
+              4,
+              7
+            ],
+            "content": {
+              "_type": "Robot Preferences",
+              "_source0": "network_table:///Preferences",
+              "_title": "/Preferences",
+              "Miscellaneous/Show search box": true
             }
           }
         }

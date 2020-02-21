@@ -57,8 +57,8 @@ public class DriveSubsystem extends SubsystemBase {
     driveLeft1.setSelectedSensorPosition(0);
     // current limiting
     // TODO: get the correct current limiting values
-    driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 22, 22, 0.03));
-    driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 22, 22, 0.03));
+    driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
+    driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
 
     //Odometry
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
