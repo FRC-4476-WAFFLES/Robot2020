@@ -97,7 +97,9 @@ public final class Constants {
         }
 
         public static TrajectoryConfig getConfig(double maxSpeed, double maxAccel) {
-            return new TrajectoryConfig(kMaxSpeed, maxAccel);
+            return new TrajectoryConfig(kMaxSpeed, maxAccel)
+                .setKinematics(kDriveKinematics)
+                .addConstraint(kVoltageConstraint);
         }
 
         public static final double kP = 0.0;
