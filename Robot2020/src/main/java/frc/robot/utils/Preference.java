@@ -1,5 +1,6 @@
 package frc.robot.utils;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.Preferences;
 import frc.robot.Robot;
 
@@ -46,5 +47,12 @@ public class Preference {
   public static void UpdateNEOPIDPreferences(String name, CANPIDController pid, double kP, double kI, double kD, double kF) {
     UpdateNEOPIDPreferences(name, pid, kP, kI, kD);
     pid.setFF(getDouble(name + " F", kF), 0);
+  }
+
+  public static void UpdatePIDPreferences(String name, PIDController controller, double kP, double kI, double kD) {
+    controller.setP(getDouble(name + " P", kP));
+    controller.setI(getDouble(name + " I", kI));
+    controller.setD(getDouble(name + " D", kD));
+
   }
 }

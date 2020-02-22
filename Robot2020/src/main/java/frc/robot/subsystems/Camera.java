@@ -41,6 +41,7 @@ public class Camera {
 
   public void setLEDMode(CameraLEDMode mode) {
     camera.getEntry("ledMode").setNumber(mode.ordinal());
+    System.out.println("Camera mode being set to: " + mode.ordinal());
   }
 
   public void setProcesingMode(ProcessingMode mode) {

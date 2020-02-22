@@ -87,6 +87,7 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.setDefaultOption("Drive Forward", new DriveForward());
     SmartDashboard.putData(autoChooser);
+    vision.setLEDMode(Camera.CameraLEDMode.Off);
   }
 
   /**
@@ -131,7 +132,10 @@ public class RobotContainer {
     doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
 
-    // left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAim());
+    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAim());
+
+    new JoystickButton(rightJoystick, 1).whenPressed(new InstantCommand(() -> shooterSubsystem.moveHood(true)));
+    new JoystickButton(leftJoystick, 1).whenPressed(new InstantCommand(() -> shooterSubsystem.moveHood(false)));
   }
 
   /**

@@ -7,8 +7,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax shooterMaster = new CANSparkMax(Constants.SHOOTER_MASTER, MotorType.kBrushless);
   private final CANSparkMax shooterFollower = new CANSparkMax(Constants.SHOOTER_FOLLOWER, MotorType.kBrushless);
   private final TalonSRX shooterFeeder = new TalonSRX(Constants.SHOOTER_PREP);
-  private final DoubleSolenoid hood = new DoubleSolenoid(Constants.HOOD_EXTEND, Constants.HOOD_RETRACT);
+  private final Solenoid hood = new Solenoid(Constants.HOOD);
 
   public boolean shouldIntake = false;
   private double targetRpm = 0;
@@ -37,7 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final int ACCEPTABLE_VELOCITY_ERROR = 10;
 
   // A mapping of speeds (in RPM) to output volatages.
-  final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(6000.0, 12.0));
+  final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(Map.of(2500.0, 0.5, 3300.0, 0.6, 3800.0, 0.7, 4400.0, 0.8, 4900.0, 0.9, 5500.0, 1.0));
 
   /**
    * Creates a new ShooterSubsystem.
@@ -47,6 +46,9 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterFollower.follow(shooterMaster, true);
 
     shooterMaster.setSmartCurrentLimit(23);
+    shooterFeeder.configContinuousCurrentLimit(30);
+    shooterFeeder.configPeakCurrentLimit(30);
+    shooterFeeder.enableCurrentLimit(true);
   }
 
   @Override
@@ -83,9 +85,10 @@ public class ShooterSubsystem extends SubsystemBase {
     final double kF = output / estimatedRpm;
 
     // Set the motor setpoint and feed-forward
-    shooterMaster.getPIDController().setFF(-kF);
+    shooterMaster.getPIDController().setFF(kF);
     shooterMaster.getPIDController().setReference(-rpm, ControlType.kVelocity);
     targetRpm = rpm;
+
   }
 
   /**
@@ -121,7 +124,10 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void moveHood(Boolean up) {
-    hood.set(up ? Value.kForward : Value.kReverse);
+    hood.set(up);
+  }
+  public void unfeed() {
+    shooterFeeder.set(ControlMode.PercentOutput, 1);
   }
 
 }

@@ -31,6 +31,7 @@ public class CameraAim extends CommandBase {
   @Override
   public void initialize() {
     aimed = false;
+    vision.setLEDMode(Camera.CameraLEDMode.On);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,12 +42,14 @@ public class CameraAim extends CommandBase {
       if (vision.getHasTarget()) {
         if (vision.getArea() > closeFarsplit) {
           vision.setPipeline(Camera.Pipeline.Close);
-          shooterSubsystem.moveHood(true);
+          // shooterSubsystem.moveHood(true);
         } else {
           vision.setPipeline(Camera.Pipeline.Far);
-          shooterSubsystem.moveHood(false);
+          // shooterSubsystem.moveHood(false);
         }
         driveSubsystem.aimTowards(vision.getHorizontal());
+      }else{
+        driveSubsystem.aimTowards(0);
       }
       break;
 
@@ -73,6 +76,7 @@ public class CameraAim extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     vision.setPipeline(Camera.Pipeline.Search);
+    vision.setLEDMode(Camera.CameraLEDMode.Off);
   }
 
   // Returns true when the command should end.

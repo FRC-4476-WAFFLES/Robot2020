@@ -50,6 +50,8 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberWinchEncoderLeft.setPosition(0);
     climberWinchEncoderRight.setPosition(0);
+    climberWinchLeft.setSmartCurrentLimit(20);
+    climberWinchRight.setSmartCurrentLimit(20);
   }
 
   @Override

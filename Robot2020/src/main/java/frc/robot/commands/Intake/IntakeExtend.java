@@ -7,21 +7,21 @@
 
 package frc.robot.commands.Intake;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import static frc.robot.RobotContainer.*;
-import java.lang.System;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Climber.MoveClimber;
+import frc.robot.commands.Intake.IntakeRetractSimple;
 
-public class IntakeExtend extends InstantCommand {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class IntakeExtend extends SequentialCommandGroup {
   /**
    * Creates a new IntakeExtend.
    */
   public IntakeExtend() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    intakeSubsystem.extend();
+    // Add your commands in the super() call, e.g.
+    // super(new FooCommand(), new BarCommand());
+    super(new IntakeRetractSimple(), new WaitCommand(1), new MoveClimber(-1));
   }
 }

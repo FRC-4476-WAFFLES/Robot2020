@@ -50,4 +50,9 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyor.set(ControlMode.PercentOutput, 0);
     funnel.set(ControlMode.PercentOutput, 0);
   }
+  public void unrun(double spd){
+    intakeRoller.set(ControlMode.PercentOutput, 0);
+    conveyor.set(ControlMode.PercentOutput, -spd);
+    funnel.set(ControlMode.PercentOutput, -spd);
+  }
 }

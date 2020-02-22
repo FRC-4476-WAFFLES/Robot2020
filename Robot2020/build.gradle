@@ -1,7 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2020.2.2"
-    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2020-0.0.1" apply false
+    // id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2020-0.0.1" apply false
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -41,8 +41,8 @@ deploy {
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
-apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
-apply from: "snobotsim/snobot_sim.gradle"
+// apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
+// apply from: "snobotsim/snobot_sim.gradle"
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
@@ -59,7 +59,7 @@ dependencies {
 
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
-    simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+    // simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -70,7 +70,7 @@ jar {
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
 
-test {
-    useJUnitPlatform()
-    ignoreFailures = true
-}
+// test {
+//     useJUnitPlatform()
+//     ignoreFailures = true
+// }

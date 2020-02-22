@@ -9,18 +9,25 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.Preference;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import java.util.prefs.Preferences;
+
 import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.fasterxml.jackson.databind.ObjectWriter.Prefetch;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
@@ -36,7 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
   //TODO: make sure this pid is tuned
-  PIDController aim = new PIDController(0, 0, 0);
+  PIDController aim = new PIDController(0.1, 0, 0);
 
   /**
    * Creates a new DriveSubsystem.
@@ -69,6 +76,12 @@ public class DriveSubsystem extends SubsystemBase {
     driveRight1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     driveLeft1.setInverted(true);
 
+    //coast/brake mode
+    driveLeft1.setNeutralMode(NeutralMode.Brake);
+    driveLeft2.setNeutralMode(NeutralMode.Brake);
+    driveRight1.setNeutralMode(NeutralMode.Brake);
+    driveRight2.setNeutralMode(NeutralMode.Brake);
+
     //Odometry
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
@@ -78,7 +91,9 @@ public class DriveSubsystem extends SubsystemBase {
     final double length = frontUltrasonic.getValue() * Constants.ulrasonicValueToInches;
     SmartDashboard.putNumber("Drive/ultarsonic value", frontUltrasonic.getValue());
     SmartDashboard.putNumber("Drive/length ultras", length);
-    SmartDashboard.putNumber("Drive/DriveOut", driveLeft1.getMotorOutputPercent());
+    SmartDashboard.putNumber("Drive/left", driveLeft1.getMotorOutputPercent());
+    SmartDashboard.putNumber("Drive/right", driveRight1.getMotorOutputPercent());
+    Preference.UpdatePIDPreferences("Drive/aim", aim, 0.1, 0, 0);
     // This method will be called once per scheduler run
 
     // Odometry 
@@ -86,12 +101,25 @@ public class DriveSubsystem extends SubsystemBase {
       Rotation2d.fromDegrees(getHeading()),
       nativeToMPerS(driveLeft1.getSelectedSensorPosition()),
       nativeToMPerS(driveRight1.getSelectedSensorPosition()));
+
+    if(DriverStation.getInstance().isDisabled()){
+      //coast/brake mode
+      driveLeft1.setNeutralMode(NeutralMode.Coast);
+      driveLeft2.setNeutralMode(NeutralMode.Coast);
+      driveRight1.setNeutralMode(NeutralMode.Coast);
+      driveRight2.setNeutralMode(NeutralMode.Coast);
+    }else{
+      //coast/brake mode
+      driveLeft1.setNeutralMode(NeutralMode.Brake);
+      driveLeft2.setNeutralMode(NeutralMode.Brake);
+      driveRight1.setNeutralMode(NeutralMode.Brake);
+      driveRight2.setNeutralMode(NeutralMode.Brake);
+    }
   }
 
   public void drive(final double left, final double right) {
     driveLeft1.set(ControlMode.PercentOutput, left);
     driveRight1.set(ControlMode.PercentOutput, right);
-    SmartDashboard.putNumber("Drive/left", left);
     if(hyperspeed_happyface_){
       //remove any drive restrictions, current limiting, etc.
       driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 22, 22, 0.03));
@@ -143,6 +171,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void aimTowards(double angle){
     //TODO: make sure this is added and not subtracted from the gyro
     double out = aim.calculate(angle, 0);
-    drive(-out, out);    
+    drive(out, -out);    
   }
 }
