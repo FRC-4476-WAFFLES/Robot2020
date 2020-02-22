@@ -18,7 +18,7 @@
     # Inversions for the left-side motors
     "leftMotorsInverted": [False, False],
     # Inversions for the right side motors
-    "rightMotorsInverted": [True, True],
+    "rightMotorsInverted": [True, False],
 
     # Wheel diameter (in units of your choice - will dictate units of analysis)
     "wheelDiameter": 6.0 * 0.0254, # 6 inches in metres
@@ -51,5 +51,6 @@
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
     "gyroPort": "",
 }
+
 
 
