@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.Preference;
@@ -28,8 +27,22 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.fasterxml.jackson.databind.ObjectWriter.Prefetch;
+import com.analog.adis16448.frc.ADIS16448_IMU;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
   private final TalonFX driveLeft1 = new TalonFX(Constants.DRIVE_LEFT_1);
@@ -60,20 +73,14 @@ public class DriveSubsystem extends SubsystemBase {
     driveRight2.follow(driveRight1);
     driveRight2.setInverted(InvertType.FollowMaster);
 
-    // sensors are quadratic (greyhills)
-    driveLeft1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-    driveRight1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-    // TODO: make sure these sensor phases are correct
-    driveRight1.setSensorPhase(false);
-    driveLeft1.setSensorPhase(true);
-    driveRight1.setSelectedSensorPosition(0);
-    driveLeft1.setSelectedSensorPosition(0);
     // current limiting
     // TODO: get the correct current limiting values
     driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
     driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
     driveLeft1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     driveRight1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    driveRight1.setSelectedSensorPosition(0);
+    driveLeft1.setSelectedSensorPosition(0);
     driveLeft1.setInverted(true);
 
     //coast/brake mode
@@ -82,7 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
     driveRight1.setNeutralMode(NeutralMode.Brake);
     driveRight2.setNeutralMode(NeutralMode.Brake);
 
-    //Odometry
+    // Odometry
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
@@ -95,12 +102,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive/right", driveRight1.getMotorOutputPercent());
     Preference.UpdatePIDPreferences("Drive/aim", aim, 0.1, 0, 0);
     // This method will be called once per scheduler run
-
-    // Odometry 
-    m_odometry.update(
-      Rotation2d.fromDegrees(getHeading()),
-      nativeToMPerS(driveLeft1.getSelectedSensorPosition()),
-      nativeToMPerS(driveRight1.getSelectedSensorPosition()));
 
     if(DriverStation.getInstance().isDisabled()){
       //coast/brake mode
@@ -115,17 +116,22 @@ public class DriveSubsystem extends SubsystemBase {
       driveRight1.setNeutralMode(NeutralMode.Brake);
       driveRight2.setNeutralMode(NeutralMode.Brake);
     }
+    // Odometry
+    m_odometry.update(Rotation2d.fromDegrees(getHeading()), nativeToM(driveLeft1.getSelectedSensorPosition()),
+        nativeToM(driveRight1.getSelectedSensorPosition()));
   }
 
   public void drive(final double left, final double right) {
     driveLeft1.set(ControlMode.PercentOutput, left);
     driveRight1.set(ControlMode.PercentOutput, right);
+
     if(hyperspeed_happyface_){
       //remove any drive restrictions, current limiting, etc.
       driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 22, 22, 0.03));
       driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 22, 22, 0.03));
-      //TODO: make this disable other subsystems to redirect as much power as possible to the drive.
-    }else if(!has_disabled_hyperspeed_sadface_){
+      // TODO: make this disable other subsystems to redirect as much power as
+      // possible to the drive.
+    } else if (!has_disabled_hyperspeed_sadface_) {
       driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 22, 22, 0.03));
       driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 22, 22, 0.03));
       has_disabled_hyperspeed_sadface_ = true;
@@ -133,7 +139,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getHeading() {
-    //TODO: make sure it is not reversed
+    // TODO: make sure it is not reversed
     return Math.IEEEremainder(gyro.getAngle(), 360) * (1.0);
   }
 
@@ -156,21 +162,25 @@ public class DriveSubsystem extends SubsystemBase {
     driveLeft1.set(ControlMode.PercentOutput, leftVoltage / driveLeft1.getBusVoltage());
     driveRight1.set(ControlMode.PercentOutput, rightVoltage / driveRight1.getBusVoltage());
   }
-  
-  private double nativeToMPerS(double convert){
-    //in: m/s
-    //out: tics/0.1sec
-    double codesPerRot = 256;
-    double ticsPerCode = 4;
+
+  private double nativeToM(double convert) {
+    double gearReduction = (50.0 / 14.0) * (54.0 / 20.0);
+    double codesPerRot = 2048.0;
     double diameter_inchesPerRot = 6;
     double metersPerInch = 0.0254;
-    double timeshift = 0.1;
-    return (convert/(codesPerRot*ticsPerCode*timeshift))*(metersPerInch*diameter_inchesPerRot);
+    return convert * (metersPerInch * diameter_inchesPerRot) / (codesPerRot * gearReduction);
   }
 
-  public void aimTowards(double angle){
-    //TODO: make sure this is added and not subtracted from the gyro
+  private double nativeToMPerS(double convert) {
+    // in: m/s
+    // out: tics/0.1sec
+    double timeshift = 0.1;
+    return convert / timeshift;
+  }
+
+  public void aimTowards(double angle) {
+    // TODO: make sure this is added and not subtracted from the gyro
     double out = aim.calculate(angle, 0);
-    drive(out, -out);    
+    tankDriveVoltage(12*out, 12*-out);
   }
 }
