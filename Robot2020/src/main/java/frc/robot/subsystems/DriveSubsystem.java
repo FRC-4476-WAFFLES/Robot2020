@@ -6,10 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.Preference;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,44 +18,27 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import java.util.prefs.Preferences;
-
 import com.analog.adis16448.frc.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.fasterxml.jackson.databind.ObjectWriter.Prefetch;
-import com.analog.adis16448.frc.ADIS16448_IMU;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
   private final TalonFX driveLeft1 = new TalonFX(Constants.DRIVE_LEFT_1);
   private final TalonFX driveLeft2 = new TalonFX(Constants.DRIVE_LEFT_2);
   private final TalonFX driveRight1 = new TalonFX(Constants.DRIVE_RIGHT_1);
   private final TalonFX driveRight2 = new TalonFX(Constants.DRIVE_RIGHT_2);
-  private final AnalogInput frontUltrasonic = new AnalogInput(Constants.FRONT_ULTRASONIC);
   private final ADIS16448_IMU gyro = new ADIS16448_IMU();
   public boolean hyperspeed_happyface_ = false;
   private boolean has_disabled_hyperspeed_sadface_ = true;
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
-  //TODO: make sure this pid is tuned
+  // TODO: make sure this pid is tuned
   PIDController aim = new PIDController(0.1, 0, 0);
 
   /**
@@ -83,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
     driveLeft1.setSelectedSensorPosition(0);
     driveLeft1.setInverted(true);
 
-    //coast/brake mode
+    // coast/brake mode
     driveLeft1.setNeutralMode(NeutralMode.Brake);
     driveLeft2.setNeutralMode(NeutralMode.Brake);
     driveRight1.setNeutralMode(NeutralMode.Brake);
@@ -95,22 +78,19 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    final double length = frontUltrasonic.getValue() * Constants.ulrasonicValueToInches;
-    SmartDashboard.putNumber("Drive/ultarsonic value", frontUltrasonic.getValue());
-    SmartDashboard.putNumber("Drive/length ultras", length);
     SmartDashboard.putNumber("Drive/left", driveLeft1.getMotorOutputPercent());
     SmartDashboard.putNumber("Drive/right", driveRight1.getMotorOutputPercent());
     Preference.UpdatePIDPreferences("Drive/aim", aim, 0.1, 0, 0);
     // This method will be called once per scheduler run
 
-    if(DriverStation.getInstance().isDisabled()){
-      //coast/brake mode
+    if (DriverStation.getInstance().isDisabled()) {
+      // coast/brake mode
       driveLeft1.setNeutralMode(NeutralMode.Coast);
       driveLeft2.setNeutralMode(NeutralMode.Coast);
       driveRight1.setNeutralMode(NeutralMode.Coast);
       driveRight2.setNeutralMode(NeutralMode.Coast);
-    }else{
-      //coast/brake mode
+    } else {
+      // coast/brake mode
       driveLeft1.setNeutralMode(NeutralMode.Brake);
       driveLeft2.setNeutralMode(NeutralMode.Brake);
       driveRight1.setNeutralMode(NeutralMode.Brake);
@@ -125,8 +105,8 @@ public class DriveSubsystem extends SubsystemBase {
     driveLeft1.set(ControlMode.PercentOutput, left);
     driveRight1.set(ControlMode.PercentOutput, right);
 
-    if(hyperspeed_happyface_){
-      //remove any drive restrictions, current limiting, etc.
+    if (hyperspeed_happyface_) {
+      // remove any drive restrictions, current limiting, etc.
       driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 22, 22, 0.03));
       driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(false, 22, 22, 0.03));
       // TODO: make this disable other subsystems to redirect as much power as
@@ -181,6 +161,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void aimTowards(double angle) {
     // TODO: make sure this is added and not subtracted from the gyro
     double out = aim.calculate(angle, 0);
-    tankDriveVoltage(12*out, 12*-out);
+    tankDriveVoltage(12 * out, 12 * -out);
   }
 }

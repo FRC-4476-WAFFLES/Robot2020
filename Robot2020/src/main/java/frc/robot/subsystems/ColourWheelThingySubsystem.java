@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.ColorSensorV3;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ColourWheelThingySubsystem extends SubsystemBase {
@@ -21,8 +19,8 @@ public class ColourWheelThingySubsystem extends SubsystemBase {
   // private final DoubleSolenoid deployWheel = new
   // DoubleSolenoid(Constants.COLOUR_WHEEL_DEPLOY,
   // Constants.COLOUR_WHEEL_RECALL);
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  // private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  // private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   public boolean deploymentState = false;
 
   public static enum Direction {
@@ -65,9 +63,9 @@ public class ColourWheelThingySubsystem extends SubsystemBase {
   }
 
   private double getHue() {
-    final double R = m_colorSensor.getRed();
-    final double G = m_colorSensor.getGreen();
-    final double B = m_colorSensor.getBlue();
+    final double R = 0; // m_colorSensor.getRed();
+    final double G = 0; // m_colorSensor.getGreen();
+    final double B = 0; // m_colorSensor.getBlue();
 
     final double hue = (Math.atan2(Math.sqrt(3) * (G - B), 2 * R - G - B) / Math.PI) * 180;
 

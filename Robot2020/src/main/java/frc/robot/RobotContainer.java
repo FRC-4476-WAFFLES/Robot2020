@@ -13,15 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.ColourWheelThingySubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ColourWheelThingySubsystem.Direction;
 import frc.robot.triggers.CollidedWithBarTrigger;
 import frc.robot.triggers.POVTrigger;
 import edu.wpi.first.wpilibj.Joystick;
@@ -52,7 +48,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // subsystems
   public static final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-  public static final ColourWheelThingySubsystem colourWheelThingySubsystem = new ColourWheelThingySubsystem();
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -99,9 +94,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     final var x = new JoystickButton(operate, XboxController.Button.kX.value);
     final var y = new JoystickButton(operate, XboxController.Button.kY.value);
-    final var back = new JoystickButton(operate, XboxController.Button.kBack.value);
-    final var start = new JoystickButton(operate, XboxController.Button.kStart.value);
-    final var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
+    // final var back = new JoystickButton(operate, XboxController.Button.kBack.value);
+    // final var start = new JoystickButton(operate, XboxController.Button.kStart.value);
+    // final var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
     final var bumperRight = new JoystickButton(operate, XboxController.Button.kBumperRight.value);
     final var left6 = new JoystickButton(leftJoystick, 6);
     final var left7 = new JoystickButton(leftJoystick, 7);
@@ -112,19 +107,18 @@ public class RobotContainer {
     final var povDown = new POVTrigger(operate, 180);
     final var doUndeploy = new CollidedWithBarTrigger();
 
-    // TODO: make sure this works as a toggle.
     x.toggleWhenPressed(new ShooterRun());
     y.whileHeld(new ShooterShoot());
 
     // Colour wheel controls
-    start.whileHeld(
-        new RunCommand(() -> colourWheelThingySubsystem.setDirection(Direction.Right), colourWheelThingySubsystem));
-    back.whileHeld(
-        new RunCommand(() -> colourWheelThingySubsystem.setDirection(Direction.Left), colourWheelThingySubsystem));
-    start.or(back).whenInactive(
-        new RunCommand(() -> colourWheelThingySubsystem.setDirection(Direction.Stop), colourWheelThingySubsystem));
-    bumperLeft.toggleWhenActive(
-        new StartEndCommand(() -> colourWheelThingySubsystem.deploy(), () -> colourWheelThingySubsystem.recall()));
+    // start.whileHeld(
+    //     new RunCommand(() -> colourWheelThingySubsystem.setDirection(Direction.Right), colourWheelThingySubsystem));
+    // back.whileHeld(
+    //     new RunCommand(() -> colourWheelThingySubsystem.setDirection(Direction.Left), colourWheelThingySubsystem));
+    // start.or(back).whenInactive(
+    //     new RunCommand(() -> colourWheelThingySubsystem.setDirection(Direction.Stop), colourWheelThingySubsystem));
+    // bumperLeft.toggleWhenActive(
+    //     new StartEndCommand(() -> colourWheelThingySubsystem.deploy(), () -> colourWheelThingySubsystem.recall()));
 
     povUp.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(1)));
     povDown.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(-1)));

@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
 
-
 public class ShooterShoot extends CommandBase {
   Timer t = new Timer();
+
   /**
    * Creates a new ShooterShoot.
    */
@@ -36,13 +36,13 @@ public class ShooterShoot extends CommandBase {
     // shooterSubsystem.feed(true);
 
     // if(shooterSubsystem.canShoot()) {
-    if(t.get() > 0.3) {
+    if (t.get() > 0.2) {
       intakeSubsystem.run();
     } else {
       intakeSubsystem.unrun(-1);
-      if(t.get() < 0.1){
+      if (t.get() < 0.1) {
         shooterSubsystem.unfeed();
-      }else{
+      } else {
         shooterSubsystem.feed(true);
       }
     }

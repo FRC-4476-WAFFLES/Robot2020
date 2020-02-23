@@ -15,9 +15,6 @@ import static frc.robot.Constants.DriveConstants.*;
 import static frc.robot.RobotContainer.*;
 
 public class TrajectoryFollow extends RamseteCommand {
-  // TODO: double check these are the correct numbers
-  private static final double kRamseteB = 2;
-  private static final double kRamseteZeta = 0.7;
   private static PIDController leftController = new PIDController(kP, kI, kD);
   private static PIDController rightController = new PIDController(kP, kI, kD);
 
@@ -29,7 +26,7 @@ public class TrajectoryFollow extends RamseteCommand {
 
     super(traj,
         driveSubsystem::getPose,
-        new RamseteController(kRamseteB, kRamseteZeta),
+        new RamseteController(),
         kFeedforward,
         kDriveKinematics,
         driveSubsystem::getWheelSpeeds,

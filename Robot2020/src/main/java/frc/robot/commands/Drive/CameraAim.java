@@ -15,7 +15,7 @@ import static frc.robot.RobotContainer.*;
 public class CameraAim extends CommandBase {
   // TODO: make this a real threshold
   final static double closeFarsplit = 0;
-  final static double amgle = 1;
+  final static double angle = 1;
 
   boolean aimed = false;
 
@@ -69,7 +69,7 @@ public class CameraAim extends CommandBase {
       }
       break;
     }
-    aimed = vision.getHasTarget() && Math.abs(vision.getHorizontal()) < amgle;
+    aimed = vision.getHasTarget() && Math.abs(vision.getHorizontal()) < angle;
   }
 
   // Called once the command ends or is interrupted.
@@ -82,8 +82,6 @@ public class CameraAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return aimed;
-
   }
 }

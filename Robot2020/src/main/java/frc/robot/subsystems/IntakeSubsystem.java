@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem extends SubsystemBase {
-   private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
+  //  private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
   private final TalonSRX intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER);
   private final VictorSPX conveyor = new VictorSPX(Constants.CONVEYOR);
   private final VictorSPX funnel = new VictorSPX(Constants.FUNNEL);
@@ -28,11 +27,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void extend() {
-    intakeExtend.set(DoubleSolenoid.Value.kForward);
+    // intakeExtend.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retract() {
-    intakeExtend.set(DoubleSolenoid.Value.kReverse);
+    // intakeExtend.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void run() {
