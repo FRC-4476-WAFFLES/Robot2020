@@ -708,6 +708,28 @@
               "_source0": "network_table:///SmartDashboard/Drive/right",
               "_title": "Drive/right"
             }
+          },
+          "10,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/FeederCurrent",
+              "_title": "Shooter/FeederCurrent"
+            }
+          },
+          "12,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/RollerCurrent",
+              "_title": "Intake/RollerCurrent"
+            }
           }
         }
       }
@@ -1570,9 +1592,20 @@
               "imageHeight": 0
             }
           },
+          "9,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/ledMode",
+              "_title": "/limelight/ledMode"
+            }
+          },
           "8,4": {
             "size": [
-              5,
+              6,
               3
             ],
             "content": {
@@ -1580,6 +1613,28 @@
               "_source0": "network_table:///Preferences",
               "_title": "/Preferences",
               "Miscellaneous/Show search box": true
+            }
+          },
+          "14,6": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/FeederCurrent",
+              "_title": "/SmartDashboard/Shooter/FeederCurrent"
+            }
+          },
+          "16,6": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/RollerCurrent",
+              "_title": "/SmartDashboard/Intake/RollerCurrent"
             }
           }
         }

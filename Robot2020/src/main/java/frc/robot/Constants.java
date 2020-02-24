@@ -51,7 +51,7 @@ public final class Constants {
     public static final int FUNNEL = 12; // SPX
     public static final int CONVEYOR = 13; // SPX
     public static final int COLOUR_WHEEL_MANIPULATOR = 14; // SRX
-    public static final int PCM = 0;// PCM
+    // public static final int PCM = 0;// PCM
 
     // otherContsants
     public static final double ulrasonicValueToInches = 0.125 * 2.4;
