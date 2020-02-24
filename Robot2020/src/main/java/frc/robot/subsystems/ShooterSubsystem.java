@@ -21,6 +21,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -42,10 +43,14 @@ public class ShooterSubsystem extends SubsystemBase {
    * Creates a new ShooterSubsystem.
    */
   public ShooterSubsystem() {
+    shooterMaster.setSmartCurrentLimit(23);
+    shooterFollower.setSmartCurrentLimit(23);
+    shooterMaster.setIdleMode(IdleMode.kCoast);
+    shooterFollower.setIdleMode(IdleMode.kCoast);
+
     // Follower follows master (inverted)
     shooterFollower.follow(shooterMaster, true);
 
-    shooterMaster.setSmartCurrentLimit(23);
     shooterFeeder.configContinuousCurrentLimit(30);
     shooterFeeder.configPeakCurrentLimit(30);
     shooterFeeder.enableCurrentLimit(true);
