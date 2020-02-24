@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.utils.Preference;
+import frc.robot.utils.PreferenceManager;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -49,6 +49,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterFeeder.configContinuousCurrentLimit(30);
     shooterFeeder.configPeakCurrentLimit(30);
     shooterFeeder.enableCurrentLimit(true);
+
+    var pid = shooterMaster.getPIDController();
+    PreferenceManager.whenChanged("Shooter/kP", 0.001, (v) -> pid.setP(v));
+    PreferenceManager.whenChanged("Shooter/kI", 0.000, (v) -> pid.setI(v));
   }
 
   @Override
@@ -57,11 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("PDP/Temp", RobotContainer.pdp.getTemperature());
     SmartDashboard.putNumber("PDP/Tot Current", RobotContainer.pdp.getTotalCurrent());
     SmartDashboard.putNumber("PDP/shooter Current", RobotContainer.pdp.getCurrent(12));
-
-    // Config the Velocity closed loop gains in slot0
-    var pid = shooterMaster.getPIDController();
-    pid.setP(Preference.getDouble("Shooter/kP", 0.001));
-    pid.setI(Preference.getDouble("Shooter/kI", 0.000));
+    SmartDashboard.putNumber("Shooter/FeederCurrent", shooterFeeder.getSupplyCurrent());
 
     // Show motor velocity in RPM on the dashboard
     // Close speed is 4300

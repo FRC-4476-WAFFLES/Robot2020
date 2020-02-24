@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
-import frc.robot.utils.Preference;
+import frc.robot.utils.PreferenceManager;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
@@ -52,12 +52,15 @@ public class ClimberSubsystem extends SubsystemBase {
     climberWinchEncoderRight.setPosition(0);
     climberWinchLeft.setSmartCurrentLimit(20);
     climberWinchRight.setSmartCurrentLimit(20);
+
+    PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
+    // TODO: make sure these motors dont need spearate PIDs
+    PreferenceManager.watchNeoPID("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
+    PreferenceManager.watchNeoPID("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
   }
 
   @Override
   public void periodic() {
-    updateClimberPIDs();
-
     // This method will be called once per scheduler run
   }
 
@@ -138,12 +141,5 @@ public class ClimberSubsystem extends SubsystemBase {
   public double getAvgWinchPositions() {
     double avg = (getLeftWinchPosition() + getRigthWinchPosition()) / 2;
     return avg;
-  }
-
-  private void updateClimberPIDs() {
-    Preference.UpdateSRXPIDPreferences("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
-    // TODO: make sure these motors dont need spearate PIDs
-    Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
-    Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
   }
 }
