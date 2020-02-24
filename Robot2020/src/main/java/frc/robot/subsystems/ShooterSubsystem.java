@@ -64,6 +64,8 @@ public class ShooterSubsystem extends SubsystemBase {
     pid.setI(Preference.getDouble("Shooter/kI", 0.000));
 
     // Show motor velocity in RPM on the dashboard
+    // Close speed is 4300
+    // Far speed is 4700
     SmartDashboard.putNumber("Shooter/Speed (rpm)", shooterMaster.getEncoder().getVelocity());
   }
 
