@@ -12,14 +12,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem extends SubsystemBase {
   //  private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
   private final TalonSRX intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER);
-  private final VictorSPX conveyor = new VictorSPX(Constants.CONVEYOR);
-  private final VictorSPX funnel = new VictorSPX(Constants.FUNNEL);
+  private final TalonSRX conveyor = new TalonSRX(Constants.CONVEYOR);
+  private final TalonSRX funnel = new TalonSRX(Constants.FUNNEL);
 
   /**
    * Creates a new IntakeSubsystem.
