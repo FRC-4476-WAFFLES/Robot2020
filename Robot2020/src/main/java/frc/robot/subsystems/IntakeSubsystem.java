@@ -7,38 +7,67 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem extends SubsystemBase {
-  //  private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
+  private final DoubleSolenoid intakeExtend = new
+  DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
   private final TalonSRX intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER);
-  private final VictorSPX conveyor = new VictorSPX(Constants.CONVEYOR);
-  private final VictorSPX funnel = new VictorSPX(Constants.FUNNEL);
+  private final TalonSRX conveyor = new TalonSRX(Constants.CONVEYOR);
+  private final TalonSRX funnel = new TalonSRX(Constants.FUNNEL);
+  private final DigitalInput highIR = new DigitalInput(Constants.HIGH_IR);
+  private final DigitalInput lowIR = new DigitalInput(Constants.LOW_IR);
 
   /**
    * Creates a new IntakeSubsystem.
    */
   public IntakeSubsystem() {
+    conveyor.configContinuousCurrentLimit(20);
+    conveyor.configPeakCurrentLimit(30);
+    intakeRoller.configContinuousCurrentLimit(10);
+    intakeRoller.configPeakCurrentLimit(20);
+    funnel.configContinuousCurrentLimit(20);
+    funnel.configPeakCurrentLimit(25);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putBoolean("Intake/HighIR", highIR.get());
+    SmartDashboard.putBoolean("Intake/LowIR", lowIR.get());
   }
 
   public void extend() {
-    // intakeExtend.set(DoubleSolenoid.Value.kForward);
+    intakeExtend.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retract() {
-    // intakeExtend.set(DoubleSolenoid.Value.kReverse);
+    intakeExtend.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void run() {
     run(1.0);
   }
 
-  public void run(double percent){
+  public void intake() {
+    intakeRoller.set(ControlMode.PercentOutput, 1);
+    if (highIR.get()) {
+      conveyor.set(ControlMode.PercentOutput, 0);
+    } else if (lowIR.get()) {
+      conveyor.set(ControlMode.PercentOutput, -1);
+    } else {
+      conveyor.set(ControlMode.PercentOutput, 0);
+    }
+    funnel.set(ControlMode.PercentOutput, -1);
+  }
+
+  public void run(double percent) {
     intakeRoller.set(ControlMode.PercentOutput, percent);
     conveyor.set(ControlMode.PercentOutput, -percent);
     funnel.set(ControlMode.PercentOutput, -percent);
@@ -49,7 +78,8 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyor.set(ControlMode.PercentOutput, 0);
     funnel.set(ControlMode.PercentOutput, 0);
   }
-  public void unrun(double spd){
+
+  public void unrun(double spd) {
     intakeRoller.set(ControlMode.PercentOutput, 0);
     conveyor.set(ControlMode.PercentOutput, -spd);
     funnel.set(ControlMode.PercentOutput, -spd);

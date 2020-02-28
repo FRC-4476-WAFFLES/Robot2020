@@ -14,7 +14,7 @@ import static frc.robot.RobotContainer.*;
 
 public class CameraAim extends CommandBase {
   // TODO: make this a real threshold
-  final static double closeFarsplit = 0;
+  final static double closeFarsplit = 0.5;
   final static double angle = 1;
 
   boolean aimed = false;
@@ -40,6 +40,7 @@ public class CameraAim extends CommandBase {
     switch (vision.getActivePipeline()) {
     case Search:
       if (vision.getHasTarget()) {
+        shooterSubsystem.savedConsistentArea = vision.getArea();
         if (vision.getArea() > closeFarsplit) {
           vision.setPipeline(Camera.Pipeline.Close);
           // shooterSubsystem.moveHood(true);

@@ -66,6 +66,10 @@ public final class Constants {
     // analog input
     public static final int FRONT_ULTRASONIC = 0; // MB1013
 
+    // digital input
+    public static final int HIGH_IR = 0;//ir
+    public static final int LOW_IR = 1;//ir
+
     // path nodes
     public static final Pose2d START_CENTER = new Pose2d(new Translation2d(Units.feetToMeters(10), 0),
             new Rotation2d(0));

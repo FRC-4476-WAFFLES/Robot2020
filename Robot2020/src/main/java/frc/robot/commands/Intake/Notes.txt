@@ -1,0 +1,2 @@
+Run Conveyor untill high ir is up when intaking
+only run Conveyor while low ir is up  when intaking.

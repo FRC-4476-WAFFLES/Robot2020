@@ -32,6 +32,7 @@ public class ClimberDefault extends CommandBase {
   public void execute() {
     currentPos = -10.0 * (operate.getRawAxis(1) + operate.getRawAxis(5));
     climberSubsystem.setDeployWinchSetpoint(currentPos);
+    // climberSubsystem.MoveWinchDumb(operate.getRawAxis(1));
   }
 
   // Called once the command ends or is interrupted.

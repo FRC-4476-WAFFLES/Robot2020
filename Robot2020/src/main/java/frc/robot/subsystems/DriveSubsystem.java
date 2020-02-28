@@ -159,8 +159,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void aimTowards(double angle) {
-    // TODO: make sure this is added and not subtracted from the gyro
-    double out = aim.calculate(angle, 0);
-    tankDriveVoltage(12 * out, 12 * -out);
+    // // TODO: make sure this is added and not subtracted from the gyro
+    // double out = aim.calculate(angle, 0);
+    // tankDriveVoltage(12 * out, 12 * -out);
   }
 }

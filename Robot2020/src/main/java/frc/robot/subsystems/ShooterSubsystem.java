@@ -21,15 +21,17 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax shooterMaster = new CANSparkMax(Constants.SHOOTER_MASTER, MotorType.kBrushless);
   private final CANSparkMax shooterFollower = new CANSparkMax(Constants.SHOOTER_FOLLOWER, MotorType.kBrushless);
   private final TalonSRX shooterFeeder = new TalonSRX(Constants.SHOOTER_PREP);
-  // private final Solenoid hood = new Solenoid(Constants.HOOD);
+  private final Solenoid hood = new Solenoid(Constants.HOOD);
 
   public boolean shouldIntake = false;
+  public double savedConsistentArea = 0;
   private double targetRpm = 0;
 
   private final int ACCEPTABLE_VELOCITY_ERROR = 10;
@@ -124,7 +126,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void moveHood(Boolean up) {
-    // hood.set(up);
+    hood.set(up);
   }
 
   public void unfeed() {

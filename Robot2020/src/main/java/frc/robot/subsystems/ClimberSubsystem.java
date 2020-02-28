@@ -18,6 +18,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public class ClimberSubsystem extends SubsystemBase {
   //////////////////////////////////////// encoders need to be more positive as
@@ -31,8 +32,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANPIDController climberWinchPIDLeft = climberWinchLeft.getPIDController();
   private CANPIDController climberWinchPIDRight = climberWinchRight.getPIDController();
 
-  // private DoubleSolenoid climberLock = new
-  // DoubleSolenoid(Constants.CLIMBER_LOCK, Constants.CLIMBER_UNLOCK);
+  private Solenoid climberLock = new Solenoid(Constants.CLIMBER_LOCK);
+
   // TODO: make sure the setpoints are correct
   private static final int[] deploySetpoints = new int[] { 0, 0, 0, 0 };
   public boolean isGoingToSetPoint = true;
@@ -52,6 +53,8 @@ public class ClimberSubsystem extends SubsystemBase {
     climberWinchEncoderRight.setPosition(0);
     climberWinchLeft.setSmartCurrentLimit(20);
     climberWinchRight.setSmartCurrentLimit(20);
+    climberDeploy.configContinuousCurrentLimit(20);
+    climberDeploy.configPeakCurrentLimit(20);
   }
 
   @Override
@@ -105,10 +108,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void ToggleWinchLock() {
     if (isClimbLocked) {
-      // climberLock.set(DoubleSolenoid.Value.kReverse);
+      climberLock.set(false);
       isClimbLocked = false;
     } else {
-      // climberLock.set(DoubleSolenoid.Value.kForward);
+      climberLock.set(true);
       isClimbLocked = true;
     }
   }
@@ -146,4 +149,10 @@ public class ClimberSubsystem extends SubsystemBase {
     Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
     Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
   }
+
+  // public void MoveWinchDumb(double percent){
+  //   // climberWinchLeft.set(percent);
+  //   // climberWinchRight.set(-percent);
+  //   climberDeploy.set(ControlMode.PercentOutput, percent*0.5);
+  // }
 }
