@@ -48,8 +48,8 @@ public final class Constants {
     public static final int SHOOTER_FOLLOWER = 9; // SPARKMAX
     public static final int SHOOTER_PREP = 10; // SRX
     public static final int INTAKE_ROLLER = 11; // SRX
-    public static final int FUNNEL = 12; // SPX
-    public static final int CONVEYOR = 13; // SPX
+    public static final int FUNNEL = 12; // SRX
+    public static final int CONVEYOR = 13; // SRX
     public static final int COLOUR_WHEEL_MANIPULATOR = 14; // SRX
     // public static final int PCM = 0;// PCM
 

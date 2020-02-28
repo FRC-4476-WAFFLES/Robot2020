@@ -43,6 +43,11 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Intake/LowIR", lowIR.get());
   }
 
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Intake/RollerCurrent", intakeRoller.getSupplyCurrent());
+  }
+
   public void extend() {
     intakeExtend.set(DoubleSolenoid.Value.kForward);
   }
@@ -70,7 +75,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void run(double percent) {
     intakeRoller.set(ControlMode.PercentOutput, percent);
     conveyor.set(ControlMode.PercentOutput, -percent);
-    funnel.set(ControlMode.PercentOutput, -percent);
+    funnel.set(ControlMode.PercentOutput, 1);
   }
 
   public void stop() {
@@ -79,9 +84,9 @@ public class IntakeSubsystem extends SubsystemBase {
     funnel.set(ControlMode.PercentOutput, 0);
   }
 
-  public void unrun(double spd) {
+  public void unrun(double spd){
     intakeRoller.set(ControlMode.PercentOutput, 0);
     conveyor.set(ControlMode.PercentOutput, -spd);
-    funnel.set(ControlMode.PercentOutput, -spd);
+    funnel.set(ControlMode.PercentOutput, 1);
   }
 }

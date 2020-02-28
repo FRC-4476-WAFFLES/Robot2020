@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.utils.Preference;
+import frc.robot.utils.PreferenceManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -74,13 +74,14 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Odometry
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+
+    PreferenceManager.watchPIDController("Drive/aim", aim, 0.1, 0, 0);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Drive/left", driveLeft1.getMotorOutputPercent());
     SmartDashboard.putNumber("Drive/right", driveRight1.getMotorOutputPercent());
-    Preference.UpdatePIDPreferences("Drive/aim", aim, 0.1, 0, 0);
     // This method will be called once per scheduler run
 
     if (DriverStation.getInstance().isDisabled()) {

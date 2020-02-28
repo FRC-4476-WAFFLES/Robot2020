@@ -8,7 +8,7 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.Preference;
+import frc.robot.utils.PreferenceManager;
 import static frc.robot.RobotContainer.*;
 
 public class ShooterRun extends CommandBase {
@@ -22,7 +22,7 @@ public class ShooterRun extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setSpeed(Preference.getDouble("Shooter/RPM", 6000));
+    shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/RPM", 6000));
   }
 
   // Called once the command ends or is interrupted.

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.utils.Preference;
+import frc.robot.utils.PreferenceManager;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,6 +22,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.Solenoid;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -44,13 +45,21 @@ public class ShooterSubsystem extends SubsystemBase {
    * Creates a new ShooterSubsystem.
    */
   public ShooterSubsystem() {
+    shooterMaster.setSmartCurrentLimit(23);
+    shooterFollower.setSmartCurrentLimit(23);
+    shooterMaster.setIdleMode(IdleMode.kCoast);
+    shooterFollower.setIdleMode(IdleMode.kCoast);
+
     // Follower follows master (inverted)
     shooterFollower.follow(shooterMaster, true);
 
-    shooterMaster.setSmartCurrentLimit(23);
     shooterFeeder.configContinuousCurrentLimit(30);
     shooterFeeder.configPeakCurrentLimit(30);
     shooterFeeder.enableCurrentLimit(true);
+
+    var pid = shooterMaster.getPIDController();
+    PreferenceManager.whenChanged("Shooter/kP", 0.001, (v) -> pid.setP(v));
+    PreferenceManager.whenChanged("Shooter/kI", 0.000, (v) -> pid.setI(v));
   }
 
   @Override
@@ -59,13 +68,11 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("PDP/Temp", RobotContainer.pdp.getTemperature());
     SmartDashboard.putNumber("PDP/Tot Current", RobotContainer.pdp.getTotalCurrent());
     SmartDashboard.putNumber("PDP/shooter Current", RobotContainer.pdp.getCurrent(12));
-
-    // Config the Velocity closed loop gains in slot0
-    var pid = shooterMaster.getPIDController();
-    pid.setP(Preference.getDouble("Shooter/kP", 0.001));
-    pid.setI(Preference.getDouble("Shooter/kI", 0.000));
+    SmartDashboard.putNumber("Shooter/FeederCurrent", shooterFeeder.getSupplyCurrent());
 
     // Show motor velocity in RPM on the dashboard
+    // Close speed is 4300
+    // Far speed is 4700
     SmartDashboard.putNumber("Shooter/Speed (rpm)", shooterMaster.getEncoder().getVelocity());
   }
 
