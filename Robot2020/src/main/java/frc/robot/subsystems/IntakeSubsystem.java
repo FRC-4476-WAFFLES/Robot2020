@@ -41,10 +41,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Intake/HighIR", highIR.get());
     SmartDashboard.putBoolean("Intake/LowIR", lowIR.get());
-  }
-
-  @Override
-  public void periodic() {
     SmartDashboard.putNumber("Intake/RollerCurrent", intakeRoller.getSupplyCurrent());
   }
 
@@ -59,7 +55,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public void run() {
     run(1.0);
   }
-
   public void intake() {
     intakeRoller.set(ControlMode.PercentOutput, 1);
     if (highIR.get()) {
@@ -69,7 +64,19 @@ public class IntakeSubsystem extends SubsystemBase {
     } else {
       conveyor.set(ControlMode.PercentOutput, 0);
     }
-    funnel.set(ControlMode.PercentOutput, -1);
+    funnel.set(ControlMode.PercentOutput, 0.5);
+  }
+
+  public void intake(double percent) {
+    intakeRoller.set(ControlMode.PercentOutput, percent);
+    if (highIR.get()) {
+      conveyor.set(ControlMode.PercentOutput, 0);
+    } else if (lowIR.get()) {
+      conveyor.set(ControlMode.PercentOutput, -percent);
+    } else {
+      conveyor.set(ControlMode.PercentOutput, 0);
+    }
+    funnel.set(ControlMode.PercentOutput, Math.abs(percent)*0.5);
   }
 
   public void run(double percent) {

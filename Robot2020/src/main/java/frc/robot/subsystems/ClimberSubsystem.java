@@ -19,6 +19,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.utils.PreferenceManager;
 
 public class ClimberSubsystem extends SubsystemBase {
   //////////////////////////////////////// encoders need to be more positive as
@@ -146,12 +147,12 @@ public class ClimberSubsystem extends SubsystemBase {
     return avg;
   }
 
-  private void updateClimberPIDs() {
-    Preference.UpdateSRXPIDPreferences("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
-    // TODO: make sure these motors dont need spearate PIDs
-    Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
-    Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
-  }
+  // private void updateClimberPIDs() {
+  //   Preference.UpdateSRXPIDPreferences("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
+  //   // TODO: make sure these motors dont need spearate PIDs
+  //   Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
+  //   Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
+  // }
 
   // public void MoveWinchDumb(double percent){
   //   // climberWinchLeft.set(percent);
