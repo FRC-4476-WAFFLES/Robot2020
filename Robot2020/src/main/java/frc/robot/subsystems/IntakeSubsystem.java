@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -42,6 +43,12 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Intake/HighIR", highIR.get());
     SmartDashboard.putBoolean("Intake/LowIR", lowIR.get());
     SmartDashboard.putNumber("Intake/RollerCurrent", intakeRoller.getSupplyCurrent());
+    if(DriverStation.getInstance().getGameSpecificMessage().length()>0){
+      SmartDashboard.putString("Intake/Colour Wheel Value", "" + DriverStation.getInstance().getGameSpecificMessage().charAt(0));
+    }else{
+      SmartDashboard.putString("Intake/Colour Wheel Value", "NONE");
+    }
+    
   }
 
   public void extend() {

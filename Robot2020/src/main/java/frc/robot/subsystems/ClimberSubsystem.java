@@ -147,13 +147,6 @@ public class ClimberSubsystem extends SubsystemBase {
     return avg;
   }
 
-  // private void updateClimberPIDs() {
-  //   Preference.UpdateSRXPIDPreferences("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
-  //   // TODO: make sure these motors dont need spearate PIDs
-  //   Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
-  //   Preference.UpdateNEOPIDPreferences("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
-  // }
-
   // public void MoveWinchDumb(double percent){
   //   // climberWinchLeft.set(percent);
   //   // climberWinchRight.set(-percent);

@@ -26,6 +26,7 @@ import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Utility.CommandSwitch;
+import frc.robot.commands.Autonomous.AimAndShoot;
 import frc.robot.commands.Autonomous.DriveForward;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.ClimberUndeploy;
@@ -81,6 +82,7 @@ public class RobotContainer {
 
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.setDefaultOption("Drive Forward", new DriveForward());
+    autoChooser.addOption("Aim and Shoot", new AimAndShoot());
     SmartDashboard.putData(autoChooser);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
   }
