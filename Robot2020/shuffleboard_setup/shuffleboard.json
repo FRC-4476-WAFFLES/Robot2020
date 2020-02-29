@@ -565,7 +565,7 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "8,0": {
+          "7,0": {
             "size": [
               6,
               7
@@ -573,7 +573,7 @@
             "content": {
               "_type": "Robot Preferences",
               "_source0": "network_table:///Preferences",
-              "_title": "Preferences",
+              "_title": "/Preferences",
               "Miscellaneous/Show search box": true
             }
           }
@@ -582,9 +582,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -13.600000381469727,
-    "y": 0.0,
-    "width": 1547.199951171875,
-    "height": 870.4000244140625
+    "x": -7.199999809265137,
+    "y": -7.199999809265137,
+    "width": 1550.4000244140625,
+    "height": 878.4000244140625
   }
 }
