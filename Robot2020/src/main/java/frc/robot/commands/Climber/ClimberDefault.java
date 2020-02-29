@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
 
 public class ClimberDefault extends CommandBase {
-  private double currentPos;
-
   /**
    * Creates a new ClimberDefault.
    */
@@ -24,14 +22,13 @@ public class ClimberDefault extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentPos = (double) climberSubsystem.getDeployPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currentPos = -10.0 * (operate.getRawAxis(1) + operate.getRawAxis(5));
-    climberSubsystem.setDeployWinchSetpoint(currentPos);
+    double change = -10.0 * (operate.getRawAxis(1) + operate.getRawAxis(5));
+    climberSubsystem.deployFudge(change);
     // climberSubsystem.MoveWinchDumb(operate.getRawAxis(1));
   }
 

@@ -8,7 +8,6 @@
 package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
 
 import static frc.robot.RobotContainer.*;
 
@@ -18,6 +17,7 @@ public class MoveClimber extends CommandBase {
    * Creates a new MoveClimber.
    */
   public MoveClimber(int direction) {
+    addRequirements(climberSubsystem);
     this.direction = direction;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,26 +25,12 @@ public class MoveClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climberSubsystem.changeDeployWinchSetpoint(direction);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    climberSubsystem.changeDeploySetpoint(direction, true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(climberSubsystem.getDeployError()) < ClimberSubsystem.deployStowedThreshold){
-      return true;
-    }else{
-      return false;
-    }
+    return !climberSubsystem.getIsTravelling();
   }
 }

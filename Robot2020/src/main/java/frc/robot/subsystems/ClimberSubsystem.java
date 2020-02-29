@@ -21,7 +21,6 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.utils.PreferenceManager;
 
 public class ClimberSubsystem extends SubsystemBase {
   //////////////////////////////////////// encoders need to be more positive as
@@ -38,27 +37,32 @@ public class ClimberSubsystem extends SubsystemBase {
   private Solenoid climberLock = new Solenoid(Constants.CLIMBER_LOCK);
 
   // TODO: make sure the setpoints are correct
-  private static final int[] deploySetpoints = new int[] { 0, 0, 0, 0 };
-  public boolean isGoingToSetPoint = true;
-  private boolean isClimbLocked = false;
+  private static final int[] deploySetpoints = new int[] { -130, 200, 200, 200 };
 
   private int currentDeploySetpoint = 0;
+  private double currentDeployFudge = 0;
+  private boolean winchFollows = false;
+  private boolean isTravelling = false;
 
   // TODO: make sure the deploy is stowed before climbing
-  public static final int deployStowedThreshold = 10;
+  public static final int deployThreshold = 40;
 
   /**
    * Creates a new ClimberSubsystem.
    */
   public ClimberSubsystem() {
-    climberDeploy.setSelectedSensorPosition(0);
     climberWinchEncoderLeft.setPosition(0);
     climberWinchEncoderRight.setPosition(0);
     climberWinchLeft.setSmartCurrentLimit(20);
     climberWinchRight.setSmartCurrentLimit(20);
+
+    climberDeploy.configFactoryDefault();
     climberDeploy.configContinuousCurrentLimit(20);
     climberDeploy.configPeakCurrentLimit(20);
     climberDeploy.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    climberDeploy.setSelectedSensorPosition(0);
+    climberDeploy.setSensorPhase(false);
+    climberDeploy.setInverted(false);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     // TODO: make sure these motors dont need spearate PIDs
@@ -72,13 +76,37 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Deploy Position", climberDeploy.getSelectedSensorPosition());
     SmartDashboard.putNumber("Climber/Left Winch", climberWinchEncoderLeft.getPosition());
     SmartDashboard.putNumber("Climber/Right Winch", climberWinchEncoderRight.getPosition());
-    SmartDashboard.putBoolean("Climber/Climb Lock", isClimbLocked);
+    SmartDashboard.putNumber("Climber/Deploy Error", getDeployError());
 
+    // if(winchFollows) {
+    //   double position = climberDeploy.getSelectedSensorPosition();
+    //   double setpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
+    //   if(position > setpoint) {
+    //     position -= 10;
+    //   } else {
+    //     position += 10;
+    //   }
+    //   position *= 1.0; // TODO set the ratio
+    //   climberWinchLeft.getPIDController().setReference(position, ControlType.kPosition);
+    //   climberWinchRight.getPIDController().setReference(position, ControlType.kPosition);
+    // }
+
+    if(Math.abs(getDeployError()) < deployThreshold) {
+      isTravelling = false;
+    }
+
+    // if(getIsTravelling()) {
+    //   climberLock.set(true);
+    // } else {
+    //   climberLock.set(false);
+    // }
   }
 
-  // TODO make all these functions do stuff
-  public void setDeploySetpoint(int change) {
+  public void changeDeploySetpoint(int change, boolean winchFollows) {
+    this.winchFollows = winchFollows;
+
     currentDeploySetpoint += change;
+    currentDeployFudge = 0;
 
     if (currentDeploySetpoint < 0) {
       currentDeploySetpoint = 0;
@@ -86,58 +114,32 @@ public class ClimberSubsystem extends SubsystemBase {
       currentDeploySetpoint = deploySetpoints.length - 1;
     }
 
+    isTravelling = true;
     climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint]);
+    // climberDeploy.set(ControlMode.PercentOutput, 0.1);
   }
 
-  public void changeDeployWinchSetpoint(int change) {
-    currentDeploySetpoint += change;
-
-    if (currentDeploySetpoint < 0) {
-      currentDeploySetpoint = 0;
-    } else if (currentDeploySetpoint >= deploySetpoints.length) {
-      currentDeploySetpoint = deploySetpoints.length - 1;
-    }
-    setDeployWinchSetpoint(deploySetpoints[currentDeploySetpoint]);
-  }
-
-  public void setDeployWinchSetpoint(double point) {
-    climberDeploy.set(ControlMode.Position, point);
-
-    // TODO: make this relationship a real one, remembering that neos work in rotations
-    double deployWinchLinearRelation = point;
-
-    climberWinchPIDLeft.setReference(deployWinchLinearRelation, ControlType.kPosition);
-    climberWinchPIDRight.setReference(deployWinchLinearRelation, ControlType.kPosition);
+  public void deployFudge(double change) {
+    // currentDeployFudge += change * 0.02;
+    // climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint] + currentDeployFudge);
   }
 
   public void setLeftWinchSetpoint(double point) {
+    winchFollows = false;
     climberWinchPIDLeft.setReference(point, ControlType.kPosition);
   }
 
   public void setRightWinchSetpoint(double point) {
+    winchFollows = false;
     climberWinchPIDRight.setReference(point, ControlType.kPosition);
   }
 
-  public void ToggleWinchLock() {
-    if (isClimbLocked) {
-      climberLock.set(false);
-      isClimbLocked = false;
-    } else {
-      climberLock.set(true);
-      isClimbLocked = true;
-    }
-  }
-
-  public boolean getIsClimbLocked() {
-    return isClimbLocked;
-  }
-
-  public float getDeployError() {
+  public double getDeployError() {
     return climberDeploy.getClosedLoopError();
   }
 
-  public int getDeployPosition() {
-    return climberDeploy.getSelectedSensorPosition();
+  public boolean getIsTravelling() {
+    return isTravelling;
   }
 
   public double getLeftWinchPosition() {
@@ -154,10 +156,4 @@ public class ClimberSubsystem extends SubsystemBase {
     double avg = (getLeftWinchPosition() + getRigthWinchPosition()) / 2;
     return avg;
   }
-
-  // public void MoveWinchDumb(double percent){
-  //   // climberWinchLeft.set(percent);
-  //   // climberWinchRight.set(-percent);
-  //   climberDeploy.set(ControlMode.PercentOutput, percent*0.5);
-  // }
 }

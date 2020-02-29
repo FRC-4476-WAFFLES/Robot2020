@@ -24,9 +24,9 @@ public class PIDDrive extends CommandBase {
   public PIDDrive(double distance, double angle, double epsilon, double speed_max, boolean timed) {
     // Distances should be in meters.
     // Distance and angle are relative to current position 
-    this.distance = driveSubsystem.nativeToM(distance);
+    this.distance = driveSubsystem.mToNative(distance);
     this.angle = angle;
-    this.epsilon = epsilon;
+    this.epsilon = driveSubsystem.mToNative(epsilon);
     this.speed_max = speed_max;
     this.timed = timed;
 
@@ -50,7 +50,8 @@ public class PIDDrive extends CommandBase {
     double out = driveSubsystem.auto_line.calculate((driveSubsystem.getLeftPos() + driveSubsystem.getRightPos())/2);
     out = out + driveSubsystem.auto_turn.calculate(driveSubsystem.getAngle());
     out = driveSubsystem.clamp(out, -speed_max, speed_max);
-    driveSubsystem.tankDriveVoltage(out, out);
+    System.out.println(out);
+    driveSubsystem.tankDrivePercent(out, out);
 
   }
 

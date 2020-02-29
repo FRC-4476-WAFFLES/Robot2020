@@ -29,6 +29,6 @@ public class DriveForward extends SequentialCommandGroup {
   public DriveForward() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new StartingConfig(), new TrajectoryFollow(traj));
+    super(new TrajectoryFollow(traj));
   }
 }

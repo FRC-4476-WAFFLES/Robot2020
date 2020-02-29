@@ -19,7 +19,7 @@ public class CollidedWithBarTrigger extends Trigger {
 
     @Override
     public boolean get() {
-        return !climberSubsystem.isGoingToSetPoint
+        return !climberSubsystem.getIsTravelling()
                 && Math.abs(climberSubsystem.getDeployError()) >= compressionThreshold;
     }
 }

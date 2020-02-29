@@ -12,8 +12,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 // import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Camera {
+public class Camera extends SubsystemBase {
+  private CameraLEDMode ledMode = CameraLEDMode.Off;
+
   public enum CameraLEDMode {
     Default, Off, Strobe, On
   }
@@ -39,7 +42,14 @@ public class Camera {
 
   }
 
+  @Override
+  public void periodic() {
+    super.periodic();
+    camera.getEntry("ledMode").setNumber(ledMode.ordinal());
+  }
+
   public void setLEDMode(CameraLEDMode mode) {
+    ledMode = mode;
     camera.getEntry("ledMode").setNumber(mode.ordinal());
     System.out.println("Camera mode being set to: " + mode.ordinal());
   }
