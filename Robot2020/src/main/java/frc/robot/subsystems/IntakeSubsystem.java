@@ -63,33 +63,26 @@ public class IntakeSubsystem extends SubsystemBase {
     run(1.0);
   }
   public void intake() {
-    intakeRoller.set(ControlMode.PercentOutput, 1);
-    if (highIR.get()) {
-      conveyor.set(ControlMode.PercentOutput, 0);
-    } else if (lowIR.get()) {
-      conveyor.set(ControlMode.PercentOutput, -1);
-    } else {
-      conveyor.set(ControlMode.PercentOutput, 0);
-    }
-    funnel.set(ControlMode.PercentOutput, 0.5);
+    intake(1);
   }
 
   public void intake(double percent) {
     intakeRoller.set(ControlMode.PercentOutput, percent);
-    if (highIR.get()) {
-      conveyor.set(ControlMode.PercentOutput, 0);
-    } else if (lowIR.get()) {
-      conveyor.set(ControlMode.PercentOutput, -percent);
-    } else {
-      conveyor.set(ControlMode.PercentOutput, 0);
-    }
-    funnel.set(ControlMode.PercentOutput, Math.abs(percent)*0.5);
+    // if (highIR.get()) {
+    //   conveyor.set(ControlMode.PercentOutput, 0);
+    // } else if (lowIR.get()) {
+    //   conveyor.set(ControlMode.PercentOutput, -percent);
+    // } else {
+    //   conveyor.set(ControlMode.PercentOutput, 0);
+    // }
+    conveyor.set(ControlMode.PercentOutput, -percent);
+    funnel.set(ControlMode.PercentOutput, -percent*0.5);
   }
 
   public void run(double percent) {
     intakeRoller.set(ControlMode.PercentOutput, percent);
     conveyor.set(ControlMode.PercentOutput, -percent);
-    funnel.set(ControlMode.PercentOutput, 1);
+    funnel.set(ControlMode.PercentOutput, -0.5);
   }
 
   public void stop() {
@@ -101,6 +94,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public void unrun(double spd){
     intakeRoller.set(ControlMode.PercentOutput, 0);
     conveyor.set(ControlMode.PercentOutput, -spd);
-    funnel.set(ControlMode.PercentOutput, 1);
+    funnel.set(ControlMode.PercentOutput, -0.5);
   }
 }

@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import frc.robot.utils.PreferenceManager;
@@ -19,6 +20,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.PreferenceManager;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -43,7 +45,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private int currentDeploySetpoint = 0;
 
   // TODO: make sure the deploy is stowed before climbing
-  public static final int deployStowedThreshold = 0;
+  public static final int deployStowedThreshold = 10;
 
   /**
    * Creates a new ClimberSubsystem.
@@ -56,6 +58,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberWinchRight.setSmartCurrentLimit(20);
     climberDeploy.configContinuousCurrentLimit(20);
     climberDeploy.configPeakCurrentLimit(20);
+    climberDeploy.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     // TODO: make sure these motors dont need spearate PIDs
@@ -66,6 +69,11 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Climber/Deploy Position", climberDeploy.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Climber/Left Winch", climberWinchEncoderLeft.getPosition());
+    SmartDashboard.putNumber("Climber/Right Winch", climberWinchEncoderRight.getPosition());
+    SmartDashboard.putBoolean("Climber/Climb Lock", isClimbLocked);
+
   }
 
   // TODO make all these functions do stuff

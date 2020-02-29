@@ -32,9 +32,9 @@ public final class Constants {
     // solenoids
     public static final int INTAKE_EXTEND = 4;
     public static final int INTAKE_RETRACT = 3;
-    public static final int CLIMBER_LOCK = 0;
-    public static final int COLOUR_WHEEL = 1;
-    public static final int HOOD = 2;
+    public static final int CLIMBER_LOCK = 1;
+    public static final int COLOUR_WHEEL = 2;
+    public static final int HOOD = 0;
 
     // canbus
     public static final int DRIVE_LEFT_1 = 1; // FX

@@ -40,6 +40,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final DifferentialDriveOdometry m_odometry;
   // TODO: make sure this pid is tuned
   PIDController aim = new PIDController(0.1, 0, 0);
+  public PIDController auto_line = new PIDController(0.1, 0, 0);
+  public PIDController auto_turn = new PIDController(0.1, 0, 0);
 
   /**
    * Creates a new DriveSubsystem.
@@ -124,6 +126,17 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.IEEEremainder(gyro.getAngle(), 360) * (1.0);
   }
 
+  public double getRightPos(){
+    return driveRight1.getSelectedSensorPosition();
+  }
+
+  public double getLeftPos(){
+    return driveLeft1.getSelectedSensorPosition();
+  }
+
+  public double getAngle(){
+    return gyro.getAngle();
+  }
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -144,7 +157,7 @@ public class DriveSubsystem extends SubsystemBase {
     driveRight1.set(ControlMode.PercentOutput, rightVoltage / driveRight1.getBusVoltage());
   }
 
-  private double nativeToM(double convert) {
+  public double nativeToM(double convert) {
     double gearReduction = (50.0 / 14.0) * (54.0 / 20.0);
     double codesPerRot = 2048.0;
     double diameter_inchesPerRot = 6;
@@ -161,7 +174,17 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void aimTowards(double angle) {
     // // TODO: make sure this is added and not subtracted from the gyro
-    // double out = aim.calculate(angle, 0);
-    // tankDriveVoltage(12 * out, 12 * -out);
+    double out = aim.calculate(angle, 0);
+    tankDriveVoltage(12 * out, 12 * -out);
+  }
+
+  public double clamp(double value, double min, double max) {
+    if(value < min) {
+      return min;
+    } else if(value > max) {
+      return max;
+    } else {
+      return value;
+    }
   }
 }
