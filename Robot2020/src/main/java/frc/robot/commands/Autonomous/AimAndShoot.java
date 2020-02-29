@@ -8,7 +8,11 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Climber.MoveClimber;
 import frc.robot.commands.Drive.CameraAim;
+import frc.robot.commands.Intake.IntakeExtend;
+import frc.robot.commands.Intake.IntakeRetract;
 import frc.robot.commands.Shooter.ShooterEmpty;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
@@ -24,9 +28,16 @@ public class AimAndShoot extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new CameraAim().deadlineWith(new ShooterRun()),
-      new ShooterEmpty().deadlineWith(new ShooterShoot(), new ShooterRun()));
-
-    
+      new IntakeRetract(),
+      new IntakeExtend()
+        .alongWith(new CameraAim())
+        .withTimeout(2)
+        .deadlineWith(new ShooterRun()),
+      new WaitCommand(2)
+        .deadlineWith(new ShooterRun()),
+      new ShooterShoot()
+        .alongWith(new ShooterRun())
+        .withTimeout(4)
+    );
   }
 }

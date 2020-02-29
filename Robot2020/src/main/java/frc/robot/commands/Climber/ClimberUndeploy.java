@@ -24,13 +24,13 @@ public class ClimberUndeploy extends CommandBase {
 
   @Override
   public void initialize() {
-    climberSubsystem.setDeploySetpoint(-1000);
+    climberSubsystem.changeDeploySetpoint(-1000, false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (operate.getRawButton(1) && climberSubsystem.getDeployError() > ClimberSubsystem.deployStowedThreshold) {
+    if (operate.getRawButton(1) && climberSubsystem.getDeployError() > ClimberSubsystem.deployThreshold) {
       return true;
     } else {
       return false;

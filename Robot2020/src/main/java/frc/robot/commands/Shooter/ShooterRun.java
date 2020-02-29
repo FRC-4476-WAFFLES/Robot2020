@@ -22,30 +22,32 @@ public class ShooterRun extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/RPM", 6000));
-    if(PreferenceManager.getDouble("Shooter/RPM", 6000)>5000){
-      shooterSubsystem.moveHood(true);
-    }else{
-      shooterSubsystem.moveHood(false);
-    }
-    double area = shooterSubsystem.savedConsistentArea;
-    // if(area > 2.5){
-    //   shooterSubsystem.setSpeed(4500);
-    //   shooterSubsystem.moveHood(false);
-    //   System.out.println("very close");
-    // }else if(area > 1){
-    //   shooterSubsystem.setSpeed(4500);
-    //   shooterSubsystem.moveHood(false);
-    //   System.out.println("initiation line");
-    // }else if(area > 0.5){
-    //   shooterSubsystem.setSpeed(5500);
+    // shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/RPM", 6000));
+
+    // if(PreferenceManager.getDouble("Shooter/RPM", 6000) > 5000){
     //   shooterSubsystem.moveHood(true);
-    //   System.out.println("close trench");
     // }else{
-    //   shooterSubsystem.setSpeed(6000);
-    //   shooterSubsystem.moveHood(true);
-    //   System.out.println("far trench");
+    //   shooterSubsystem.moveHood(false);
     // }
+
+    double area = shooterSubsystem.savedConsistentArea;
+    if(area > 2.5){
+      shooterSubsystem.setSpeed(4500);
+      shooterSubsystem.moveHood(false);
+      System.out.println("very close");
+    }else if(area > 1){
+      shooterSubsystem.setSpeed(4500);
+      shooterSubsystem.moveHood(false);
+      System.out.println("initiation line");
+    }else if(area > 0.5){
+      shooterSubsystem.setSpeed(5150);
+      shooterSubsystem.moveHood(true);
+      System.out.println("close trench");
+    }else{
+      shooterSubsystem.setSpeed(6000);
+      shooterSubsystem.moveHood(true);
+      System.out.println("far trench");
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -78,12 +78,16 @@ public class DriveSubsystem extends SubsystemBase {
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
     PreferenceManager.watchPIDController("Drive/aim", aim, 0.1, 0, 0);
+    PreferenceManager.watchPIDController("Drive/distance", auto_line, 0.1, 0, 0);
+    PreferenceManager.watchPIDController("Drive/turn", auto_turn, 0.1, 0, 0);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Drive/left", driveLeft1.getMotorOutputPercent());
     SmartDashboard.putNumber("Drive/right", driveRight1.getMotorOutputPercent());
+    SmartDashboard.putNumber("Drive/left encoder", nativeToM(driveLeft1.getSelectedSensorPosition()));
+    SmartDashboard.putNumber("Drive/right encoder", nativeToM(driveRight1.getSelectedSensorPosition()));
     // This method will be called once per scheduler run
 
     if (DriverStation.getInstance().isDisabled()) {
@@ -155,6 +159,19 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVoltage(double leftVoltage, double rightVoltage) {
     driveLeft1.set(ControlMode.PercentOutput, leftVoltage / driveLeft1.getBusVoltage());
     driveRight1.set(ControlMode.PercentOutput, rightVoltage / driveRight1.getBusVoltage());
+  }
+
+  public void tankDrivePercent(double left, double right) {
+    driveLeft1.set(ControlMode.PercentOutput, left);
+    driveRight1.set(ControlMode.PercentOutput, right);
+  }
+
+  public double mToNative(double convert) {
+    double gearReduction = (50.0 / 14.0) * (54.0 / 20.0);
+    double codesPerRot = 2048.0;
+    double diameter_inchesPerRot = 6;
+    double metersPerInch = 0.0254;
+    return (convert / (metersPerInch * diameter_inchesPerRot)) * (codesPerRot * gearReduction);
   }
 
   public double nativeToM(double convert) {

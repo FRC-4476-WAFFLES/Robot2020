@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -28,9 +29,12 @@ import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Utility.CommandSwitch;
 import frc.robot.commands.Autonomous.AimAndShoot;
 import frc.robot.commands.Autonomous.DriveForward;
+import frc.robot.commands.Autonomous.PIDDrive;
+import frc.robot.commands.Autonomous.ShootDriveForward;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.ClimberUndeploy;
 import frc.robot.commands.Climber.ClimberWinchCommand;
+import frc.robot.commands.Climber.MoveClimber;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 import frc.robot.commands.Intake.IntakeExtend;
@@ -79,11 +83,13 @@ public class RobotContainer {
     shooterSubsystem.setDefaultCommand(shooterIdle);
     climberSubsystem.setDefaultCommand(climberDefault);
     intakeSubsystem.setDefaultCommand(intakeDefault);
+    CommandScheduler.getInstance().registerSubsystem(vision);
 
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.setDefaultOption("Drive Forward", new DriveForward());
+    autoChooser.setDefaultOption("Drive Forward", new PIDDrive(-1.0, 0, 0.1, 0.2, true));// new DriveForward());
+    autoChooser.addOption("Shoot Drive Forward", new ShootDriveForward());
     autoChooser.addOption("Aim and Shoot", new AimAndShoot());
-    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
   }
 
@@ -122,8 +128,8 @@ public class RobotContainer {
     // bumperLeft.toggleWhenActive(
     //     new StartEndCommand(() -> colourWheelThingySubsystem.deploy(), () -> colourWheelThingySubsystem.recall()));
 
-    povUp.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(1)));
-    povDown.whenActive(new InstantCommand(() -> climberSubsystem.changeDeployWinchSetpoint(-1)));
+    povUp.whenActive(new MoveClimber(1));
+    povDown.whenActive(new MoveClimber(-1));
 
     doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
