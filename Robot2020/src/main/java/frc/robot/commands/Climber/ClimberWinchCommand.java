@@ -39,9 +39,9 @@ public class ClimberWinchCommand extends CommandBase {
     // TODO: make sure this threshold keeps us legal, instead of preventing us from
     // moving
     if (adjust >= 0 && currentLeftPos - currentRightPos < maxEncDiff_angle) {
-      currentLeftPos = currentLeftPos + (int) adjust;
+      currentLeftPos = currentLeftPos + adjust;
     } else if (adjust < 0 && currentRightPos - currentLeftPos < maxEncDiff_angle) {
-      currentRightPos = currentRightPos + (int) adjust;
+      currentRightPos = currentRightPos + adjust;
     }
 
     climberSubsystem.setLeftWinchSetpoint(currentLeftPos);

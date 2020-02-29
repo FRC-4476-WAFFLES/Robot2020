@@ -17,6 +17,7 @@ import frc.robot.utils.PreferenceManager;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -78,28 +79,27 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Right Winch", climberWinchEncoderRight.getPosition());
     SmartDashboard.putNumber("Climber/Deploy Error", getDeployError());
 
-    // if(winchFollows) {
-    //   double position = climberDeploy.getSelectedSensorPosition();
-    //   double setpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
-    //   if(position > setpoint) {
-    //     position -= 10;
-    //   } else {
-    //     position += 10;
-    //   }
-    //   position *= 1.0; // TODO set the ratio
-    //   climberWinchLeft.getPIDController().setReference(position, ControlType.kPosition);
-    //   climberWinchRight.getPIDController().setReference(position, ControlType.kPosition);
-    // }
+    if(winchFollows) {
+      double deployPosition = climberDeploy.getSelectedSensorPosition();
+      double deploySetpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
+      double setpoint = deploySetpoint * 1.0; // TODO set the ratio
+
+      climberWinchPIDLeft.setReference(setpoint, ControlType.kPosition);
+      climberWinchPIDRight.setReference(setpoint, ControlType.kPosition);
+    }
 
     if(Math.abs(getDeployError()) < deployThreshold) {
       isTravelling = false;
     }
 
-    // if(getIsTravelling()) {
-    //   climberLock.set(true);
-    // } else {
-    //   climberLock.set(false);
-    // }
+    // TODO: Don't disengage when moving with the ratchet.
+    boolean motionLeft = Math.abs(climberWinchLeft.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderLeft.getVelocity()) > 1.0;
+    boolean motionRight = Math.abs(climberWinchRight.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderRight.getVelocity()) > 1.0;
+    if(motionLeft || motionRight) {
+       climberLock.set(true);
+    } else {
+       climberLock.set(false);
+    }
   }
 
   public void changeDeploySetpoint(int change, boolean winchFollows) {
@@ -116,7 +116,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     isTravelling = true;
     climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint]);
-    // climberDeploy.set(ControlMode.PercentOutput, 0.1);
   }
 
   public void deployFudge(double change) {
