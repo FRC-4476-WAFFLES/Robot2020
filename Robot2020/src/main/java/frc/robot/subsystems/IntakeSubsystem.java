@@ -32,8 +32,9 @@ public class IntakeSubsystem extends SubsystemBase {
   public IntakeSubsystem() {
     conveyor.configContinuousCurrentLimit(20);
     conveyor.configPeakCurrentLimit(30);
-    intakeRoller.configContinuousCurrentLimit(10);
+    intakeRoller.configContinuousCurrentLimit(20);
     intakeRoller.configPeakCurrentLimit(20);
+    intakeRoller.enableCurrentLimit(false);
     funnel.configContinuousCurrentLimit(20);
     funnel.configPeakCurrentLimit(25);
   }

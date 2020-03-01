@@ -32,19 +32,19 @@ public class ShooterRun extends CommandBase {
 
     double area = shooterSubsystem.savedConsistentArea;
     if(area > 2.5){
-      shooterSubsystem.setSpeed(4500);
+      shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/Close Init RPM", 4500));
       shooterSubsystem.moveHood(false);
       System.out.println("very close");
     }else if(area > 1){
-      shooterSubsystem.setSpeed(4500);
+      shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/Far Init RPM", 4500));
       shooterSubsystem.moveHood(false);
       System.out.println("initiation line");
     }else if(area > 0.5){
-      shooterSubsystem.setSpeed(5150);
+      shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/Close Trench RPM", 5250));
       shooterSubsystem.moveHood(true);
       System.out.println("close trench");
     }else{
-      shooterSubsystem.setSpeed(6000);
+      shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/Far Trench RPM", 6000));
       shooterSubsystem.moveHood(true);
       System.out.println("far trench");
     }

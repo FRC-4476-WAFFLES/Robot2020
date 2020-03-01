@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
@@ -37,7 +38,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private Solenoid climberLock = new Solenoid(Constants.CLIMBER_LOCK);
 
   // TODO: make sure the setpoints are correct
-  private static final int[] deploySetpoints = new int[] { -130, 200, 200, 200 };
+  private static final int[] deploySetpoints = new int[] { -130, 200, 1300 };
+  private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0 };
 
   private int currentDeploySetpoint = 0;
   private double currentDeployFudge = 0;
@@ -63,6 +65,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberDeploy.setSensorPhase(false);
     climberDeploy.setInverted(false);
+    climberDeploy.configClosedLoopPeakOutput(0, 0.2);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     // TODO: make sure these motors dont need spearate PIDs
@@ -77,6 +80,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Left Winch", climberWinchEncoderLeft.getPosition());
     SmartDashboard.putNumber("Climber/Right Winch", climberWinchEncoderRight.getPosition());
     SmartDashboard.putNumber("Climber/Deploy Error", getDeployError());
+    SmartDashboard.putNumber("Climber/Deploy Out", climberDeploy.getMotorOutputPercent());
 
     // if(winchFollows) {
     //   double position = climberDeploy.getSelectedSensorPosition();
@@ -115,7 +119,7 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     isTravelling = true;
-    climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint]);
+    climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint], DemandType.ArbitraryFeedForward, deployFeedForwards[currentDeploySetpoint]);
     // climberDeploy.set(ControlMode.PercentOutput, 0.1);
   }
 
