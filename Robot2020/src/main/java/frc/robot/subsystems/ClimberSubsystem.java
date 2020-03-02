@@ -78,15 +78,15 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Climber/Deploy Position", climberDeploy.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Climber/Left Winch", climberWinchEncoderLeft.getPosition());
-    SmartDashboard.putNumber("Climber/Right Winch", climberWinchEncoderRight.getPosition());
+    SmartDashboard.putNumber("Climber/Left Winch", getLeftWinchPosition());
+    SmartDashboard.putNumber("Climber/Right Winch", getRigthWinchPosition());
     SmartDashboard.putNumber("Climber/Deploy Error", getDeployError());
     SmartDashboard.putNumber("Climber/Deploy Out", climberDeploy.getMotorOutputPercent());
+    SmartDashboard.putNumber("Climber/Ratio", climberDeploy.getSelectedSensorPosition()/getLeftWinchPosition());
 
     if(winchFollows) {
-      double deployPosition = climberDeploy.getSelectedSensorPosition();
       double deploySetpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
-      double setpoint = deploySetpoint * 1.0; // TODO set the ratio
+      double setpoint = deploySetpoint * 0.3232;
 
       climberWinchPIDLeft.setReference(setpoint, ControlType.kPosition);
       climberWinchPIDRight.setReference(setpoint, ControlType.kPosition);

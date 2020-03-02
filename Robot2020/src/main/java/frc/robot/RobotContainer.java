@@ -28,10 +28,13 @@ import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Utility.CommandSwitch;
 import frc.robot.commands.Autonomous.AimAndShoot;
+import frc.robot.commands.Autonomous.BeingFed;
 import frc.robot.commands.Autonomous.DriveForward;
 import frc.robot.commands.Autonomous.PIDDrive;
 import frc.robot.commands.Autonomous.ShootDriveForewardRed;
 import frc.robot.commands.Autonomous.ShootDriveForward;
+import frc.robot.commands.Autonomous.ShootandPickup;
+import frc.robot.commands.Autonomous.TurnTestAuto;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.ClimberUndeploy;
 import frc.robot.commands.Climber.ClimberWinchCommand;
@@ -41,6 +44,7 @@ import frc.robot.commands.Intake.IntakeDefault;
 import frc.robot.commands.Intake.IntakeExtend;
 import frc.robot.commands.Intake.IntakeRetract;
 import frc.robot.commands.Drive.CameraAim;
+import frc.robot.commands.Drive.CameraAimDrive;
 import frc.robot.subsystems.Camera;
 
 /**
@@ -90,9 +94,13 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Drive Forward", new PIDDrive(-1.0, 0, 0.1, 0.2, true));// new DriveForward());
     // autoChooser.addOption("Shoot Drive Forward", new ShootDriveForward());
     autoChooser.addOption("Shoot Drive No Vision", new ShootDriveForewardRed());
+    autoChooser.addOption("Shoot, Pickup", new ShootandPickup());
+    autoChooser.addOption("Turn", new TurnTestAuto());
     autoChooser.addOption("Aim and Shoot", new AimAndShoot());
+    autoChooser.addOption("Being Fed Auto", new BeingFed());
     SmartDashboard.putData("Auto Chooser", autoChooser);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
+    vision.setProcesingMode(Camera.ProcessingMode.Driver);
   }
 
   /**
@@ -104,6 +112,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     final var x = new JoystickButton(operate, XboxController.Button.kX.value);
     final var y = new JoystickButton(operate, XboxController.Button.kY.value);
+    final var a = new JoystickButton(operate, XboxController.Button.kA.value);
+    final var b = new JoystickButton(operate, XboxController.Button.kB.value);
     // final var back = new JoystickButton(operate, XboxController.Button.kBack.value);
     // final var start = new JoystickButton(operate, XboxController.Button.kStart.value);
     // final var bumperLeft = new JoystickButton(operate, XboxController.Button.kBumperLeft.value);
@@ -119,6 +129,8 @@ public class RobotContainer {
 
     x.toggleWhenPressed(new ShooterRun());
     y.whileHeld(new ShooterShoot());
+    a.whenPressed(new InstantCommand(() -> {shooterSubsystem.savedConsistentArea = 2;}));
+    b.whenPressed(new InstantCommand(() -> {shooterSubsystem.savedConsistentArea = 0.75;}));
 
     // Colour wheel controls
     // start.whileHeld(
@@ -136,10 +148,7 @@ public class RobotContainer {
     // doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
 
-    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAim());
-
-    new JoystickButton(rightJoystick, 1).whenPressed(new InstantCommand(() -> shooterSubsystem.moveHood(true)));
-    new JoystickButton(leftJoystick, 1).whenPressed(new InstantCommand(() -> shooterSubsystem.moveHood(false)));
+    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAimDrive());
   }
 
   /**

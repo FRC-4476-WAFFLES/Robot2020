@@ -47,22 +47,26 @@ public class PIDDrive extends CommandBase {
   @Override
   public void execute() {
     driveSubsystem.auto_line.setTolerance(epsilon);
+    driveSubsystem.auto_turn.setTolerance(5);
     double out = driveSubsystem.auto_line.calculate((driveSubsystem.getLeftPos() + driveSubsystem.getRightPos())/2);
-    out = out + driveSubsystem.auto_turn.calculate(driveSubsystem.getAngle());
+    // double out = 0;
+    double turn = driveSubsystem.auto_turn.calculate(driveSubsystem.getAngle());
     out = driveSubsystem.clamp(out, -speed_max, speed_max);
+    turn = driveSubsystem.clamp(turn, -speed_max, speed_max);
     System.out.println(out);
-    driveSubsystem.tankDrivePercent(out, out);
+    driveSubsystem.tankDrivePercent(out - turn, out + turn);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    driveSubsystem.tankDrivePercent(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return driveSubsystem.auto_line.atSetpoint();
+    return driveSubsystem.auto_line.atSetpoint() && driveSubsystem.auto_turn.atSetpoint();
   }
 }

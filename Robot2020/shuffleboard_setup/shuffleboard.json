@@ -430,8 +430,8 @@
           },
           "8,7": {
             "size": [
-              3,
-              2
+              5,
+              3
             ],
             "content": {
               "_type": "Network Table Tree",
@@ -439,7 +439,7 @@
               "_title": "LiveWindow/Ungrouped/Scheduler"
             }
           },
-          "11,7": {
+          "13,7": {
             "size": [
               3,
               2
@@ -519,7 +519,7 @@
               "imageHeight": -1
             }
           },
-          "10,2": {
+          "12,7": {
             "size": [
               2,
               1
@@ -550,6 +550,94 @@
               "_type": "Text View",
               "_source0": "network_table:///limelight/ta",
               "_title": "limelight/ta"
+            }
+          },
+          "7,2": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Chooser",
+              "_title": "/SmartDashboard/Auto Chooser"
+            }
+          },
+          "8,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake/Colour Wheel Value",
+              "_title": "/SmartDashboard/Intake/Colour Wheel Value"
+            }
+          },
+          "8,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/left encoder",
+              "_title": "/SmartDashboard/Drive/left encoder"
+            }
+          },
+          "8,6": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/right encoder",
+              "_title": "/SmartDashboard/Drive/right encoder"
+            }
+          },
+          "10,6": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Deploy Out",
+              "_title": "/SmartDashboard/Climber/Deploy Out"
+            }
+          },
+          "10,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Ratio",
+              "_title": "/SmartDashboard/Climber/Ratio"
+            }
+          },
+          "8,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Right Winch",
+              "_title": "/SmartDashboard/Climber/Right Winch"
+            }
+          },
+          "10,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber/Left Winch",
+              "_title": "/SmartDashboard/Climber/Left Winch"
             }
           }
         }
@@ -587,27 +675,38 @@
               "_title": "SmartDashboard/Climber/Deploy Position"
             }
           },
-          "7,3": {
+          "8,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/ledMode",
+              "_title": "/limelight/ledMode"
+            }
+          },
+          "14,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/gyro",
+              "_title": "/SmartDashboard/Drive/gyro"
+            }
+          },
+          "10,1": {
             "size": [
               5,
-              3
+              9
             ],
             "content": {
               "_type": "Robot Preferences",
               "_source0": "network_table:///Preferences",
               "_title": "/Preferences",
               "Miscellaneous/Show search box": true
-            }
-          },
-          "14,1": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/SendableChooser[0]",
-              "_title": "SmartDashboard/SendableChooser[0]"
             }
           }
         }

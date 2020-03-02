@@ -45,7 +45,8 @@ public class Camera extends SubsystemBase {
   @Override
   public void periodic() {
     super.periodic();
-    camera.getEntry("ledMode").setNumber(ledMode.ordinal());
+    // camera.getEntry("ledMode").setNumber(ledMode.ordinal());
+    // camera.getEntry("camMode").setNumber(1);
   }
 
   public void setLEDMode(CameraLEDMode mode) {

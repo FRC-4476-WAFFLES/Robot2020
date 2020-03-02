@@ -12,12 +12,14 @@ import frc.robot.subsystems.Camera;
 
 import static frc.robot.RobotContainer.*;
 
+
 public class CameraAim extends CommandBase {
   // TODO: make this a real threshold
   final static double closeFarsplit = 0.5;
   final static double angle = 1;
 
   boolean aimed = false;
+  boolean hasSet = false;
 
   /**
    * Creates a new CameraAim.
@@ -32,44 +34,56 @@ public class CameraAim extends CommandBase {
   public void initialize() {
     aimed = false;
     vision.setLEDMode(Camera.CameraLEDMode.On);
+    vision.setProcesingMode(Camera.ProcessingMode.Vision);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    switch (vision.getActivePipeline()) {
-    case Search:
-      if (vision.getHasTarget()) {
+    vision.setPipeline(Camera.Pipeline.Close);
+    if (vision.getHasTarget()) {
+      if(!hasSet){
         shooterSubsystem.savedConsistentArea = vision.getArea();
-        if (vision.getArea() > closeFarsplit) {
-          vision.setPipeline(Camera.Pipeline.Close);
-          // shooterSubsystem.moveHood(true);
-        } else {
-          vision.setPipeline(Camera.Pipeline.Far);
-          // shooterSubsystem.moveHood(false);
-        }
-        driveSubsystem.aimTowards(vision.getHorizontal());
-      }else{
-        driveSubsystem.aimTowards(0);
+        hasSet = true;
       }
-      break;
-
-    case Close:
-      if (vision.getHasTarget()) {
-        driveSubsystem.aimTowards(vision.getHorizontal());
-      } else {
-        vision.setPipeline(Camera.Pipeline.Search);
-      }
-      break;
-
-    case Far:
-      if (vision.getHasTarget()) {
-        driveSubsystem.aimTowards(vision.getHorizontal());
-      } else {
-        vision.setPipeline(Camera.Pipeline.Search);
-      }
-      break;
+      driveSubsystem.aimTowards(vision.getHorizontal());
+    }else{
+      driveSubsystem.aimTowards(0);
     }
+    
+  //   switch (vision.getActivePipeline()) {
+  //   case Search:
+  //     if (vision.getHasTarget()) {
+  //       shooterSubsystem.savedConsistentArea = vision.getArea();
+  //       if (vision.getArea() > closeFarsplit) {
+  //         vision.setPipeline(Camera.Pipeline.Close);
+  //         // shooterSubsystem.moveHood(true);
+  //       } else {
+  //         vision.setPipeline(Camera.Pipeline.Far);
+  //         // shooterSubsystem.moveHood(false);
+  //       }
+  //       driveSubsystem.aimTowards(vision.getHorizontal());
+  //     }else{
+  //       driveSubsystem.aimTowards(0);
+  //     }
+  //     break;
+
+  //   case Close:
+  //     if (vision.getHasTarget()) {
+  //       driveSubsystem.aimTowards(vision.getHorizontal());
+  //     } else {
+  //       vision.setPipeline(Camera.Pipeline.Search);
+  //     }
+  //     break;
+
+  //   case Far:
+  //     if (vision.getHasTarget()) {
+  //       driveSubsystem.aimTowards(vision.getHorizontal());
+  //     } else {
+  //       vision.setPipeline(Camera.Pipeline.Search);
+  //     }
+  //     break;
+  //   }
     aimed = vision.getHasTarget() && Math.abs(vision.getHorizontal()) < angle;
   }
 
@@ -78,6 +92,7 @@ public class CameraAim extends CommandBase {
   public void end(boolean interrupted) {
     vision.setPipeline(Camera.Pipeline.Search);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
+    vision.setProcesingMode(Camera.ProcessingMode.Driver);
   }
 
   // Returns true when the command should end.

@@ -88,6 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive/right", driveRight1.getMotorOutputPercent());
     SmartDashboard.putNumber("Drive/left encoder", nativeToM(driveLeft1.getSelectedSensorPosition()));
     SmartDashboard.putNumber("Drive/right encoder", nativeToM(driveRight1.getSelectedSensorPosition()));
+    SmartDashboard.putNumber("Drive/gyro", gyro.getAngle());
     // This method will be called once per scheduler run
 
     if (DriverStation.getInstance().isDisabled()) {
@@ -167,6 +168,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double mToNative(double convert) {
+    convert = convert/3;
     double gearReduction = (50.0 / 14.0) * (54.0 / 20.0);
     double codesPerRot = 2048.0;
     double diameter_inchesPerRot = 6;
@@ -175,6 +177,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double nativeToM(double convert) {
+    convert = convert*3;
     double gearReduction = (50.0 / 14.0) * (54.0 / 20.0);
     double codesPerRot = 2048.0;
     double diameter_inchesPerRot = 6;
