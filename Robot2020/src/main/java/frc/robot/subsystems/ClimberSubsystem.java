@@ -18,6 +18,7 @@ import frc.robot.utils.PreferenceManager;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -40,7 +41,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   // TODO: make sure the setpoints are correct
   private static final int[] deploySetpoints = new int[] { -130, 200, 1300 };
-  private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0 };
+  private static final double[] winchSetpoints = new double[] {0, 30, 574.3};
+  private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0.1261 };
 
   private int currentDeploySetpoint = 0;
   private double currentDeployFudge = 0;
@@ -57,7 +59,11 @@ public class ClimberSubsystem extends SubsystemBase {
     climberWinchEncoderLeft.setPosition(0);
     climberWinchEncoderRight.setPosition(0);
     climberWinchLeft.setSmartCurrentLimit(20);
+    climberWinchLeft.setIdleMode(IdleMode.kCoast);
+    climberWinchLeft.setInverted(false);
     climberWinchRight.setSmartCurrentLimit(20);
+    climberWinchRight.setIdleMode(IdleMode.kCoast);
+    climberWinchRight.setInverted(true);
 
     climberDeploy.configFactoryDefault();
     climberDeploy.configContinuousCurrentLimit(20);
@@ -66,7 +72,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberDeploy.setSensorPhase(false);
     climberDeploy.setInverted(false);
-    climberDeploy.configClosedLoopPeakOutput(0, 0.2);
+    climberDeploy.configClosedLoopPeakOutput(0, 0.3);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     // TODO: make sure these motors dont need spearate PIDs
@@ -102,7 +108,7 @@ public class ClimberSubsystem extends SubsystemBase {
     if(motionLeft || motionRight) {
        climberLock.set(true);
     } else {
-       climberLock.set(false);
+       climberLock.set(true);
     }
   }
 
