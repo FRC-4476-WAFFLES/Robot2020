@@ -40,8 +40,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private Solenoid climberLock = new Solenoid(Constants.CLIMBER_LOCK);
 
   // TODO: make sure the setpoints are correct
-  private static final int[] deploySetpoints = new int[] { -130, 200, 1300 };
-  private static final double[] winchSetpoints = new double[] {0, 30, 574.3};
+  private static final int[] deploySetpoints = new int[] { -130, 200, 1500 };
+  private static final double[] winchSetpoints = new double[] {0, 30, 630.};
   private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0.1261 };
 
   private int currentDeploySetpoint = 0;
@@ -90,26 +90,27 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Deploy Out", climberDeploy.getMotorOutputPercent());
     SmartDashboard.putNumber("Climber/Ratio", climberDeploy.getSelectedSensorPosition()/getLeftWinchPosition());
 
-    if(winchFollows) {
-      double deploySetpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
-      double setpoint = deploySetpoint * 0.3232;
+    // if(winchFollows) {
+    //   double deploySetpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
+    //   double setpoint = deploySetpoint * 0.3232;
 
-      climberWinchPIDLeft.setReference(setpoint, ControlType.kPosition);
-      climberWinchPIDRight.setReference(setpoint, ControlType.kPosition);
-    }
+    //   climberWinchPIDLeft.setReference(setpoint, ControlType.kPosition);
+    //   climberWinchPIDRight.setReference(setpoint, ControlType.kPosition);
+    // }
 
     if(Math.abs(getDeployError()) < deployThreshold) {
       isTravelling = false;
     }
 
-    // TODO: Don't disengage when moving with the ratchet.
-    boolean motionLeft = Math.abs(climberWinchLeft.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderLeft.getVelocity()) > 1.0;
-    boolean motionRight = Math.abs(climberWinchRight.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderRight.getVelocity()) > 1.0;
-    if(motionLeft || motionRight) {
-       climberLock.set(true);
-    } else {
-       climberLock.set(true);
-    }
+
+    // // TODO: Don't disengage when moving with the ratchet.
+    // boolean motionLeft = Math.abs(climberWinchLeft.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderLeft.getVelocity()) > 1.0;
+    // boolean motionRight = Math.abs(climberWinchRight.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderRight.getVelocity()) > 1.0;
+    // if(motionLeft || motionRight) {
+    //    climberLock.set(true);
+    // } else {
+    //    climberLock.set(true);
+    // }
   }
 
   public void changeDeploySetpoint(int change, boolean winchFollows) {
@@ -124,9 +125,24 @@ public class ClimberSubsystem extends SubsystemBase {
       currentDeploySetpoint = deploySetpoints.length - 1;
     }
 
+    if(winchFollows){
+      climberWinchPIDLeft.setReference(winchSetpoints[currentDeploySetpoint], ControlType.kPosition);
+      climberWinchPIDRight.setReference(winchSetpoints[currentDeploySetpoint], ControlType.kPosition);
+    }
+
     isTravelling = true;
-    climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint], DemandType.ArbitraryFeedForward, deployFeedForwards[currentDeploySetpoint]);
+    if(change < 0 && winchFollows && currentDeploySetpoint != 0){
+      climberDeploy.set(ControlMode.PercentOutput, 0.2);
+    }else{
+      climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint], DemandType.ArbitraryFeedForward, deployFeedForwards[currentDeploySetpoint]);
+    }
     // climberDeploy.set(ControlMode.PercentOutput, 0.1);
+  }
+
+  public void climb(){
+    climberDeploy.set(ControlMode.Position, 0);
+    climberWinchPIDLeft.setReference(200, ControlType.kPosition);
+    climberWinchPIDRight.setReference(200, ControlType.kPosition);
   }
 
   public void deployFudge(double change) {

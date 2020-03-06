@@ -63,21 +63,29 @@ public class IntakeSubsystem extends SubsystemBase {
   public void run() {
     run(1.0);
   }
+
   public void intake() {
     intake(1);
   }
 
+  public boolean HighIR(){
+    return !highIR.get();
+  }
+
+  public boolean LowIR(){
+    return !lowIR.get();
+  }
   public void intake(double percent) {
     intakeRoller.set(ControlMode.PercentOutput, percent);
-    // if (highIR.get()) {
-    //   conveyor.set(ControlMode.PercentOutput, 0);
-    // } else if (lowIR.get()) {
-    //   conveyor.set(ControlMode.PercentOutput, -percent);
-    // } else {
-    //   conveyor.set(ControlMode.PercentOutput, 0);
-    // }
-    conveyor.set(ControlMode.PercentOutput, -percent);
-    funnel.set(ControlMode.PercentOutput, -percent*0.5);
+    if (highIR.get()) {
+      conveyor.set(ControlMode.PercentOutput, 0);
+    } else if (lowIR.get()) {
+      conveyor.set(ControlMode.PercentOutput, -percent);
+    } else {
+      conveyor.set(ControlMode.PercentOutput, 0);
+    }
+    // conveyor.set(ControlMode.PercentOutput, -percent);
+    // funnel.set(ControlMode.PercentOutput, -percent*0.5);
   }
 
   public void run(double percent) {

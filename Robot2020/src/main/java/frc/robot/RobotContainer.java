@@ -125,6 +125,7 @@ public class RobotContainer {
 
     final var povUp = new POVTrigger(operate, 0);
     final var povDown = new POVTrigger(operate, 180);
+    final var povLeft = new POVTrigger(operate, 270);
     final var doUndeploy = new CollidedWithBarTrigger();
 
     x.toggleWhenPressed(new ShooterRun());
@@ -142,8 +143,9 @@ public class RobotContainer {
     // bumperLeft.toggleWhenActive(
     //     new StartEndCommand(() -> colourWheelThingySubsystem.deploy(), () -> colourWheelThingySubsystem.recall()));
 
-    povUp.whenActive(new MoveClimber(1));
-    povDown.whenActive(new MoveClimber(-1));
+    povUp.whileActiveOnce(new MoveClimber(1));
+    povDown.whileActiveOnce(new MoveClimber(-1));
+    povLeft.whileActiveOnce(new InstantCommand(() -> climberSubsystem.climb()));
 
     // doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));

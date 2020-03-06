@@ -697,10 +697,10 @@
               "_title": "/SmartDashboard/Drive/gyro"
             }
           },
-          "10,1": {
+          "11,1": {
             "size": [
               5,
-              9
+              8
             ],
             "content": {
               "_type": "Robot Preferences",
