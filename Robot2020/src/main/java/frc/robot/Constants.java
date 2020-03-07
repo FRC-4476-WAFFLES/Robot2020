@@ -54,17 +54,8 @@ public final class Constants {
     // public static final int PCM = 0;// PCM
 
     // otherContsants
-    public static final double ulrasonicValueToInches = 0.125 * 2.4;
-    public static final double climberRel = 1;
-    public static final double DRIVE_ENCODERS_TO_METERS = 0;
-    public static final double kMaxSpeedMetersPerSecond = 1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-    public static final double kDriveKinematics = 0;
-    public static final int kTimeoutMs = 10;
-    public static double kShooterUnitsPer100MsToRPM = (60.0 * 10.0) / (256.0 * 4.0);
 
     // analog input
-    public static final int FRONT_ULTRASONIC = 0; // MB1013
 
     // digital input
     public static final int HIGH_IR = 1;//ir
