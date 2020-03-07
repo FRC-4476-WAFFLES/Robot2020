@@ -25,6 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final TalonSRX funnel = new TalonSRX(Constants.FUNNEL);
   private final DigitalInput highIR = new DigitalInput(Constants.HIGH_IR);
   private final DigitalInput lowIR = new DigitalInput(Constants.LOW_IR);
+  private int numberofballs = 0;
 
   /**
    * Creates a new IntakeSubsystem.
@@ -65,7 +66,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intake() {
-    intake(1);
+    intake(1, true);
   }
 
   public boolean HighIR(){
@@ -75,20 +76,66 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean LowIR(){
     return !lowIR.get();
   }
-  public void intake(double percent) {
+  public void intake(final double percent, boolean withConveyor) {
+    
+    // if(percent<0){
+    //   numberofballs = 0;
+    //   conveyor.set(ControlMode.PercentOutput, 1);
+    // }else{
+      // if(numberofballs == 0){
+      //   if(LowIR()){
+      //     conveyor.set(ControlMode.PercentOutput, -percent);
+      //     numberofballs++;
+      //   }else{
+      //     conveyor.set(ControlMode.PercentOutput, 0);
+      //   }
+      // }else if(numberofballs == 1){
+      //   if(LowIR()){
+      //     conveyor.set(ControlMode.PercentOutput, -percent);
+      //     numberofballs++;
+      //   }else if(HighIR()){
+      //     conveyor.set(ControlMode.PercentOutput, 0);
+      //   }else{
+      //     conveyor.set(ControlMode.PercentOutput, -percent);
+      //   }
+      // }else if(numberofballs == 2){
+      //   if(LowIR()){
+      //     conveyor.set(ControlMode.PercentOutput, -percent);
+      //     numberofballs++;
+      //   }else{
+      //     conveyor.set(ControlMode.PercentOutput, 0);
+      //   }
+      // }else if(numberofballs == 3){
+        
+      // }
+      // if(LowIR() && HighIR()){
+      //   conveyor.set(ControlMode.PercentOutput, 0);
+      // }else if(LowIR()){
+      //   conveyor.set(ControlMode.PercentOutput, -percent);
+      // }else{
+      //   conveyor.set(ControlMode.PercentOutput, 0);
+      // }
+    // }
+
+
     intakeRoller.set(ControlMode.PercentOutput, percent);
-    if (highIR.get()) {
-      conveyor.set(ControlMode.PercentOutput, 0);
-    } else if (lowIR.get()) {
+    // if (HighIR()) {
+    //   conveyor.set(ControlMode.PercentOutput, 0);
+    // } else if (LowIR()) {
+    //   conveyor.set(ControlMode.PercentOutput, -percent);
+    // } else {
+    //   conveyor.set(ControlMode.PercentOutput, 0);
+    // }
+    // conveyor.set(ControlMode.PercentOutput, -percent);
+    if(withConveyor){
       conveyor.set(ControlMode.PercentOutput, -percent);
-    } else {
+    }else{
       conveyor.set(ControlMode.PercentOutput, 0);
     }
-    // conveyor.set(ControlMode.PercentOutput, -percent);
-    // funnel.set(ControlMode.PercentOutput, -percent*0.5);
+    funnel.set(ControlMode.PercentOutput, -percent*0.5);
   }
 
-  public void run(double percent) {
+  public void run(final double percent) {
     intakeRoller.set(ControlMode.PercentOutput, percent);
     conveyor.set(ControlMode.PercentOutput, -percent);
     funnel.set(ControlMode.PercentOutput, -0.5);
@@ -100,9 +147,10 @@ public class IntakeSubsystem extends SubsystemBase {
     funnel.set(ControlMode.PercentOutput, 0);
   }
 
-  public void unrun(double spd){
+  public void unrun(final double spd){
     intakeRoller.set(ControlMode.PercentOutput, 0);
     conveyor.set(ControlMode.PercentOutput, -spd);
     funnel.set(ControlMode.PercentOutput, -0.5);
+    numberofballs = 0;
   }
 }

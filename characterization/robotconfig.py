@@ -11,14 +11,14 @@
 
     # Note: The first id in the list of ports should be the one with an encoder
     # Ports for the left-side motors
-    "leftMotorPorts": [0, 1],
+    "leftMotorPorts": [1, 2],
     # Ports for the right-side motors
-    "rightMotorPorts": [2, 3],
+    "rightMotorPorts": [3, 4],
 
     # Inversions for the left-side motors
     "leftMotorsInverted": [False, False],
     # Inversions for the right side motors
-    "rightMotorsInverted": [True, False],
+    "rightMotorsInverted": [False, False],
 
     # Wheel diameter (in units of your choice - will dictate units of analysis)
     "wheelDiameter": 6.0 * 0.0254, # 6 inches in metres
@@ -36,10 +36,10 @@
     # Whether the left encoder is inverted
     "leftEncoderInverted": False,
     # Whether the right encoder is inverted:
-    "rightEncoderInverted": False,
+    "rightEncoderInverted": True,
 
     # Your gyro type (one of "NavX", "Pigeon", "ADXRS450", "AnalogGyro", or "None")
-    "gyroType": "None",
+    "gyroType": "ADXRS450",
     # Whatever you put into the constructor of your gyro
     # Could be:
     # "SPI.Port.kMXP" (MXP SPI port for NavX or ADXRS450),
@@ -51,6 +51,7 @@
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
     "gyroPort": "",
 }
+
 
 
 

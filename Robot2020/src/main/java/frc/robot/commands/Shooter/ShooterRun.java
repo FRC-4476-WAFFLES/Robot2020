@@ -31,7 +31,11 @@ public class ShooterRun extends CommandBase {
     // }
 
     double area = shooterSubsystem.savedConsistentArea;
-    if(area > 2.5){
+    if(area == 0){
+      shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/Close Init RPM", 4500));
+      shooterSubsystem.moveHood(false);
+      System.out.println("very close");
+    }else if(area > 2.5){
       shooterSubsystem.setSpeed(PreferenceManager.getDouble("Shooter/Close Init RPM", 4500));
       shooterSubsystem.moveHood(false);
       System.out.println("very close");
