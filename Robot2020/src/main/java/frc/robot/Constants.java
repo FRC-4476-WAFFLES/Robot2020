@@ -68,15 +68,17 @@ public final class Constants {
             new Rotation2d(0));
 
     public static final class DriveConstants {
-        private static final double kS = 1.0;
-        private static final double kV = 1.0;
-        private static final double kA = 1.0;
-        private static final double kTrackWidth = 0.6;
+        private static final double kS = 0.168;
+        private static final double kV = 2.18;
+        private static final double kA = 0.293;
+        private static final double kTrackWidth = 0.72;
 
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidth);
         public static final SimpleMotorFeedforward kFeedforward = new SimpleMotorFeedforward(kS, kV, kA);
         public static final DifferentialDriveVoltageConstraint kVoltageConstraint = new DifferentialDriveVoltageConstraint(kFeedforward, kDriveKinematics, 12);
 
+        // private static final double kMaxSpeed = 2.5;
+        // private static final double kMaxAccel = 3.0;
         private static final double kMaxSpeed = 1.0;
         private static final double kMaxAccel = 1.0;
 
@@ -94,7 +96,7 @@ public final class Constants {
                 .addConstraint(kVoltageConstraint);
         }
 
-        public static final double kP = 0.0;
+        public static final double kP = 11.5;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
     }
