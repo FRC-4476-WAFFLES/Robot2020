@@ -168,19 +168,17 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double mToNative(double convert) {
-    convert = convert/3;
     double gearReduction = (50.0 / 14.0) * (54.0 / 20.0);
     double codesPerRot = 2048.0;
-    double diameter_inchesPerRot = 6;
+    double diameter_inchesPerRot = 6 * Math.PI;
     double metersPerInch = 0.0254;
     return (convert / (metersPerInch * diameter_inchesPerRot)) * (codesPerRot * gearReduction);
   }
 
   public double nativeToM(double convert) {
-    convert = convert*3;
     double gearReduction = (50.0 / 14.0) * (54.0 / 20.0);
     double codesPerRot = 2048.0;
-    double diameter_inchesPerRot = 6;
+    double diameter_inchesPerRot = 6 * Math.PI;
     double metersPerInch = 0.0254;
     return convert * (metersPerInch * diameter_inchesPerRot) / (codesPerRot * gearReduction);
   }
