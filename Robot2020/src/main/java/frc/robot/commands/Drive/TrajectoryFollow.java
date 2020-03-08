@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Autonomous;
+package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -22,8 +22,6 @@ public class TrajectoryFollow extends RamseteCommand {
    * Creates a new TrajectoryFollow.
    */
   public TrajectoryFollow(Trajectory traj) {
-    // Use addRequirements() here to declare subsystem dependencies.
-
     super(traj,
         driveSubsystem::getPose,
         new RamseteController(),

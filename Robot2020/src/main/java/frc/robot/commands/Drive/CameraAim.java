@@ -14,7 +14,6 @@ import static frc.robot.RobotContainer.*;
 
 
 public class CameraAim extends CommandBase {
-  // TODO: make this a real threshold
   final static double closeFarsplit = 0.5;
   final static double angle = 1;
 
@@ -51,39 +50,6 @@ public class CameraAim extends CommandBase {
       driveSubsystem.aimTowards(0);
     }
     
-  //   switch (vision.getActivePipeline()) {
-  //   case Search:
-  //     if (vision.getHasTarget()) {
-  //       shooterSubsystem.savedConsistentArea = vision.getArea();
-  //       if (vision.getArea() > closeFarsplit) {
-  //         vision.setPipeline(Camera.Pipeline.Close);
-  //         // shooterSubsystem.moveHood(true);
-  //       } else {
-  //         vision.setPipeline(Camera.Pipeline.Far);
-  //         // shooterSubsystem.moveHood(false);
-  //       }
-  //       driveSubsystem.aimTowards(vision.getHorizontal());
-  //     }else{
-  //       driveSubsystem.aimTowards(0);
-  //     }
-  //     break;
-
-  //   case Close:
-  //     if (vision.getHasTarget()) {
-  //       driveSubsystem.aimTowards(vision.getHorizontal());
-  //     } else {
-  //       vision.setPipeline(Camera.Pipeline.Search);
-  //     }
-  //     break;
-
-  //   case Far:
-  //     if (vision.getHasTarget()) {
-  //       driveSubsystem.aimTowards(vision.getHorizontal());
-  //     } else {
-  //       vision.setPipeline(Camera.Pipeline.Search);
-  //     }
-  //     break;
-  //   }
     aimed = vision.getHasTarget() && Math.abs(vision.getHorizontal()) < angle;
   }
 

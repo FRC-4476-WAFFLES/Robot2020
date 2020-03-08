@@ -24,7 +24,6 @@ public class ShooterShoot extends CommandBase {
 
   @Override
   public void initialize() {
-    // TODO Auto-generated method stub
     t.reset();
     t.start();
   }

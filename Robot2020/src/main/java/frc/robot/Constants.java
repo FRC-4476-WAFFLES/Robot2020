@@ -32,7 +32,6 @@ public final class Constants {
     // solenoids
     public static final int INTAKE_EXTEND = 4;
     public static final int INTAKE_RETRACT = 3;
-    public static final int CLIMBER_LOCK = 1;
     public static final int COLOUR_WHEEL = 2;
     public static final int HOOD = 0;
 
@@ -80,8 +79,8 @@ public final class Constants {
 
         // private static final double kMaxSpeed = 2.5;
         // private static final double kMaxAccel = 3.0;
-        private static final double kMaxSpeed = 0.2;
-        private static final double kMaxAccel = 0.2;
+        private static final double kMaxSpeed = 0.5;
+        private static final double kMaxAccel = 0.5;
 
         public static TrajectoryConfig getConfig() {
             return getConfig(kMaxSpeed);

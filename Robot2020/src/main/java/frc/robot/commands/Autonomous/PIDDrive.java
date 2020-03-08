@@ -38,7 +38,7 @@ public class PIDDrive extends CommandBase {
   @Override
   public void initialize() {
     startPos = (driveSubsystem.getLeftPos() + driveSubsystem.getRightPos())/2;
-    startAngle = driveSubsystem.getAngle();
+    startAngle = driveSubsystem.getHeading();
     driveSubsystem.auto_line.setSetpoint(startPos + distance);
     driveSubsystem.auto_turn.setSetpoint(startAngle + angle);
   }
@@ -50,7 +50,7 @@ public class PIDDrive extends CommandBase {
     driveSubsystem.auto_turn.setTolerance(5);
     double out = driveSubsystem.auto_line.calculate((driveSubsystem.getLeftPos() + driveSubsystem.getRightPos())/2);
     // double out = 0;
-    double turn = driveSubsystem.auto_turn.calculate(driveSubsystem.getAngle());
+    double turn = driveSubsystem.auto_turn.calculate(driveSubsystem.getHeading());
     out = driveSubsystem.clamp(out, -speed_max, speed_max);
     turn = driveSubsystem.clamp(turn, -speed_max, speed_max);
     System.out.println(out);

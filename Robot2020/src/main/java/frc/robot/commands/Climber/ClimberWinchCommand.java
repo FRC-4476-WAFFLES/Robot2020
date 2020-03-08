@@ -15,7 +15,6 @@ public class ClimberWinchCommand extends CommandBase {
   private static final int maxEncDiff_angle = 0;
   private double currentLeftPos;
   private double currentRightPos;
-  private boolean waitingBtnRelease = false;
 
   /**
    * Creates a new ClimberClimberWinchCommand.

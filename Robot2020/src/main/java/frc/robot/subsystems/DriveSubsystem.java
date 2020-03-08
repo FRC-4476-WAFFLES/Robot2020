@@ -38,7 +38,6 @@ public class DriveSubsystem extends SubsystemBase {
   private boolean has_disabled_hyperspeed_sadface_ = true;
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
-  // TODO: make sure this pid is tuned
   PIDController aim = new PIDController(0.1, 0, 0);
   public PIDController auto_line = new PIDController(0.1, 0, 0);
   public PIDController auto_turn = new PIDController(0.1, 0, 0);
@@ -59,13 +58,10 @@ public class DriveSubsystem extends SubsystemBase {
     driveRight2.setInverted(InvertType.FollowMaster);
 
     // current limiting
-    // TODO: get the correct current limiting values
     driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
     driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
     driveLeft1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     driveRight1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    driveLeft1.setSelectedSensorPosition(0);
-    driveRight1.setSelectedSensorPosition(0);
     driveLeft1.setInverted(true);
     driveRight1.setInverted(false);
     driveLeft1.configVoltageCompSaturation(12);
@@ -85,6 +81,8 @@ public class DriveSubsystem extends SubsystemBase {
     PreferenceManager.watchPIDController("Drive/aim", aim, 0.1, 0, 0);
     PreferenceManager.watchPIDController("Drive/distance", auto_line, 0.1, 0, 0);
     PreferenceManager.watchPIDController("Drive/turn", auto_turn, 0.1, 0, 0);
+
+    setPose(new Pose2d(0, 0, new Rotation2d(0)));
   }
 
   @Override
@@ -94,7 +92,9 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive/left encoder", nativeToM(driveLeft1.getSelectedSensorPosition()));
     SmartDashboard.putNumber("Drive/right encoder", nativeToM(driveRight1.getSelectedSensorPosition()));
     SmartDashboard.putNumber("Drive/gyro", gyro.getAngle());
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Drive/PoseX", getPose().getTranslation().getX());
+    SmartDashboard.putNumber("Drive/PoseY", getPose().getTranslation().getY());
+    SmartDashboard.putNumber("Drive/PoseR", getPose().getRotation().getDegrees());
 
     if (DriverStation.getInstance().isDisabled()) {
       // coast/brake mode
@@ -144,16 +144,14 @@ public class DriveSubsystem extends SubsystemBase {
     return driveLeft1.getSelectedSensorPosition();
   }
 
-  public double getAngle(){
-    return gyro.getAngle();
-  }
-  /**
-   * Returns the currently-estimated pose of the robot.
-   *
-   * @return The pose.
-   */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
+  }
+
+  public void setPose(Pose2d newPose) {
+    driveLeft1.setSelectedSensorPosition(0);
+    driveRight1.setSelectedSensorPosition(0);
+    m_odometry.resetPosition(newPose, Rotation2d.fromDegrees(getHeading()));
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -196,7 +194,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void aimTowards(double angle) {
-    // // TODO: make sure this is added and not subtracted from the gyro
     double out = aim.calculate(angle, 0);
     tankDrivePercent(out, -out);
   }
