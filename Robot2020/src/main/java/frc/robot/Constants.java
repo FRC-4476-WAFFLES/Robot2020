@@ -60,6 +60,7 @@ public final class Constants {
     // digital input
     public static final int HIGH_IR = 1;//ir
     public static final int LOW_IR = 0;//ir
+    public static final int MID_IR = 2;///ir
 
     // path nodes
     public static final Pose2d START_CENTER = new Pose2d(new Translation2d(Units.feetToMeters(10), 0),
@@ -79,8 +80,8 @@ public final class Constants {
 
         // private static final double kMaxSpeed = 2.5;
         // private static final double kMaxAccel = 3.0;
-        private static final double kMaxSpeed = 1.0;
-        private static final double kMaxAccel = 1.0;
+        private static final double kMaxSpeed = 0.2;
+        private static final double kMaxAccel = 0.2;
 
         public static TrajectoryConfig getConfig() {
             return getConfig(kMaxSpeed);

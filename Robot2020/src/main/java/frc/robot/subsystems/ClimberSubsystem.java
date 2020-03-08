@@ -40,8 +40,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private Solenoid climberLock = new Solenoid(Constants.CLIMBER_LOCK);
 
   // TODO: make sure the setpoints are correct
-  private static final int[] deploySetpoints = new int[] { -130, 200, 1500 };
-  private static final double[] winchSetpoints = new double[] {0, 30, 630.};
+  private static final int[] deploySetpoints = new int[] { -130*2, 200*2, 1400*2 };
+  private static final double[] winchSetpoints = new double[] {0, 30, 585.};
   private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0.1261 };
 
   private int currentDeploySetpoint = 0;
@@ -59,10 +59,10 @@ public class ClimberSubsystem extends SubsystemBase {
     climberWinchEncoderLeft.setPosition(0);
     climberWinchEncoderRight.setPosition(0);
     climberWinchLeft.setSmartCurrentLimit(20);
-    climberWinchLeft.setIdleMode(IdleMode.kCoast);
+    climberWinchLeft.setIdleMode(IdleMode.kBrake);
     climberWinchLeft.setInverted(false);
     climberWinchRight.setSmartCurrentLimit(20);
-    climberWinchRight.setIdleMode(IdleMode.kCoast);
+    climberWinchRight.setIdleMode(IdleMode.kBrake);
     climberWinchRight.setInverted(true);
 
     climberDeploy.configFactoryDefault();
@@ -72,7 +72,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberDeploy.setSensorPhase(false);
     climberDeploy.setInverted(false);
-    climberDeploy.configClosedLoopPeakOutput(0, 0.3);
+    climberDeploy.configClosedLoopPeakOutput(0, 0.2);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     // TODO: make sure these motors dont need spearate PIDs
@@ -137,6 +137,10 @@ public class ClimberSubsystem extends SubsystemBase {
       climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint], DemandType.ArbitraryFeedForward, deployFeedForwards[currentDeploySetpoint]);
     }
     // climberDeploy.set(ControlMode.PercentOutput, 0.1);
+  }
+
+  public void undeploy(){
+    climberDeploy.set(ControlMode.Position, 0);
   }
 
   public void climb(){

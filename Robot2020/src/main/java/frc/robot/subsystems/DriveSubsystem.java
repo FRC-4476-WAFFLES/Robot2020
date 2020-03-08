@@ -64,9 +64,14 @@ public class DriveSubsystem extends SubsystemBase {
     driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
     driveLeft1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     driveRight1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    driveRight1.setSelectedSensorPosition(0);
     driveLeft1.setSelectedSensorPosition(0);
+    driveRight1.setSelectedSensorPosition(0);
     driveLeft1.setInverted(true);
+    driveRight1.setInverted(false);
+    driveLeft1.configVoltageCompSaturation(12);
+    driveRight1.configVoltageCompSaturation(12);
+    driveLeft1.enableVoltageCompensation(true);
+    driveRight1.enableVoltageCompensation(true);
 
     // coast/brake mode
     driveLeft1.setNeutralMode(NeutralMode.Brake);
@@ -158,8 +163,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void tankDriveVoltage(double leftVoltage, double rightVoltage) {
-    driveLeft1.set(ControlMode.PercentOutput, leftVoltage / driveLeft1.getBusVoltage());
-    driveRight1.set(ControlMode.PercentOutput, rightVoltage / driveRight1.getBusVoltage());
+    driveLeft1.set(ControlMode.PercentOutput, -leftVoltage / 12.0);
+    driveRight1.set(ControlMode.PercentOutput, -rightVoltage / 12.0);
   }
 
   public void tankDrivePercent(double left, double right) {
@@ -187,13 +192,13 @@ public class DriveSubsystem extends SubsystemBase {
     // in: m/s
     // out: tics/0.1sec
     double timeshift = 0.1;
-    return convert / timeshift;
+    return nativeToM(convert) / timeshift;
   }
 
   public void aimTowards(double angle) {
     // // TODO: make sure this is added and not subtracted from the gyro
     double out = aim.calculate(angle, 0);
-    tankDriveVoltage(12 * out, 12 * -out);
+    tankDrivePercent(out, -out);
   }
 
   public double clamp(double value, double min, double max) {

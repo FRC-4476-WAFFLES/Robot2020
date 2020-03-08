@@ -91,7 +91,8 @@ public class RobotContainer {
     CommandScheduler.getInstance().registerSubsystem(vision);
 
     autoChooser.addOption("Do Nothing", new InstantCommand());
-    autoChooser.setDefaultOption("Drive Forward", new PIDDrive(-1.0, 0, 0.1, 0.2, true));// new DriveForward());
+    // autoChooser.setDefaultOption("Drive Forward", new PIDDrive(-1.0, 0, 0.1, 0.2, true));// new DriveForward());
+    autoChooser.setDefaultOption("Drive Forward", new DriveForward());
     // autoChooser.addOption("Shoot Drive Forward", new ShootDriveForward());
     autoChooser.addOption("Shoot Drive No Vision", new ShootDriveForewardRed());
     autoChooser.addOption("Shoot, Pickup", new ShootandPickup());
@@ -126,6 +127,7 @@ public class RobotContainer {
     final var povUp = new POVTrigger(operate, 0);
     final var povDown = new POVTrigger(operate, 180);
     final var povLeft = new POVTrigger(operate, 270);
+    final var povRight = new POVTrigger(operate, 90);
     final var doUndeploy = new CollidedWithBarTrigger();
 
     x.toggleWhenPressed(new ShooterRun());
@@ -146,6 +148,7 @@ public class RobotContainer {
     povUp.whileActiveOnce(new MoveClimber(1));
     povDown.whileActiveOnce(new MoveClimber(-1));
     povLeft.whileActiveOnce(new InstantCommand(() -> climberSubsystem.climb()));
+    povRight.whileActiveOnce(new InstantCommand(() -> climberSubsystem.undeploy()));
 
     // doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));

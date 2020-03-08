@@ -34,21 +34,28 @@ public class IntakeDefault extends CommandBase {
     if (!shooterSubsystem.shouldIntake) {
       double in = operate.getRawAxis(3);
       double out = operate.getRawAxis(2);
-      double combined = (in * in - out * out) * 0.5;
-      if(combined <= 0.03){
-        minball.reset();
-        minball.start();
-      }
+      double combined = (in * in - out * out) * 1;
+      // if(combined <= 0.03){
+      //   minball.reset();
+      //   minball.start();
+      // }
+      intakeSubsystem.intake(combined, true);
+      // if(minball.get() < 0.6){
+      //   intakeSubsystem.intake(combined, true);
+      // }else 
+      // if(combined < 0){
+      //   intakeSubsystem.intake(combined, true);
+      // } else if(intakeSubsystem.HighIR() && intakeSubsystem.LowIR()){
+      //   intakeSubsystem.intake(combined, false);
+      // }else{
+      //   intakeSubsystem.intake(combined, true);
+      // }
 
-      if(minball.get() < 0.6){
-        intakeSubsystem.intake(combined, true);
-      }else if(intakeSubsystem.HighIR() && intakeSubsystem.LowIR()){
-        intakeSubsystem.intake(combined, false);
-      }else if(intakeSubsystem.LowIR()){
-        intakeSubsystem.intake(combined, true);
-      }else{
-        intakeSubsystem.intake(combined, false);
-      }
+      //  if(intakeSubsystem.LowIR()){
+      //   intakeSubsystem.intake(combined, true);
+      // }else{
+      //   intakeSubsystem.intake(combined, false);
+      // }
     } else {
       intakeSubsystem.run();
     }
