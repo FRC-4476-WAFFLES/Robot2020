@@ -46,6 +46,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private double currentDeployFudge = 0;
   private boolean winchFollows = false;
   private boolean isTravelling = false;
+  public int climbState = 0;
 
   // TODO: make sure the deploy is stowed before climbing
   public static final int deployThreshold = 40;
