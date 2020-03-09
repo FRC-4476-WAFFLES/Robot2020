@@ -43,8 +43,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Intake/HighIR", highIR.get());
-    SmartDashboard.putBoolean("Intake/LowIR", lowIR.get());
+    SmartDashboard.putBoolean("Intake/HighIR", HighIR());
+    SmartDashboard.putBoolean("Intake/LowIR", LowIR());
+    SmartDashboard.putBoolean("Intake/MidIR", MidIR());
     SmartDashboard.putNumber("Intake/RollerCurrent", intakeRoller.getSupplyCurrent());
     if(DriverStation.getInstance().getGameSpecificMessage().length()>0){
       SmartDashboard.putString("Intake/Colour Wheel Value", "" + DriverStation.getInstance().getGameSpecificMessage().charAt(0));
@@ -79,25 +80,25 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean MidIR(){
-    return false;
+    return !midIR.get();
   }
 
   public void intake(final double percent, boolean withConveyor) {
     
-    // if(percent<0){
-    //   numberofballs = 0;
-    //   conveyor.set(ControlMode.PercentOutput, 1);
-    // }else{
-    //   if(!HighIR() && LowIR()){
-    //     conveyor.set(ControlMode.PercentOutput, -percent * 0.5);
-    //   }else if(HighIR() && !MidIR() && LowIR()){
-    //     conveyor.set(ControlMode.PercentOutput, -percent*0.5);
-    //   }else{
-    //     conveyor.set(ControlMode.PercentOutput, 0);
-    //   }
-    // }
+    if(percent<0){
+      numberofballs = 0;
+      conveyor.set(ControlMode.PercentOutput, 1);
+    }else{
+      if(!HighIR() && LowIR()){
+        conveyor.set(ControlMode.PercentOutput, -percent * 0.9);
+      }else if(HighIR() && !MidIR() && LowIR()){
+        conveyor.set(ControlMode.PercentOutput, -percent*0.9);
+      }else{
+        conveyor.set(ControlMode.PercentOutput, 0);
+      }
+    }
 
-    conveyor.set(ControlMode.PercentOutput, -percent*0.5);
+    // conveyor.set(ControlMode.PercentOutput, -percent*0.5);
     intakeRoller.set(ControlMode.PercentOutput, percent * 0.9);
     funnel.set(ControlMode.PercentOutput, -percent*0.5);
   }

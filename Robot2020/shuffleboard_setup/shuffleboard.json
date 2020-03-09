@@ -416,7 +416,7 @@
           },
           "0,7": {
             "size": [
-              14,
+              11,
               3
             ],
             "content": {
@@ -449,7 +449,7 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "6,0": {
+          "4,0": {
             "size": [
               2,
               2
@@ -624,6 +624,19 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Climber/Left Winch",
               "_title": "/SmartDashboard/Climber/Left Winch"
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Intake/MidIR",
+              "_title": "SmartDashboard/Intake/MidIR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           }
         }
