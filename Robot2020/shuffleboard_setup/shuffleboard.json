@@ -416,29 +416,7 @@
           },
           "0,7": {
             "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Basic Subsystem",
-              "_source0": "network_table:///LiveWindow/ShooterSubsystem",
-              "_title": "ShooterSubsystem"
-            }
-          },
-          "3,7": {
-            "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Basic Subsystem",
-              "_source0": "network_table:///LiveWindow/DriveSubsystem",
-              "_title": "DriveSubsystem"
-            }
-          },
-          "8,7": {
-            "size": [
-              5,
+              14,
               3
             ],
             "content": {
@@ -604,7 +582,7 @@
               "_title": "/SmartDashboard/Drive/right encoder"
             }
           },
-          "10,6": {
+          "5,3": {
             "size": [
               2,
               1
@@ -705,10 +683,73 @@
               "_title": "/SmartDashboard/Drive/gyro"
             }
           },
-          "11,1": {
+          "8,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/camMode",
+              "_title": "limelight/camMode"
+            }
+          },
+          "10,1": {
+            "size": [
+              6,
+              6
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://limelight",
+              "_title": "limelight",
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": 0,
+              "imageHeight": 0
+            }
+          },
+          "8,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/ta",
+              "_title": "limelight/ta"
+            }
+          },
+          "8,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/ts",
+              "_title": "limelight/ts"
+            }
+          },
+          "8,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/Consistent Area",
+              "_title": "SmartDashboard/Shooter/Consistent Area"
+            }
+          },
+          "16,0": {
             "size": [
               4,
-              7
+              9
             ],
             "content": {
               "_type": "Robot Preferences",

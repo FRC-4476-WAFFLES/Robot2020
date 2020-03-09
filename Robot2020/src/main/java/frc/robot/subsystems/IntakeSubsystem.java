@@ -84,21 +84,21 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void intake(final double percent, boolean withConveyor) {
     
-    if(percent<0){
-      numberofballs = 0;
-      conveyor.set(ControlMode.PercentOutput, 1);
-    }else{
-      if(!HighIR() && LowIR()){
-        conveyor.set(ControlMode.PercentOutput, -percent * 0.5);
-      }else if(HighIR() && !MidIR() && LowIR()){
-        conveyor.set(ControlMode.PercentOutput, -percent*0.5);
-      }else{
-        conveyor.set(ControlMode.PercentOutput, 0);
-      }
-    }
+    // if(percent<0){
+    //   numberofballs = 0;
+    //   conveyor.set(ControlMode.PercentOutput, 1);
+    // }else{
+    //   if(!HighIR() && LowIR()){
+    //     conveyor.set(ControlMode.PercentOutput, -percent * 0.5);
+    //   }else if(HighIR() && !MidIR() && LowIR()){
+    //     conveyor.set(ControlMode.PercentOutput, -percent*0.5);
+    //   }else{
+    //     conveyor.set(ControlMode.PercentOutput, 0);
+    //   }
+    // }
 
-
-    intakeRoller.set(ControlMode.PercentOutput, percent);
+    conveyor.set(ControlMode.PercentOutput, -percent*0.5);
+    intakeRoller.set(ControlMode.PercentOutput, percent * 0.9);
     funnel.set(ControlMode.PercentOutput, -percent*0.5);
   }
 

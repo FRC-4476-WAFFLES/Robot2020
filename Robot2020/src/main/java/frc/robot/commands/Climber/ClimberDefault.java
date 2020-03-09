@@ -9,6 +9,7 @@ package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
+import java.lang.Math;
 
 public class ClimberDefault extends CommandBase {
   /**
@@ -27,8 +28,10 @@ public class ClimberDefault extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double change = -10.0 * (operate.getRawAxis(1) + operate.getRawAxis(5));
-    climberSubsystem.deployFudge(change);
+    double change = (operate.getRawAxis(1) + operate.getRawAxis(5));
+    if(Math.abs(change) > 0.1){
+      climberSubsystem.deployFudge(change);
+    }
     // climberSubsystem.MoveWinchDumb(operate.getRawAxis(1));
   }
 

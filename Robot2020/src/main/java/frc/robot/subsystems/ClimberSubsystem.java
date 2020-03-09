@@ -38,13 +38,16 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANPIDController climberWinchPIDRight = climberWinchRight.getPIDController();
 
   private Solenoid climberLock = new Solenoid(Constants.CLIMBER_LOCK);
+  public int climbState = 0;
 
   // TODO: make sure the setpoints are correct
   private static final int[] deploySetpoints = new int[] { -130*2, 200*2, 1400*2 };
-  private static final double[] winchSetpoints = new double[] {0, 30, 585.};
+  private static final double[] winchSetpoints = new double[] {0, 30, 590.};
   private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0.1261 };
 
   private int currentDeploySetpoint = 0;
+  private double currentWinchLSetpoint = 0;
+  private double currentWinchRSetpoint = 0;
   private double currentDeployFudge = 0;
   private boolean winchFollows = false;
   private boolean isTravelling = false;
@@ -72,7 +75,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberDeploy.setSensorPhase(false);
     climberDeploy.setInverted(false);
-    climberDeploy.configClosedLoopPeakOutput(0, 0.2);
+    climberDeploy.configClosedLoopPeakOutput(0, 0.5);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     // TODO: make sure these motors dont need spearate PIDs
@@ -89,6 +92,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Deploy Error", getDeployError());
     SmartDashboard.putNumber("Climber/Deploy Out", climberDeploy.getMotorOutputPercent());
     SmartDashboard.putNumber("Climber/Ratio", climberDeploy.getSelectedSensorPosition()/getLeftWinchPosition());
+    SmartDashboard.putNumber("Climber/Left Winch Current", getLWinchCurrent());
 
     // if(winchFollows) {
     //   double deploySetpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
@@ -128,6 +132,7 @@ public class ClimberSubsystem extends SubsystemBase {
     if(winchFollows){
       climberWinchPIDLeft.setReference(winchSetpoints[currentDeploySetpoint], ControlType.kPosition);
       climberWinchPIDRight.setReference(winchSetpoints[currentDeploySetpoint], ControlType.kPosition);
+      currentWinchLSetpoint = currentWinchRSetpoint = winchSetpoints[currentDeploySetpoint];
     }
 
     isTravelling = true;
@@ -147,11 +152,14 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.set(ControlMode.Position, 0);
     climberWinchPIDLeft.setReference(200, ControlType.kPosition);
     climberWinchPIDRight.setReference(200, ControlType.kPosition);
+    currentWinchLSetpoint = currentWinchRSetpoint = 200;
   }
 
   public void deployFudge(double change) {
-    // currentDeployFudge += change * 0.02;
+    currentDeployFudge += change;
     // climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint] + currentDeployFudge);
+    // climberWinchPIDLeft.setReference(winchSetpoints[currentDeploySetpoint] + currentDeployFudge*0.1, ControlType.kPosition);
+    // climberWinchPIDRight.setReference(winchSetpoints[currentDeploySetpoint] + currentDeployFudge*0.1, ControlType.kPosition);
   }
 
   public void setLeftWinchSetpoint(double point) {
@@ -163,6 +171,13 @@ public class ClimberSubsystem extends SubsystemBase {
     winchFollows = false;
     climberWinchPIDRight.setReference(point, ControlType.kPosition);
   }
+  public double getWinchLSetpoint(){
+    return currentWinchLSetpoint;
+  }
+
+  public double getWinchRSetpoint(){
+    return currentWinchRSetpoint;
+  }
 
   public double getDeployError() {
     return climberDeploy.getClosedLoopError();
@@ -170,6 +185,14 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public boolean getIsTravelling() {
     return isTravelling;
+  }
+
+  public void windL(double speed){
+    climberWinchLeft.set(speed);
+  }
+
+  public void windR(double speed){
+    climberWinchRight.set(speed);
   }
 
   public double getLeftWinchPosition() {
@@ -180,6 +203,14 @@ public class ClimberSubsystem extends SubsystemBase {
   public double getRigthWinchPosition() {
     // returns the rotations of the right winch
     return climberWinchEncoderRight.getPosition();
+  }
+
+  public double getLWinchCurrent(){
+    return Math.abs(climberWinchLeft.getOutputCurrent());
+  }
+
+  public double getRWinchCurrent(){
+    return Math.abs(climberWinchRight.getOutputCurrent());
   }
 
   public double getAvgWinchPositions() {

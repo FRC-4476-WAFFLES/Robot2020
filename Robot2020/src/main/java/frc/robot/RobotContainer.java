@@ -39,11 +39,14 @@ import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.ClimberUndeploy;
 import frc.robot.commands.Climber.ClimberWinchCommand;
 import frc.robot.commands.Climber.MoveClimber;
+import frc.robot.commands.Climber.WindRight;
+import frc.robot.commands.Climber.windLeft;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 import frc.robot.commands.Intake.IntakeExtend;
 import frc.robot.commands.Intake.IntakeRetract;
 import frc.robot.commands.Drive.CameraAim;
+import frc.robot.commands.Climber.ClimberClimb;
 import frc.robot.commands.Drive.CameraAimDrive;
 import frc.robot.subsystems.Camera;
 
@@ -101,7 +104,7 @@ public class RobotContainer {
     autoChooser.addOption("Being Fed Auto", new BeingFed());
     SmartDashboard.putData("Auto Chooser", autoChooser);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
-    vision.setProcesingMode(Camera.ProcessingMode.Driver);
+    vision.setProcesingMode(Camera.ProcessingMode.Vision);
   }
 
   /**
@@ -123,6 +126,8 @@ public class RobotContainer {
     final var left7 = new JoystickButton(leftJoystick, 7);
     final var right10 = new JoystickButton(rightJoystick, 10);
     final var right11 = new JoystickButton(rightJoystick, 11);
+    final var left10 = new JoystickButton(leftJoystick, 10);
+    final var right6 = new JoystickButton(rightJoystick, 6);
 
     final var povUp = new POVTrigger(operate, 0);
     final var povDown = new POVTrigger(operate, 180);
@@ -145,15 +150,18 @@ public class RobotContainer {
     // bumperLeft.toggleWhenActive(
     //     new StartEndCommand(() -> colourWheelThingySubsystem.deploy(), () -> colourWheelThingySubsystem.recall()));
 
+
     povUp.whileActiveOnce(new MoveClimber(1));
     povDown.whileActiveOnce(new MoveClimber(-1));
-    povLeft.whileActiveOnce(new InstantCommand(() -> climberSubsystem.climb()));
+    povLeft.whileActiveOnce(new ClimberClimb());
     povRight.whileActiveOnce(new InstantCommand(() -> climberSubsystem.undeploy()));
 
     // doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
 
     left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAimDrive());
+    left10.whileActiveOnce(new windLeft());
+    right6.whileActiveOnce(new WindRight());
   }
 
   /**

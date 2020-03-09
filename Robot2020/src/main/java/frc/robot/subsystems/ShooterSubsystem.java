@@ -69,6 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("PDP/Tot Current", RobotContainer.pdp.getTotalCurrent());
     SmartDashboard.putNumber("PDP/shooter Current", RobotContainer.pdp.getCurrent(12));
     SmartDashboard.putNumber("Shooter/FeederCurrent", shooterFeeder.getSupplyCurrent());
+    SmartDashboard.putNumber("Shooter/Consistent Area", savedConsistentArea);
 
     // Show motor velocity in RPM on the dashboard
     // Close speed is 4300
@@ -122,9 +123,9 @@ public class ShooterSubsystem extends SubsystemBase {
         && Math.abs(targetRpm) > 1000;
   }
 
-  public void feed(boolean feeding) {
+  public void feed(boolean feeding, double percent) {
     if (feeding) {
-      shooterFeeder.set(ControlMode.PercentOutput, -1);
+      shooterFeeder.set(ControlMode.PercentOutput, -percent);
       shouldIntake = true;
     } else {
       shooterFeeder.set(ControlMode.PercentOutput, 0);

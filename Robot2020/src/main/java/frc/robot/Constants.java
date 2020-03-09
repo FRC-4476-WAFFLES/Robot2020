@@ -58,8 +58,8 @@ public final class Constants {
     // analog input
 
     // digital input
-    public static final int HIGH_IR = 1;//ir
-    public static final int LOW_IR = 0;//ir
+    public static final int HIGH_IR = 0;//ir
+    public static final int LOW_IR = 1;//ir
     public static final int MID_IR = 2;///ir
 
     // path nodes

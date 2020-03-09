@@ -5,57 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Shooter;
+package frc.robot.commands.Climber;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
 
-public class ShooterShoot extends CommandBase {
-  Timer t = new Timer();
-
+public class WindRight extends CommandBase {
   /**
-   * Creates a new ShooterShoot.
+   * Creates a new WindRight.
    */
-  public ShooterShoot() {
+  public WindRight() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // TODO Auto-generated method stub
-    t.reset();
-    t.start();
+    climberSubsystem.windR(-0.4);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shooterSubsystem.feed(shooterSubsystem.canShoot());
-    // shooterSubsystem.feed(true);
-
-    // if(shooterSubsystem.canShoot()) {
-    if (t.get() > 0.2) {
-      intakeSubsystem.run();
-    } else {
-      intakeSubsystem.unrun(-1);
-      if (t.get() < 0.1) {
-        shooterSubsystem.unfeed();
-      } else {
-        if(shooterSubsystem.savedConsistentArea < 1){
-          shooterSubsystem.feed(true, 0.5);
-        }else{
-          shooterSubsystem.feed(true, 0.5);
-        }
-      }
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.feed(false, 0);
-    intakeSubsystem.stop();
+    climberSubsystem.windR(0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

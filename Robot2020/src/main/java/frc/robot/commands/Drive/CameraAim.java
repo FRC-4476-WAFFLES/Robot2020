@@ -40,12 +40,13 @@ public class CameraAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    vision.setPipeline(Camera.Pipeline.Close);
+    vision.setPipeline(Camera.Pipeline.Search);
     if (vision.getHasTarget()) {
-      if(!hasSet){
-        shooterSubsystem.savedConsistentArea = vision.getArea();
-        hasSet = true;
-      }
+      // if(!hasSet){
+      //   shooterSubsystem.savedConsistentArea = vision.getArea();
+      //   hasSet = true;
+      // }
+      shooterSubsystem.savedConsistentArea = vision.getArea();
       driveSubsystem.aimTowards(vision.getHorizontal());
     }else{
       driveSubsystem.aimTowards(0);
@@ -92,7 +93,7 @@ public class CameraAim extends CommandBase {
   public void end(boolean interrupted) {
     vision.setPipeline(Camera.Pipeline.Search);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
-    vision.setProcesingMode(Camera.ProcessingMode.Driver);
+    vision.setProcesingMode(Camera.ProcessingMode.Vision);
   }
 
   // Returns true when the command should end.
