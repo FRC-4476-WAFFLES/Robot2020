@@ -161,8 +161,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void tankDriveVoltage(double leftVoltage, double rightVoltage) {
-    driveLeft1.set(ControlMode.PercentOutput, -leftVoltage / 12.0);
-    driveRight1.set(ControlMode.PercentOutput, -rightVoltage / 12.0);
+    driveLeft1.set(ControlMode.PercentOutput, leftVoltage / 12.0);
+    driveRight1.set(ControlMode.PercentOutput, rightVoltage / 12.0);
   }
 
   public void tankDrivePercent(double left, double right) {
