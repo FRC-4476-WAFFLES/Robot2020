@@ -19,6 +19,7 @@ import java.util.TreeMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -29,6 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax shooterMaster = new CANSparkMax(Constants.SHOOTER_MASTER, MotorType.kBrushless);
   private final CANSparkMax shooterFollower = new CANSparkMax(Constants.SHOOTER_FOLLOWER, MotorType.kBrushless);
   private final TalonSRX shooterFeeder = new TalonSRX(Constants.SHOOTER_PREP);
+  private final CANEncoder shooterEncoder = shooterMaster.getEncoder();
   private final Solenoid hood = new Solenoid(Constants.HOOD);
 
   public boolean shouldIntake = false;
@@ -74,7 +76,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Show motor velocity in RPM on the dashboard
     // Close speed is 4300
     // Far speed is 4700
-    SmartDashboard.putNumber("Shooter/Speed (rpm)", shooterMaster.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Shooter/Speed (rpm)", shooterEncoder.getVelocity());
   }
 
   /**
@@ -119,7 +121,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean canShoot() {
-    return Math.abs(shooterMaster.getEncoder().getVelocity() - targetRpm) < ACCEPTABLE_VELOCITY_ERROR
+    return Math.abs(shooterEncoder.getVelocity() - targetRpm) < ACCEPTABLE_VELOCITY_ERROR
         && Math.abs(targetRpm) > 1000;
   }
 

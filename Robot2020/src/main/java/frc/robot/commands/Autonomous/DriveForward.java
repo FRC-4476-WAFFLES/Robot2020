@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.Drive.ResetPose;
+import frc.robot.commands.Drive.TrajectoryFollow;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,6 +31,8 @@ public class DriveForward extends SequentialCommandGroup {
   public DriveForward() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new TrajectoryFollow(traj));
+    super(
+      new ResetPose(traj.getInitialPose()),
+      new TrajectoryFollow(traj));
   }
 }

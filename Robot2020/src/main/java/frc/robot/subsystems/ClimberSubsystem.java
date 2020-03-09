@@ -19,10 +19,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -36,9 +34,6 @@ public class ClimberSubsystem extends SubsystemBase {
   // work in rotations
   private CANPIDController climberWinchPIDLeft = climberWinchLeft.getPIDController();
   private CANPIDController climberWinchPIDRight = climberWinchRight.getPIDController();
-
-  private Solenoid climberLock = new Solenoid(Constants.CLIMBER_LOCK);
-  public int climbState = 0;
 
   // TODO: make sure the setpoints are correct
   private static final int[] deploySetpoints = new int[] { -130*2, 200*2, 1400*2 };
@@ -78,7 +73,6 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.configClosedLoopPeakOutput(0, 0.5);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
-    // TODO: make sure these motors dont need spearate PIDs
     PreferenceManager.watchNeoPID("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
     PreferenceManager.watchNeoPID("climberWinch", climberWinchPIDRight, 0.0, 0.0, 0.0);
   }
@@ -94,34 +88,13 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Ratio", climberDeploy.getSelectedSensorPosition()/getLeftWinchPosition());
     SmartDashboard.putNumber("Climber/Left Winch Current", getLWinchCurrent());
 
-    // if(winchFollows) {
-    //   double deploySetpoint = deploySetpoints[currentDeploySetpoint] + currentDeployFudge;
-    //   double setpoint = deploySetpoint * 0.3232;
-
-    //   climberWinchPIDLeft.setReference(setpoint, ControlType.kPosition);
-    //   climberWinchPIDRight.setReference(setpoint, ControlType.kPosition);
-    // }
-
     if(Math.abs(getDeployError()) < deployThreshold) {
       isTravelling = false;
     }
-
-
-    // // TODO: Don't disengage when moving with the ratchet.
-    // boolean motionLeft = Math.abs(climberWinchLeft.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderLeft.getVelocity()) > 1.0;
-    // boolean motionRight = Math.abs(climberWinchRight.getAppliedOutput()) > 0.05 || Math.abs(climberWinchEncoderRight.getVelocity()) > 1.0;
-    // if(motionLeft || motionRight) {
-    //    climberLock.set(true);
-    // } else {
-    //    climberLock.set(true);
-    // }
   }
 
   public void changeDeploySetpoint(int change, boolean winchFollows) {
-    this.winchFollows = winchFollows;
-
     currentDeploySetpoint += change;
-    currentDeployFudge = 0;
 
     if (currentDeploySetpoint < 0) {
       currentDeploySetpoint = 0;
@@ -141,7 +114,6 @@ public class ClimberSubsystem extends SubsystemBase {
     }else{
       climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint], DemandType.ArbitraryFeedForward, deployFeedForwards[currentDeploySetpoint]);
     }
-    // climberDeploy.set(ControlMode.PercentOutput, 0.1);
   }
 
   public void undeploy(){
@@ -163,12 +135,10 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setLeftWinchSetpoint(double point) {
-    winchFollows = false;
     climberWinchPIDLeft.setReference(point, ControlType.kPosition);
   }
 
   public void setRightWinchSetpoint(double point) {
-    winchFollows = false;
     climberWinchPIDRight.setReference(point, ControlType.kPosition);
   }
   public double getWinchLSetpoint(){
