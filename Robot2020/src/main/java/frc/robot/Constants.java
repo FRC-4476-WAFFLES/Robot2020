@@ -79,8 +79,8 @@ public final class Constants {
 
         // private static final double kMaxSpeed = 2.5;
         // private static final double kMaxAccel = 3.0;
-        private static final double kMaxSpeed = 0.5;
-        private static final double kMaxAccel = 0.5;
+        private static final double kMaxSpeed = 1.0;
+        private static final double kMaxAccel = 1.0;
 
         public static TrajectoryConfig getConfig() {
             return getConfig(kMaxSpeed);
@@ -96,8 +96,10 @@ public final class Constants {
                 .addConstraint(kVoltageConstraint);
         }
 
-        public static final double kP = 11.5;
+        // public static final double kP = 11.5;
+        public static final double kP = 7.8;
         public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static final double kD = 0.013;
+        // public static final double kD = 0.0;
     }
 }
