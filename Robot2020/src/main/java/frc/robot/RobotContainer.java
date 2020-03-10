@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -36,14 +37,13 @@ import frc.robot.commands.Autonomous.TurnTestAuto;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.MoveClimber;
 import frc.robot.commands.Climber.WindRight;
-import frc.robot.commands.Climber.windLeft;
+import frc.robot.commands.Climber.WindLeft;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 import frc.robot.commands.Intake.IntakeExtend;
 import frc.robot.commands.Intake.IntakeRetract;
 import frc.robot.commands.Drive.CameraAim;
 import frc.robot.commands.Climber.ClimberClimb;
-import frc.robot.commands.Drive.CameraAimDrive;
 import frc.robot.subsystems.Camera;
 
 /**
@@ -125,10 +125,10 @@ public class RobotContainer {
     final var left10 = new JoystickButton(leftJoystick, 10);
     final var right6 = new JoystickButton(rightJoystick, 6);
 
-    final var povUp = new POVTrigger(operate, 0);
-    final var povDown = new POVTrigger(operate, 180);
-    final var povLeft = new POVTrigger(operate, 270);
-    final var povRight = new POVTrigger(operate, 90);
+    final var povUp = new POVButton(operate, 0);
+    final var povDown = new POVButton(operate, 180);
+    final var povLeft = new POVButton(operate, 270);
+    final var povRight = new POVButton(operate, 90);
     final var doUndeploy = new CollidedWithBarTrigger();
 
     x.toggleWhenPressed(new ShooterRun());
@@ -155,8 +155,8 @@ public class RobotContainer {
     // doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
 
-    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAimDrive());
-    left10.whileActiveOnce(new windLeft());
+    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAim().perpetually());
+    left10.whileActiveOnce(new WindLeft());
     right6.whileActiveOnce(new WindRight());
   }
 

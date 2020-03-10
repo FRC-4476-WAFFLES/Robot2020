@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 
@@ -60,8 +61,15 @@ public class DriveSubsystem extends SubsystemBase {
     // current limiting
     driveLeft1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
     driveRight1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 60, 0.03));
+
+    // Sensor config
     driveLeft1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     driveRight1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    driveLeft1.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_50Ms);
+    driveRight1.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_50Ms);
+    driveLeft1.configVelocityMeasurementWindow(4);
+    driveRight1.configVelocityMeasurementWindow(4);
+
     driveLeft1.setInverted(true);
     driveRight1.setInverted(false);
     driveLeft1.configVoltageCompSaturation(12);
@@ -95,6 +103,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive/PoseX", getPose().getTranslation().getX());
     SmartDashboard.putNumber("Drive/PoseY", getPose().getTranslation().getY());
     SmartDashboard.putNumber("Drive/PoseR", getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("Drive/leftVelocity", driveLeft1.getSelectedSensorVelocity());
 
     if (DriverStation.getInstance().isDisabled()) {
       // coast/brake mode
