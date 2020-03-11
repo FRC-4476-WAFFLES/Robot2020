@@ -26,16 +26,15 @@ public class AimAndShoot extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new IntakeRetract(),
       new IntakeExtend()
         .alongWith(new CameraAim())
-        .withTimeout(2)
+        .withTimeout(1)
         .deadlineWith(new ShooterRun()),
-      new WaitCommand(2)
+      new WaitCommand(1)
         .deadlineWith(new ShooterRun()),
       new ShooterShoot()
         .alongWith(new ShooterRun())
-        .withTimeout(4)
+        .withTimeout(2)
     );
   }
 }

@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Drive;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
@@ -42,7 +43,11 @@ public class OperatorTankDrive extends CommandBase {
       rspd = rightJoystick.getY()*adjust + stick_avg*(1-adjust);
     }
 
-    driveSubsystem.drive(lspd, rspd);
+    if(DriverStation.getInstance().isAutonomous()) {
+      driveSubsystem.drive(0, 0);
+    } else {
+      driveSubsystem.drive(lspd, rspd);
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -21,6 +21,9 @@ public class IntakeExtend extends SequentialCommandGroup {
   public IntakeExtend() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new IntakeExtendSimple(), new WaitCommand(0.5), new MoveClimber(-1));
+    super(
+      new IntakeExtendSimple(),
+      new WaitCommand(0.5),
+      new MoveClimber(0).withTimeout(2));
   }
 }

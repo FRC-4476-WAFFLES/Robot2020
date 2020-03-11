@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.utils.PreferenceManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Units;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -100,8 +101,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive/left encoder", nativeToM(driveLeft1.getSelectedSensorPosition()));
     SmartDashboard.putNumber("Drive/right encoder", nativeToM(driveRight1.getSelectedSensorPosition()));
     SmartDashboard.putNumber("Drive/gyro", gyro.getAngle());
-    SmartDashboard.putNumber("Drive/PoseX", getPose().getTranslation().getX());
-    SmartDashboard.putNumber("Drive/PoseY", getPose().getTranslation().getY());
+    SmartDashboard.putNumber("Drive/PoseX", Units.metersToFeet(getPose().getTranslation().getX()));
+    SmartDashboard.putNumber("Drive/PoseY", Units.metersToFeet(getPose().getTranslation().getY()));
     SmartDashboard.putNumber("Drive/PoseR", getPose().getRotation().getDegrees());
     SmartDashboard.putNumber("Drive/leftVelocity", driveLeft1.getSelectedSensorVelocity());
 
@@ -119,8 +120,8 @@ public class DriveSubsystem extends SubsystemBase {
       driveRight2.setNeutralMode(NeutralMode.Brake);
     }
     // Odometry
-    m_odometry.update(Rotation2d.fromDegrees(getHeading()), nativeToM(driveLeft1.getSelectedSensorPosition()),
-        nativeToM(driveRight1.getSelectedSensorPosition()));
+    m_odometry.update(Rotation2d.fromDegrees(getHeading()), -nativeToM(driveLeft1.getSelectedSensorPosition()),
+        -nativeToM(driveRight1.getSelectedSensorPosition()));
   }
 
   public void drive(final double left, final double right) {
@@ -142,7 +143,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getHeading() {
     // TODO: make sure it is not reversed
-    return Math.IEEEremainder(gyro.getAngle(), 360) * (1.0);
+    return Math.IEEEremainder(-gyro.getAngle(), 360) * (1.0);
   }
 
   public double getRightPos(){
@@ -166,12 +167,12 @@ public class DriveSubsystem extends SubsystemBase {
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     double left = nativeToMPerS(driveLeft1.getSelectedSensorVelocity());
     double right = nativeToMPerS(driveRight1.getSelectedSensorVelocity());
-    return new DifferentialDriveWheelSpeeds(left, right);
+    return new DifferentialDriveWheelSpeeds(-left, -right);
   }
 
   public void tankDriveVoltage(double leftVoltage, double rightVoltage) {
-    driveLeft1.set(ControlMode.PercentOutput, leftVoltage / 12.0);
-    driveRight1.set(ControlMode.PercentOutput, rightVoltage / 12.0);
+    driveLeft1.set(ControlMode.PercentOutput, -leftVoltage / 12.0);
+    driveRight1.set(ControlMode.PercentOutput, -rightVoltage / 12.0);
   }
 
   public void tankDrivePercent(double left, double right) {

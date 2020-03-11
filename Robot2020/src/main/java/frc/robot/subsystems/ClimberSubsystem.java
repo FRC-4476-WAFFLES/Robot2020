@@ -36,7 +36,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANPIDController climberWinchPIDRight = climberWinchRight.getPIDController();
 
   // TODO: make sure the setpoints are correct
-  private static final int[] deploySetpoints = new int[] { -130*2, 200*2, 1400*2 };
+  private static final int[] deploySetpoints = new int[] { -270, 350, 2800 };
   private static final double[] winchSetpoints = new double[] {0, 30, 590.};
   private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0.1261 };
 
@@ -71,7 +71,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberDeploy.setSensorPhase(false);
     climberDeploy.setInverted(false);
-    climberDeploy.configClosedLoopPeakOutput(0, 0.5);
+    climberDeploy.configClosedLoopPeakOutput(0, 0.2);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     PreferenceManager.watchNeoPID("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
@@ -94,8 +94,8 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
-  public void changeDeploySetpoint(int change, boolean winchFollows) {
-    currentDeploySetpoint += change;
+  public void setDeploySetpoint(int change, boolean winchFollows) {
+    currentDeploySetpoint = change;
 
     if (currentDeploySetpoint < 0) {
       currentDeploySetpoint = 0;

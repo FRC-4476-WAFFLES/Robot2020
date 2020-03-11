@@ -24,7 +24,7 @@ public class ClimberUndeploy extends CommandBase {
 
   @Override
   public void initialize() {
-    climberSubsystem.changeDeploySetpoint(-1000, false);
+    climberSubsystem.setDeploySetpoint(1, false);
   }
 
   // Returns true when the command should end.
