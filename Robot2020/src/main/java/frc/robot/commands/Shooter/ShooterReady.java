@@ -7,38 +7,18 @@
 
 package frc.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
 
-public class ShooterEmpty extends CommandBase {
-  Timer emptyDelay = new Timer();
-
+public class ShooterReady extends CommandBase {
   /**
-   * Creates a new ShooterEmpty.
+   * Creates a new ShooterReady.
    */
-  public ShooterEmpty() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ShooterReady() {
   }
 
-  @Override
-  public void initialize() {
-    emptyDelay.stop();
-    emptyDelay.reset();
-  }
-
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(!intakeSubsystem.LowIR() && !intakeSubsystem.HighIR() && !intakeSubsystem.MidIR()) {
-      emptyDelay.start();
-      if(emptyDelay.get() > 0.3) {
-        return true;
-      }
-    } else {
-      emptyDelay.stop();
-      emptyDelay.reset();
-    }
-    return false;
+    return shooterSubsystem.canShoot();
   }
 }

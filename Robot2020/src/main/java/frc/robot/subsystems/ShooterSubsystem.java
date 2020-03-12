@@ -37,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double savedConsistentArea = 0;
   private double targetRpm = 0;
 
-  private final int ACCEPTABLE_VELOCITY_ERROR = 10;
+  private final int ACCEPTABLE_VELOCITY_ERROR = 300;
 
   // A mapping of speeds (in RPM) to output volatages.
   final TreeMap<Double, Double> feed_forwards = new TreeMap<Double, Double>(

@@ -8,10 +8,10 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Drive.CameraAim;
 import frc.robot.commands.Intake.IntakeExtend;
-import frc.robot.commands.Intake.IntakeRetract;
+import frc.robot.commands.Shooter.ShooterEmpty;
+import frc.robot.commands.Shooter.ShooterReady;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
 
@@ -28,12 +28,13 @@ public class AimAndShoot extends SequentialCommandGroup {
     super(
       new IntakeExtend()
         .alongWith(new CameraAim())
-        .withTimeout(1)
-        .deadlineWith(new ShooterRun()),
-      new WaitCommand(1)
-        .deadlineWith(new ShooterRun()),
-      new ShooterShoot()
-        .alongWith(new ShooterRun())
+        .deadlineWith(new ShooterRun())
+        .withTimeout(1),
+      new ShooterReady()
+        .deadlineWith(new ShooterRun())
+        .withTimeout(2),
+      new ShooterEmpty()
+        .deadlineWith(new ShooterShoot(), new ShooterRun())
         .withTimeout(2)
     );
   }

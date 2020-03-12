@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,7 +22,6 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.triggers.CollidedWithBarTrigger;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
@@ -127,7 +128,6 @@ public class RobotContainer {
     final var povDown = new POVButton(operate, 180);
     final var povLeft = new POVButton(operate, 270);
     final var povRight = new POVButton(operate, 90);
-    final var doUndeploy = new CollidedWithBarTrigger();
 
     x.toggleWhenPressed(new ShooterRun());
     y.whileHeld(new ShooterShoot());

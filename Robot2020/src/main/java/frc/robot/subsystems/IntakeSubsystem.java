@@ -18,15 +18,13 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final DoubleSolenoid intakeExtend = new
-  DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
+  private final DoubleSolenoid intakeExtend = new DoubleSolenoid(Constants.INTAKE_EXTEND, Constants.INTAKE_RETRACT);
   private final TalonSRX intakeRoller = new TalonSRX(Constants.INTAKE_ROLLER);
   private final TalonSRX conveyor = new TalonSRX(Constants.CONVEYOR);
   private final TalonSRX funnel = new TalonSRX(Constants.FUNNEL);
   private final DigitalInput highIR = new DigitalInput(Constants.HIGH_IR);
   private final DigitalInput lowIR = new DigitalInput(Constants.LOW_IR);
   private final DigitalInput midIR = new DigitalInput(Constants.MID_IR);
-  private int numberofballs = 0;
 
   /**
    * Creates a new IntakeSubsystem.
@@ -47,12 +45,13 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Intake/LowIR", LowIR());
     SmartDashboard.putBoolean("Intake/MidIR", MidIR());
     SmartDashboard.putNumber("Intake/RollerCurrent", intakeRoller.getSupplyCurrent());
-    if(DriverStation.getInstance().getGameSpecificMessage().length()>0){
-      SmartDashboard.putString("Intake/Colour Wheel Value", "" + DriverStation.getInstance().getGameSpecificMessage().charAt(0));
-    }else{
+    if (DriverStation.getInstance().getGameSpecificMessage().length() > 0) {
+      SmartDashboard.putString("Intake/Colour Wheel Value",
+          "" + DriverStation.getInstance().getGameSpecificMessage().charAt(0));
+    } else {
       SmartDashboard.putString("Intake/Colour Wheel Value", "NONE");
     }
-    
+
   }
 
   public void extend() {
@@ -71,36 +70,35 @@ public class IntakeSubsystem extends SubsystemBase {
     intake(1, true);
   }
 
-  public boolean HighIR(){
+  public boolean HighIR() {
     return !highIR.get();
   }
 
-  public boolean LowIR(){
+  public boolean LowIR() {
     return !lowIR.get();
   }
 
-  public boolean MidIR(){
+  public boolean MidIR() {
     return !midIR.get();
   }
 
   public void intake(final double percent, boolean withConveyor) {
-    
-    if(percent<0){
-      numberofballs = 0;
+
+    if (percent < 0) {
       conveyor.set(ControlMode.PercentOutput, 1);
-    }else{
-      if(!HighIR() && LowIR()){
+    } else {
+      if (!HighIR() && LowIR()) {
         conveyor.set(ControlMode.PercentOutput, -percent * 0.9);
-      }else if(HighIR() && !MidIR() && LowIR()){
-        conveyor.set(ControlMode.PercentOutput, -percent*0.9);
-      }else{
+      } else if (HighIR() && !MidIR() && LowIR()) {
+        conveyor.set(ControlMode.PercentOutput, -percent * 0.9);
+      } else {
         conveyor.set(ControlMode.PercentOutput, 0);
       }
     }
 
     // conveyor.set(ControlMode.PercentOutput, -percent*0.5);
     intakeRoller.set(ControlMode.PercentOutput, percent * 0.9);
-    funnel.set(ControlMode.PercentOutput, -percent*0.5);
+    funnel.set(ControlMode.PercentOutput, -percent * 0.5);
   }
 
   public void run(final double percent) {
@@ -115,10 +113,9 @@ public class IntakeSubsystem extends SubsystemBase {
     funnel.set(ControlMode.PercentOutput, 0);
   }
 
-  public void unrun(final double spd){
+  public void unrun(final double spd) {
     intakeRoller.set(ControlMode.PercentOutput, 0);
     conveyor.set(ControlMode.PercentOutput, -spd);
     funnel.set(ControlMode.PercentOutput, -0.5);
-    numberofballs = 0;
   }
 }

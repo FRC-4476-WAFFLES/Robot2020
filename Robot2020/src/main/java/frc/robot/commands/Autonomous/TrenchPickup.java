@@ -25,10 +25,17 @@ import frc.robot.commands.Shooter.ShooterRun;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TrenchPickup extends SequentialCommandGroup {
   static final Trajectory firstTrajectory = TrajectoryGenerator.generateTrajectory(
-        List.of(Constants.START_CENTER, Constants.BEFORE_TRENCH, Constants.START_TRENCH, Constants.END_TRENCH),
+        List.of(
+          Constants.START_CENTER,
+          Constants.BEFORE_TRENCH,
+          Constants.START_TRENCH,
+          Constants.ENTER_TRENCH,
+          Constants.END_TRENCH),
         DriveConstants.getConfig());
   static final Trajectory secondTrajectory = TrajectoryGenerator.generateTrajectory(
-        List.of(Constants.END_TRENCH, Constants.START_CENTER),
+        List.of(
+          Constants.END_TRENCH,
+          Constants.START_CENTER),
         DriveConstants.getConfig().setReversed(true));
 
   /**
