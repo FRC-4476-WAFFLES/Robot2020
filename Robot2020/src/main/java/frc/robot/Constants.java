@@ -66,9 +66,7 @@ public final class Constants {
             new Rotation2d(0));
     public static final Pose2d BEFORE_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(13), Units.feetToMeters(1.86)),
             new Rotation2d(57.3));
-    public static final Pose2d START_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(16.95), Units.feetToMeters(4.7)),
-            new Rotation2d(0));
-    public static final Pose2d ENTER_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(17.95), Units.feetToMeters(5.2)),
+    public static final Pose2d START_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(16.95), Units.feetToMeters(5.2)),
             new Rotation2d(0));
     public static final Pose2d END_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(25.25), Units.feetToMeters(5.2)),
             new Rotation2d(0));

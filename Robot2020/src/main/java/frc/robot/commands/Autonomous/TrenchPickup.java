@@ -29,7 +29,6 @@ public class TrenchPickup extends SequentialCommandGroup {
           Constants.START_CENTER,
           Constants.BEFORE_TRENCH,
           Constants.START_TRENCH,
-          Constants.ENTER_TRENCH,
           Constants.END_TRENCH),
         DriveConstants.getConfig());
   static final Trajectory secondTrajectory = TrajectoryGenerator.generateTrajectory(
@@ -54,5 +53,7 @@ public class TrenchPickup extends SequentialCommandGroup {
         .deadlineWith(new ShooterRun()),
       new AimAndShoot()
       );
+
+      System.out.println(firstTrajectory);
   }
 }
