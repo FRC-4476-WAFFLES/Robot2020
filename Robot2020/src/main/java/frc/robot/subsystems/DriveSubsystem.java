@@ -104,7 +104,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drive/PoseX", Units.metersToFeet(getPose().getTranslation().getX()));
     SmartDashboard.putNumber("Drive/PoseY", Units.metersToFeet(getPose().getTranslation().getY()));
     SmartDashboard.putNumber("Drive/PoseR", getPose().getRotation().getDegrees());
-    SmartDashboard.putNumber("Drive/leftVelocity", driveLeft1.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Drive/leftVelocity", getLeftVelocity());
 
     if (DriverStation.getInstance().isDisabled()) {
       // coast/brake mode
@@ -146,11 +146,11 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.IEEEremainder(-gyro.getAngle(), 360) * (1.0);
   }
 
-  public double getRightPos(){
+  public double getRightPos() {
     return driveRight1.getSelectedSensorPosition();
   }
 
-  public double getLeftPos(){
+  public double getLeftPos() {
     return driveLeft1.getSelectedSensorPosition();
   }
 
@@ -209,12 +209,28 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double clamp(double value, double min, double max) {
-    if(value < min) {
+    if (value < min) {
       return min;
-    } else if(value > max) {
+    } else if (value > max) {
       return max;
     } else {
       return value;
     }
+  }
+
+  public double getLeftCurrent() {
+    return driveLeft1.getStatorCurrent();
+  }
+
+  public double getLeftVelocity() {
+    return driveLeft1.getSelectedSensorVelocity();
+  }
+
+  public double getRightCurrent() {
+    return driveRight1.getStatorCurrent();
+  }
+
+  public double getRightVelocity() {
+    return driveRight1.getSelectedSensorVelocity();
   }
 }

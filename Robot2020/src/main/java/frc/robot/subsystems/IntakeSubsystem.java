@@ -118,4 +118,16 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyor.set(ControlMode.PercentOutput, -spd);
     funnel.set(ControlMode.PercentOutput, -0.5);
   }
+
+  public double getIntakeCurrent(){
+    return intakeRoller.getStatorCurrent();
+  }
+
+  public double getFunnelCurrent(){
+    return funnel.getStatorCurrent();
+  }
+
+  public double getConveyorCurrent(){
+    return conveyor.getStatorCurrent();
+  }
 }
