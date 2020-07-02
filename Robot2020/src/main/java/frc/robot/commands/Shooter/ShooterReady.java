@@ -5,27 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Climber;
+package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
 
-public class WindRight extends CommandBase {
+public class ShooterReady extends CommandBase {
   /**
-   * Creates a new WindRight.
+   * Creates a new ShooterReady.
    */
-  public WindRight() {
+  public ShooterReady() {
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    climberSubsystem.windR(-0.4);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    climberSubsystem.windR(0);
+  public boolean isFinished() {
+    return shooterSubsystem.canShoot();
   }
 }

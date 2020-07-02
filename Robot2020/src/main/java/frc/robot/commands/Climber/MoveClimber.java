@@ -25,7 +25,7 @@ public class MoveClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climberSubsystem.changeDeploySetpoint(direction, true);
+    climberSubsystem.setDeploySetpoint(direction, true);
   }
 
   // Returns true when the command should end.

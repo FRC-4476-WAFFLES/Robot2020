@@ -64,6 +64,12 @@ public final class Constants {
     // path nodes
     public static final Pose2d START_CENTER = new Pose2d(new Translation2d(Units.feetToMeters(10), 0),
             new Rotation2d(0));
+    public static final Pose2d BEFORE_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(13), Units.feetToMeters(1.86)),
+            new Rotation2d(57.3));
+    public static final Pose2d START_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(16.95), Units.feetToMeters(5.2)),
+            new Rotation2d(0));
+    public static final Pose2d END_TRENCH = new Pose2d(new Translation2d(Units.feetToMeters(25.25), Units.feetToMeters(5.2)),
+            new Rotation2d(0));
     public static final Pose2d DRIVE_FORWARD = new Pose2d(new Translation2d(Units.feetToMeters(20), 0),
             new Rotation2d(0));
 
@@ -79,8 +85,8 @@ public final class Constants {
 
         // private static final double kMaxSpeed = 2.5;
         // private static final double kMaxAccel = 3.0;
-        private static final double kMaxSpeed = 1.0;
-        private static final double kMaxAccel = 1.0;
+        private static final double kMaxSpeed = 2.5;
+        private static final double kMaxAccel = 1.5;
 
         public static TrajectoryConfig getConfig() {
             return getConfig(kMaxSpeed);
@@ -97,9 +103,10 @@ public final class Constants {
         }
 
         // public static final double kP = 11.5;
-        public static final double kP = 7.8;
+        // public static final double kP = 7.8;
+        public static final double kP = 2.0;
         public static final double kI = 0.0;
-        public static final double kD = 0.013;
-        // public static final double kD = 0.0;
+        // public static final double kD = 0.013;
+        public static final double kD = 0.0;
     }
 }

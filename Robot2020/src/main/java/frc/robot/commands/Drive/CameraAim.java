@@ -12,7 +12,6 @@ import frc.robot.subsystems.Camera;
 
 import static frc.robot.RobotContainer.*;
 
-
 public class CameraAim extends CommandBase {
   final static double closeFarsplit = 0.5;
   final static double angle = 1;
@@ -42,21 +41,22 @@ public class CameraAim extends CommandBase {
     vision.setPipeline(Camera.Pipeline.Search);
     if (vision.getHasTarget()) {
       // if(!hasSet){
-      //   shooterSubsystem.savedConsistentArea = vision.getArea();
-      //   hasSet = true;
+      // shooterSubsystem.savedConsistentArea = vision.getArea();
+      // hasSet = true;
       // }
       shooterSubsystem.savedConsistentArea = vision.getArea();
       driveSubsystem.aimTowards(vision.getHorizontal());
-    }else{
+    } else {
       driveSubsystem.aimTowards(0);
     }
-    
+
     aimed = vision.getHasTarget() && Math.abs(vision.getHorizontal()) < angle;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    driveSubsystem.tankDrivePercent(0, 0);
     vision.setPipeline(Camera.Pipeline.Search);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
     vision.setProcesingMode(Camera.ProcessingMode.Vision);

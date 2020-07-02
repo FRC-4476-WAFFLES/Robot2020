@@ -27,8 +27,10 @@ public class ClimberSubsystem extends SubsystemBase {
   //////////////////////////////////////// encoders need to be more positive as
   //////////////////////////////////////// they extend
   private TalonSRX climberDeploy = new TalonSRX(Constants.CLIMBER_DEPLOY);
-  private CANSparkMax climberWinchRight = new CANSparkMax(Constants.CLIMBER_RIGHT_WINCH, CANSparkMaxLowLevel.MotorType.kBrushless);
-  private CANSparkMax climberWinchLeft = new CANSparkMax(Constants.CLIMBER_LEFT_WINCH, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private CANSparkMax climberWinchRight = new CANSparkMax(Constants.CLIMBER_RIGHT_WINCH,
+      CANSparkMaxLowLevel.MotorType.kBrushless);
+  private CANSparkMax climberWinchLeft = new CANSparkMax(Constants.CLIMBER_LEFT_WINCH,
+      CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANEncoder climberWinchEncoderLeft = climberWinchLeft.getEncoder();
   private CANEncoder climberWinchEncoderRight = climberWinchRight.getEncoder();
   // work in rotations
@@ -36,8 +38,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANPIDController climberWinchPIDRight = climberWinchRight.getPIDController();
 
   // TODO: make sure the setpoints are correct
-  private static final int[] deploySetpoints = new int[] { -130*2, 200*2, 1400*2 };
-  private static final double[] winchSetpoints = new double[] {0, 30, 590.};
+  private static final int[] deploySetpoints = new int[] { -480, 350, 1900 };
+  private static final double[] winchSetpoints = new double[] { -70, 55, 520 };
   private static final double[] deployFeedForwards = new double[] { 0.05, 0.11, 0.1261 };
 
   private int currentDeploySetpoint = 0;
@@ -59,9 +61,11 @@ public class ClimberSubsystem extends SubsystemBase {
     climberWinchEncoderRight.setPosition(0);
     climberWinchLeft.setSmartCurrentLimit(20);
     climberWinchLeft.setIdleMode(IdleMode.kBrake);
+    // climberWinchLeft.setIdleMode(IdleMode.kCoast);
     climberWinchLeft.setInverted(false);
     climberWinchRight.setSmartCurrentLimit(20);
     climberWinchRight.setIdleMode(IdleMode.kBrake);
+    // climberWinchRight.setIdleMode(IdleMode.kCoast);
     climberWinchRight.setInverted(true);
 
     climberDeploy.configFactoryDefault();
@@ -71,7 +75,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberDeploy.setSelectedSensorPosition(0);
     climberDeploy.setSensorPhase(false);
     climberDeploy.setInverted(false);
-    climberDeploy.configClosedLoopPeakOutput(0, 0.5);
+    climberDeploy.configClosedLoopPeakOutput(0, 0.2);
 
     PreferenceManager.watchSrxPID("climberDeploy", climberDeploy, 0.0, 0.0, 0.0);
     PreferenceManager.watchNeoPID("climberWinch", climberWinchPIDLeft, 0.0, 0.0, 0.0);
@@ -86,16 +90,16 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Right Winch", getRigthWinchPosition());
     SmartDashboard.putNumber("Climber/Deploy Error", getDeployError());
     SmartDashboard.putNumber("Climber/Deploy Out", climberDeploy.getMotorOutputPercent());
-    SmartDashboard.putNumber("Climber/Ratio", climberDeploy.getSelectedSensorPosition()/getLeftWinchPosition());
+    SmartDashboard.putNumber("Climber/Ratio", climberDeploy.getSelectedSensorPosition() / getLeftWinchPosition());
     SmartDashboard.putNumber("Climber/Left Winch Current", getLWinchCurrent());
 
-    if(Math.abs(getDeployError()) < deployThreshold) {
+    if (Math.abs(getDeployError()) < deployThreshold) {
       isTravelling = false;
     }
   }
 
-  public void changeDeploySetpoint(int change, boolean winchFollows) {
-    currentDeploySetpoint += change;
+  public void setDeploySetpoint(int change, boolean winchFollows) {
+    currentDeploySetpoint = change;
 
     if (currentDeploySetpoint < 0) {
       currentDeploySetpoint = 0;
@@ -103,25 +107,26 @@ public class ClimberSubsystem extends SubsystemBase {
       currentDeploySetpoint = deploySetpoints.length - 1;
     }
 
-    if(winchFollows){
+    if (winchFollows) {
       climberWinchPIDLeft.setReference(winchSetpoints[currentDeploySetpoint], ControlType.kPosition);
       climberWinchPIDRight.setReference(winchSetpoints[currentDeploySetpoint], ControlType.kPosition);
       currentWinchLSetpoint = currentWinchRSetpoint = winchSetpoints[currentDeploySetpoint];
     }
 
     isTravelling = true;
-    if(change < 0 && winchFollows && currentDeploySetpoint != 0){
+    if (change < 0 && winchFollows && currentDeploySetpoint != 0) {
       climberDeploy.set(ControlMode.PercentOutput, 0.2);
-    }else{
-      climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint], DemandType.ArbitraryFeedForward, deployFeedForwards[currentDeploySetpoint]);
+    } else {
+      climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint], DemandType.ArbitraryFeedForward,
+          deployFeedForwards[currentDeploySetpoint]);
     }
   }
 
-  public void undeploy(){
+  public void undeploy() {
     climberDeploy.set(ControlMode.Position, 0);
   }
 
-  public void climb(){
+  public void climb() {
     climberDeploy.set(ControlMode.Position, 0);
     climberWinchPIDLeft.setReference(200, ControlType.kPosition);
     climberWinchPIDRight.setReference(200, ControlType.kPosition);
@@ -130,9 +135,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void deployFudge(double change) {
     currentDeployFudge += change;
-    // climberDeploy.set(ControlMode.Position, deploySetpoints[currentDeploySetpoint] + currentDeployFudge);
-    // climberWinchPIDLeft.setReference(winchSetpoints[currentDeploySetpoint] + currentDeployFudge*0.1, ControlType.kPosition);
-    // climberWinchPIDRight.setReference(winchSetpoints[currentDeploySetpoint] + currentDeployFudge*0.1, ControlType.kPosition);
+    // climberDeploy.set(ControlMode.Position,
+    // deploySetpoints[currentDeploySetpoint] + currentDeployFudge);
+    // climberWinchPIDLeft.setReference(winchSetpoints[currentDeploySetpoint] +
+    // currentDeployFudge*0.1, ControlType.kPosition);
+    // climberWinchPIDRight.setReference(winchSetpoints[currentDeploySetpoint] +
+    // currentDeployFudge*0.1, ControlType.kPosition);
   }
 
   public void setLeftWinchSetpoint(double point) {
@@ -142,11 +150,12 @@ public class ClimberSubsystem extends SubsystemBase {
   public void setRightWinchSetpoint(double point) {
     climberWinchPIDRight.setReference(point, ControlType.kPosition);
   }
-  public double getWinchLSetpoint(){
+
+  public double getWinchLSetpoint() {
     return currentWinchLSetpoint;
   }
 
-  public double getWinchRSetpoint(){
+  public double getWinchRSetpoint() {
     return currentWinchRSetpoint;
   }
 
@@ -158,16 +167,16 @@ public class ClimberSubsystem extends SubsystemBase {
     return isTravelling;
   }
 
-  public void windL(double speed){
+  public void windL(double speed) {
     climberWinchLeft.set(speed);
   }
 
-  public void windR(double speed){
+  public void windR(double speed) {
     climberWinchRight.set(speed);
   }
 
   public double getLeftWinchPosition() {
-    //returns the rotations of the left winch
+    // returns the rotations of the left winch
     return climberWinchEncoderLeft.getPosition();
   }
 
@@ -176,16 +185,21 @@ public class ClimberSubsystem extends SubsystemBase {
     return climberWinchEncoderRight.getPosition();
   }
 
-  public double getLWinchCurrent(){
+  public double getLWinchCurrent() {
     return Math.abs(climberWinchLeft.getOutputCurrent());
   }
 
-  public double getRWinchCurrent(){
+  public double getRWinchCurrent() {
     return Math.abs(climberWinchRight.getOutputCurrent());
   }
 
   public double getAvgWinchPositions() {
     double avg = (getLeftWinchPosition() + getRigthWinchPosition()) / 2;
     return avg;
+  }
+
+  public void setWinchIdleMode(IdleMode kbrake) {
+    climberWinchLeft.setIdleMode(kbrake);
+    climberWinchRight.setIdleMode(kbrake);
   }
 }

@@ -5,20 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Drive;
+package frc.robot.commands.Climber;
 
-public class CameraAimDrive extends CameraAim {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import static frc.robot.RobotContainer.*;
+
+public class WindLeft extends CommandBase {
   /**
-   * Creates a new CameraAimDrive.
+   * Creates a new windLeft.
    */
-  public CameraAimDrive() {
-    super();
-    // Use addRequirements() here to declare subsystem dependencies.
+  public WindLeft() {
   }
 
-  // Returns true when the command should end.
+  // Called when the command is initially scheduled.
   @Override
-  public boolean isFinished() {
-    return false;
+  public void initialize() {
+    climberSubsystem.windL(-0.4);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    climberSubsystem.windL(0);
   }
 }

@@ -15,35 +15,29 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.triggers.CollidedWithBarTrigger;
-import frc.robot.triggers.POVTrigger;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.Drive.OperatorTankDrive;
 import frc.robot.commands.Shooter.ShooterIdle;
 import frc.robot.commands.Shooter.ShooterRun;
 import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.commands.Utility.CommandSwitch;
-import frc.robot.commands.Autonomous.AimAndShoot;
-import frc.robot.commands.Autonomous.BeingFed;
 import frc.robot.commands.Autonomous.DriveForward;
-import frc.robot.commands.Autonomous.ShootDriveForewardRed;
-import frc.robot.commands.Autonomous.ShootandPickup;
-import frc.robot.commands.Autonomous.TurnTestAuto;
+import frc.robot.commands.Autonomous.TrenchPickup;
 import frc.robot.commands.Climber.ClimberDefault;
 import frc.robot.commands.Climber.MoveClimber;
 import frc.robot.commands.Climber.WindRight;
-import frc.robot.commands.Climber.windLeft;
+import frc.robot.commands.Climber.WindLeft;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.commands.Intake.IntakeDefault;
 import frc.robot.commands.Intake.IntakeExtend;
 import frc.robot.commands.Intake.IntakeRetract;
 import frc.robot.commands.Drive.CameraAim;
 import frc.robot.commands.Climber.ClimberClimb;
-import frc.robot.commands.Drive.CameraAimDrive;
 import frc.robot.subsystems.Camera;
 
 /**
@@ -140,12 +134,15 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     // autoChooser.setDefaultOption("Drive Forward", new PIDDrive(-1.0, 0, 0.1, 0.2, true));// new DriveForward());
     autoChooser.setDefaultOption("Drive Forward", new DriveForward());
+    autoChooser.addOption("Trench Pickup", new TrenchPickup());
+
+    // These are PID autos, and are probably broken because we inverted the drive encoders and gyro
     // autoChooser.addOption("Shoot Drive Forward", new ShootDriveForward());
-    autoChooser.addOption("Shoot Drive No Vision", new ShootDriveForewardRed());
-    autoChooser.addOption("Shoot, Pickup", new ShootandPickup());
-    autoChooser.addOption("Turn", new TurnTestAuto());
-    autoChooser.addOption("Aim and Shoot", new AimAndShoot());
-    autoChooser.addOption("Being Fed Auto", new BeingFed());
+    // autoChooser.addOption("Shoot Drive No Vision", new ShootDriveForewardRed());
+    // autoChooser.addOption("Shoot, Pickup", new ShootandPickup());
+    // autoChooser.addOption("Aim and Shoot", new AimAndShoot());
+    // autoChooser.addOption("Being Fed Auto", new BeingFed());
+
     SmartDashboard.putData("Auto Chooser", autoChooser);
     vision.setLEDMode(Camera.CameraLEDMode.Off);
     vision.setProcesingMode(Camera.ProcessingMode.Vision);
@@ -173,11 +170,10 @@ public class RobotContainer {
     final var left10 = new JoystickButton(leftJoystick, 10);
     final var right6 = new JoystickButton(rightJoystick, 6);
 
-    final var povUp = new POVTrigger(operate, 0);
-    final var povDown = new POVTrigger(operate, 180);
-    final var povLeft = new POVTrigger(operate, 270);
-    final var povRight = new POVTrigger(operate, 90);
-    final var doUndeploy = new CollidedWithBarTrigger();
+    final var povUp = new POVButton(operate, 0);
+    final var povDown = new POVButton(operate, 180);
+    final var povLeft = new POVButton(operate, 270);
+    final var povRight = new POVButton(operate, 90);
 
     x.toggleWhenPressed(new ShooterRun());
     y.whileHeld(new ShooterShoot());
@@ -195,16 +191,16 @@ public class RobotContainer {
     //     new StartEndCommand(() -> colourWheelThingySubsystem.deploy(), () -> colourWheelThingySubsystem.recall()));
 
 
-    povUp.whileActiveOnce(new MoveClimber(1));
-    povDown.whileActiveOnce(new MoveClimber(-1));
+    povUp.whileActiveOnce(new MoveClimber(2));
+    povDown.whileActiveOnce(new MoveClimber(1));
     povLeft.whileActiveOnce(new ClimberClimb());
     povRight.whileActiveOnce(new InstantCommand(() -> climberSubsystem.undeploy()));
 
     // doUndeploy.whenActive(new ClimberUndeploy().andThen(new ClimberWinchCommand()));
     bumperRight.whenPressed(new CommandSwitch(new IntakeExtend(), new IntakeRetract()));
 
-    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAimDrive());
-    left10.whileActiveOnce(new windLeft());
+    left6.or(left7).or(right10).or(right11).whileActiveContinuous(new CameraAim());
+    left10.whileActiveOnce(new WindLeft());
     right6.whileActiveOnce(new WindRight());
   }
 

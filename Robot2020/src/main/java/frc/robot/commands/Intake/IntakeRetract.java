@@ -20,6 +20,9 @@ public class IntakeRetract extends SequentialCommandGroup {
   public IntakeRetract() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new MoveClimber(1), new IntakeRetractSimple());
+    super(
+      new MoveClimber(1)
+        .withTimeout(2),
+      new IntakeRetractSimple());
   }
 }

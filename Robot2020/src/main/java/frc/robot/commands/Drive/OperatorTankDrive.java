@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Drive;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.RobotContainer.*;
@@ -24,7 +25,6 @@ public class OperatorTankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSubsystem.drive(leftJoystick.getY()*0.7, rightJoystick.getY()*0.7);
     if (leftJoystick.getRawButton(3) && rightJoystick.getRawButton(3)
         && (operate.getStickButtonPressed(Hand.kLeft) || operate.getStickButtonPressed(Hand.kRight))) {
       driveSubsystem.hyperspeed_happyface_ = !driveSubsystem.hyperspeed_happyface_;
@@ -40,9 +40,15 @@ public class OperatorTankDrive extends CommandBase {
     if(adjust < 1){
       lspd = leftJoystick.getY()*adjust + stick_avg*(1-adjust);
       rspd = rightJoystick.getY()*adjust + stick_avg*(1-adjust);
+    }else{
+      driveSubsystem.drive(leftJoystick.getY()*0.7, rightJoystick.getY()*0.7);
     }
 
-    driveSubsystem.drive(lspd, rspd);
+    if(DriverStation.getInstance().isAutonomous()) {
+      driveSubsystem.drive(0, 0);
+    } else {
+      driveSubsystem.drive(lspd, rspd);
+    }
   }
 
   // Called once the command ends or is interrupted.
