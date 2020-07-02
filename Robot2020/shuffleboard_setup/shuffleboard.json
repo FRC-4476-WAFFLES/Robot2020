@@ -416,7 +416,7 @@
           },
           "0,7": {
             "size": [
-              11,
+              13,
               3
             ],
             "content": {
@@ -634,7 +634,7 @@
             "content": {
               "_type": "Boolean Box",
               "_source0": "network_table:///SmartDashboard/Intake/MidIR",
-              "_title": "SmartDashboard/Intake/MidIR",
+              "_title": "/SmartDashboard/Intake/MidIR",
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
@@ -759,6 +759,50 @@
               "_title": "SmartDashboard/Shooter/Consistent Area"
             }
           },
+          "9,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/PoseX",
+              "_title": "/SmartDashboard/Drive/PoseX"
+            }
+          },
+          "9,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/PoseY",
+              "_title": "/SmartDashboard/Drive/PoseY"
+            }
+          },
+          "11,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Drive/PoseR",
+              "_title": "/SmartDashboard/Drive/PoseR"
+            }
+          },
+          "6,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///limelight/ledMode",
+              "_title": "limelight/ledMode"
+            }
+          },
           "16,0": {
             "size": [
               4,
@@ -767,7 +811,7 @@
             "content": {
               "_type": "Robot Preferences",
               "_source0": "network_table:///Preferences",
-              "_title": "/Preferences",
+              "_title": "Preferences",
               "Miscellaneous/Show search box": true
             }
           }

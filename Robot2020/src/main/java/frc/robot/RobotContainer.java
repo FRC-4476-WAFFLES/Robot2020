@@ -53,14 +53,62 @@ import frc.robot.subsystems.Camera;
  * scheduler calls). Instead, the structure of the robot (including subsystems,
  * commands, and button mappings) should be declared here.
  */
+
+ /**
+  * Hello! Welcome to the Robot code for the 2019-2020 robot.
+  * This is essentially the main part of the robot code where we can plug in all our custom code to the rest of the roborio. 
+  * You can think of this as the electrical pannel in your home, its where everything you use plugs in, but you wouldn't normally,  
+  * say, plug your phone in to charge there.
+  * What actually resides in this file is all the subsystems *while they are running* and button mappings that the robot uses,
+  * so we define all of our button functionality here, and when we want to get something from one of the subsystems,
+  * we go through this file. 
+  * Also in this file is the code that decides what autonomous code to run by looking at what the robot operators set on the smartdashboard
+  * as well as any other code that we only want to run once when the power switch is flipped on.
+  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  /**
+   * Here is where we instantiate the subsystems, or take them from the mold we write in the subsystems folder, and transform them
+   * into a real thing in the code. Subsystems are written as classes that get transformed into objects, meaning that it would be 
+   * possible to make multiple clones (objects) of the same subsystem at a time, but doing this would mean they would conflict with 
+   * each other and cause lots of problems. Once the subsystem turns into an obkect, the things that you write in the file they come
+   * from are able to work, and the numbers they start out with might not stay the same, depending on what you tell them to do.
+   * 
+   * These subsystems are instantiated with the three prefixes "public", "static", and "final"
+   * "public" means that things outside the class RobotContainer (that we are currently in) can see them.
+   * "static" means that any time that RobotContainer is instantiated, it will always use the same copy of ClimberSubsystem() (the subsystem object)
+   * "final" means that the variable climberSubsystem cannot be reassigned after this, for example you cant then tell the variable to be 
+   * a different instance of ClimberSubsystem() once you've already told it to be a ClimberSubsystem(). It makes more sense to think about this as
+   * an int, where if you use this prefix, you can't set it to 5 if you already set it to 10.
+   * 
+   * After the prefixes, there is the type definition. this means that the variable name that follows will only ever be able to hold that type of 
+   * variable. since the subsystems are classes, the type of thing the variable should hold is the same as the thing that you instantiate it with.
+   * for example, the variable that holds the climber subsystem should be of the type climber subsystem, the same as the class.
+   * 
+   * After the name of the variable and the equals sign (or assignment operator) is the value, or specific thing that the variable
+   * is going to hold. In this case, we want it to hold a brand new instance of the subsystem (since one doesn't exist yet), so 
+   * we tell it to make a "new" instance of the class. 
+   */
   // subsystems
+  //    prefixes          type            name              object (new instance of class.)
   public static final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
+  /**
+   * In the area below, we define all the devices that give us information about the state of the robot's environment, battery
+   * info, and commands. 
+   * They are defined in mostly the same ways as the subsystems, with the one difference being that we didn't write most of the 
+   * classes that we're using, as they are built in, with the execption of the camera class. 
+   * The Joystick class is used to get button presses and axis positions of the two main joysticks, usually used by the driver.
+   * The XboxController class is used to get the states of the buttons, joysticks, and dPad of the xbox controller, usually used
+   * by the operator.
+   * The PowerDistributionPanel class is used to get information about battery voltage and current, as well as how much power
+   * each of the channels on the pdp are using at any given time. this can be usefull for logging/diagnostics, or for looking at 
+   * the current draw of motor controllers that don't report it on thier own. The update cycle of the pdp is pretty slow, so 
+   * it's not amazing for uses that are time/accuracy sensitive.
+   */
   // input devices
   public static final Joystick leftJoystick = new Joystick(0);
   public static final Joystick rightJoystick = new Joystick(1);
