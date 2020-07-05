@@ -60,6 +60,10 @@ import frc.robot.subsystems.Camera;
   * as well as any other code that we only want to run once when the power switch is flipped on.
   */
 public class RobotContainer {
+  /**
+   * This is the begining of the RobotContainer class that is a part of all java robots. This area of a class is used for defining 
+   * variables.
+   */
   // The robot's subsystems and commands are defined here...
   /**
    * Here is where we instantiate the subsystems, or take them from the mold we write in the subsystems folder, and transform them
@@ -90,6 +94,7 @@ public class RobotContainer {
   public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
+  // input devices
   /**
    * In the area below, we define all the devices that give us information about the state of the robot's environment, battery
    * info, and commands. 
@@ -102,8 +107,13 @@ public class RobotContainer {
    * each of the channels on the pdp are using at any given time. this can be usefull for logging/diagnostics, or for looking at 
    * the current draw of motor controllers that don't report it on thier own. The update cycle of the pdp is pretty slow, so 
    * it's not amazing for uses that are time/accuracy sensitive.
+   * The Camera class is one of our classes that makes it look nicer when we get information from it in the code. To the code, the
+   * camera just looks like a table of values, so this class makes it easier to read from and write to that table.
+   * 
+   * If you ever want to look to see what any class/object can do, you can either "ctrl" + "click" on the name (which brings you to
+   * their definition), or for classes that are a part of libraries, find the documentation for that library and search for 
+   * the name of the class.
    */
-  // input devices
   public static final Joystick leftJoystick = new Joystick(0);
   public static final Joystick rightJoystick = new Joystick(1);
   public static final XboxController operate = new XboxController(2);
@@ -111,26 +121,67 @@ public class RobotContainer {
   public static final Camera vision = new Camera();
 
   // Default commands
+  /**
+   * In this section, we tell the program what code to run when there is no special command being called for a specific subsystem.
+   * This might happen at the start of the robot code, when a special command has finished running, or when the robot is disabledd;
+   * and should tell the robot what to do with the hardware associated with the subsystem when it is in its default state.
+   * 
+   * To do this, we start by instantiating them into variables, in the same way as we did with the subsystems, so that they remain
+   * objects accessible from the robot container. They are instantiated with the prefixes "private" and "final"
+   * "private" means that they can only be accessed from within the class RobotContainer, and nowhere else.
+   * "Final" means that the variable cannot be reassigned to another object.
+   */
   private final OperatorTankDrive driveCommand = new OperatorTankDrive();
   private final ShooterIdle shooterIdle = new ShooterIdle();
   private final ClimberDefault climberDefault = new ClimberDefault();
   private final IntakeDefault intakeDefault = new IntakeDefault();
 
   // Autonomous command chooser
+  /**
+   * This is a class that allows us to give the robot operators a multiple choice. The choices are given later, but this line
+   * instanitates the object to hold them. The Class is called a SendableChooser, and it will show up on the smartdashboard 
+   * or the shuffleboard. We assigned it to a variable called autoChooser, since that's what it does, and told it that we were
+   * going to give it a bunch of commands to choose between. We could have given it a different type of data to choose between
+   * as well, such as numbers or strings, but giving it commands is the most direct.
+   * eg for ints, it would have been SendableChooser<int> instead.
+   */
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    /**
+     * This part of a class is called the constructor. You need one for every class. You can tell that it is the constructor 
+     * because its name shaddows that of the class. This code is run once at the time the class is instantiated, like you
+     * can see above after the "new" keyword. 
+     */
     // Configure the button bindings
+    /**
+     * Here we call a function that we defined lower down in the class file. controll-click on it to go to it's definition.
+     */
     configureButtonBindings();
+    /**
+     * here we use the commands we instantiated above and set them as the default commands for their respective subsystems.
+     * You may notice that the last line is different from the rest of the subsystems, and the reason for this is that the 
+     * camera is a subsystem object, but acts as an input device. Because of this, it does not have any commands at all,
+     * and so it needs to be registered specially. That line is actually executed for all of the other subsystems as a 
+     * part of the "setDefaultCommand" function. Running this function means that the function named "periodic" in the 
+     * subsystem will be updated every robot loop.
+     */
     driveSubsystem.setDefaultCommand(driveCommand);
     shooterSubsystem.setDefaultCommand(shooterIdle);
     climberSubsystem.setDefaultCommand(climberDefault);
     intakeSubsystem.setDefaultCommand(intakeDefault);
     CommandScheduler.getInstance().registerSubsystem(vision);
 
+    /**
+     * This is where we add the options to the autonomous chooser we defined earlier. Each option consists of both a string of text
+     * and a command object. The commands that are supplied act as a list of instructions. One of the objects is set as the default,
+     * and this is the one that will be returned, if the opperators don't make a choice before the chooser reports the choice. 
+     * many of the lines are commented out, meaning they wont be run as code, but if we want to add them back in, all we have to
+     * do is remove the double slashes.
+     */
     autoChooser.addOption("Do Nothing", new InstantCommand());
     // autoChooser.setDefaultOption("Drive Forward", new PIDDrive(-1.0, 0, 0.1, 0.2, true));// new DriveForward());
     autoChooser.setDefaultOption("Drive Forward", new DriveForward());
@@ -142,8 +193,16 @@ public class RobotContainer {
     // autoChooser.addOption("Shoot, Pickup", new ShootandPickup());
     // autoChooser.addOption("Aim and Shoot", new AimAndShoot());
     // autoChooser.addOption("Being Fed Auto", new BeingFed());
-
+    
+    /**
+     * this line puts the chooser on the smartdashboard/shuffleboard. It interacts directly with the class, and not with an object.
+     * we use the putdata function to add the chooser, and supply that function with the name of the widgit, and the chooser object.
+     */
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    /**
+     * This is how we turn off the LEDs on the limelight, and since there is no need for the drivers to use the camera, set it into
+     * processing mode so we don't have to switch when we want to look for the targets. 
+     */
     vision.setLEDMode(Camera.CameraLEDMode.Off);
     vision.setProcesingMode(Camera.ProcessingMode.Vision);
   }
@@ -155,6 +214,9 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    /**
+     * (you can scroll back up to line 160 to see where you just were.)
+     */
     final var x = new JoystickButton(operate, XboxController.Button.kX.value);
     final var y = new JoystickButton(operate, XboxController.Button.kY.value);
     final var a = new JoystickButton(operate, XboxController.Button.kA.value);
